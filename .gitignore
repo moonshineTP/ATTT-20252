@@ -1,3 +1,5 @@
 script
 skill
 material
+main.*
+!main.tex

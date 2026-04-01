@@ -1,0 +1,87 @@
+% ============================================================
+%  Chương III – Cấu trúc hạ tầng khóa công khai PKI
+%  ~1000 từ · 3 trang
+% ============================================================
+\chapter{Cấu trúc hạ tầng khóa công khai PKI}
+\label{chap:pki-arch}
+
+% Ý chính: PKI không chỉ là kỹ thuật mà là hệ thống tổ hợp
+% con người + quy trình + phần mềm + phần cứng + chính sách.
+
+
+% ----------------------------------------------------------
+\section{Các mô hình phân phối khóa công khai}
+\label{sec:3.1}
+% Ý chính: 4 layer tiến hóa — host-based trust → centralized KDC → Web of Trust → hierarchical PKI
+% Mỗi layer giải quyết một vấn đề của layer trước nhưng lại tạo ra vấn đề mới
+
+\subsection{Bài toán phân phối khóa công khai}
+% Ý chính: public key cần được công bố rộng rãi nhưng vẫn phải đảm bảo tính bảo mật
+% Bốn mục tiêu: xác thực, bảo mật, toàn vẹn, không chối cãi
+
+\subsection{Public Announcement}
+% Ý chính: public key được công bố rộng rãi, ai cũng có thể truy cập
+% Ví dụ: DNSSEC public key được lưu trong DNS, có thể truy vấn bằng dig
+% Vấn đề authentication: làm sao biết public key đó thực sự thuộc về entity nào?
+
+\subsection{Host-based Trust}
+% Ý chính: SSH known\_hosts — mỗi host tự quản lý danh sách public key tin cậy
+% Vấn đề: O(n²) cặp khóa cho n host; không scale được cho internet
+
+\subsection{Web of Trust (PGP)}
+% Ý chính: peer endorsement phi tập trung; mỗi người tự quyết định tin ai
+% Thích hợp cộng đồng nhỏ/kỹ thuật; bootstrapping problem; vẫn không scale được \cite{Zimmermann1995}
+
+\subsection{Hierarchical PKI}
+% Ý chính: transitive trust từ root xuống leaf; phù hợp Web scale
+% Browser trust store (Mozilla NSS, Microsoft, Apple) = danh sách root CA tin cậy
+% CA/Browser Forum \cite{CABForum} đặt ra baseline requirements
+
+\subsection{So sánh trade-off}
+% Bảng~\ref{tab:trust-models}: centralized vs decentralized
+% Hierarchical: dễ audit, dễ revoke, nhưng CA tập trung là single point of failure về trust
+% WoT: không SPOF, nhưng trust không đủ transitive và khó dùng cho người phổ thông
+
+
+% ----------------------------------------------------------
+\section{Định nghĩa và mục tiêu PKI}
+\label{sec:3.2}
+% Ý chính: PKI = tổ hợp phần cứng, phần mềm, con người, chính sách, quy trình
+% để quản lý chứng chỉ số trong môi trường mạng mở
+% PKI giải quyết bài toán trust bằng cách ràng buộc danh tính với public key thông qua CA
+% PKI không chỉ là kỹ thuật mà còn là governance — ai được phép làm CA?
+
+
+% ----------------------------------------------------------
+\section{Các thành phần PKI}
+\label{sec:3.3}
+
+\subsubsection*{CA -- Certificate Authority}
+% Ý chính: phát hành + thu hồi chứng chỉ; lưu giữ CRL
+% Phân tầng: Root CA (offline, air-gapped) → Intermediate CA → Leaf/End-entity
+% Quy trình: CSR → xác minh danh tính → ký cert → publish
+
+\subsubsection*{RA -- Registration Authority}
+% Ý chính: tách xác minh danh tính (RA) khỏi ký cert (CA)
+% Giảm rủi ro, phân quyền trách nhiệm; ví dụ: RA xác minh hộ chiếu trước khi CA ký
+
+\subsubsection*{Repository -- Kho lưu trữ chứng chỉ}
+% Ý chính: LDAP directory, HTTP server — nơi client truy vấn cert và CRL public
+
+\subsubsection*{CRL -- Certificate Revocation List}
+% Ý chính: danh sách cert đã bị thu hồi trước hạn; reason codes (keyCompromise, cACompromise)
+% Hạn chế: CRL có thể rất lớn và stale hàng giờ -- giải pháp: delta CRL \cite{RFC5280}
+
+\subsubsection*{OCSP -- Online Certificate Status Protocol}
+% Ý chính: kiểm tra realtime trạng thái từng cert theo serial number \cite{RFC6960}
+% OCSP Stapling \cite{RFC6066}: server pre-fetch response, giải quyết privacy và giảm latency
+% Bảng~\ref{tab:revocation}: so sánh CRL vs OCSP vs OCSP Stapling
+
+
+% ----------------------------------------------------------
+\section{Chu kỳ sống của chứng chỉ}
+\label{sec:3.4}
+% Ý chính: Tạo keypair → CSR → xác minh danh tính → phát hành → sử dụng → gia hạn / thu hồi
+% Certificate lifecycle automation (ACME, SCEP, EST) ngày càng quan trọng
+% Hình~\ref{fig:cert-lifecycle}: sơ đồ lifecycle
+
