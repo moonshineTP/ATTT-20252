@@ -1,0 +1,289 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-mono); }
+  .pad { padding: 1.5rem; max-width: 860px; }
+  .title { font-size: 18px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 1.5rem; }
+  .chapter { margin-bottom: 1.5rem; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overflow: hidden; }
+  .ch-header { padding: 10px 16px; display: flex; align-items: baseline; gap: 10px; }
+  .ch-num { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+  .ch-title { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+  .ch-meta { font-size: 12px; color: var(--color-text-secondary); margin-left: auto; white-space: nowrap; }
+  .ch-body { padding: 0 16px 14px; }
+  .section { margin-top: 10px; }
+  .sec-row { display: flex; align-items: baseline; gap: 8px; padding: 5px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .sec-row:last-child { border-bottom: none; }
+  .sec-id { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); min-width: 36px; }
+  .sec-title { font-size: 13px; color: var(--color-text-primary); flex: 1; }
+  .subsections { padding-left: 12px; margin-top: 2px; }
+  .sub-row { display: flex; gap: 8px; padding: 3px 0; align-items: baseline; }
+  .sub-dot { font-size: 11px; color: var(--color-text-tertiary); min-width: 16px; }
+  .sub-text { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+  .tag { font-size: 10px; padding: 1px 6px; border-radius: 3px; margin-left: 6px; vertical-align: middle; }
+
+  .c1 .ch-header { background: #E6F1FB; }
+  .c1 .ch-num { background: #B5D4F4; color: #0C447C; }
+  .c2 .ch-header { background: #EEEDFE; }
+  .c2 .ch-num { background: #CECBF6; color: #3C3489; }
+  .c3 .ch-header { background: #E1F5EE; }
+  .c3 .ch-num { background: #9FE1CB; color: #085041; }
+  .c4 .ch-header { background: #FAEEDA; }
+  .c4 .ch-num { background: #FAC775; color: #633806; }
+  .c5 .ch-header { background: #FBEAF0; }
+  .c5 .ch-num { background: #F4C0D1; color: #72243E; }
+
+  @media (prefers-color-scheme: dark) {
+    .c1 .ch-header { background: #042C53; }
+    .c1 .ch-num { background: #0C447C; color: #B5D4F4; }
+    .c2 .ch-header { background: #26215C; }
+    .c2 .ch-num { background: #3C3489; color: #CECBF6; }
+    .c3 .ch-header { background: #04342C; }
+    .c3 .ch-num { background: #085041; color: #9FE1CB; }
+    .c4 .ch-header { background: #412402; }
+    .c4 .ch-num { background: #633806; color: #FAC775; }
+    .c5 .ch-header { background: #4B1528; }
+    .c5 .ch-num { background: #72243E; color: #F4C0D1; }
+  }
+</style>
+
+<div class="pad">
+  <div class="title">Public Key Infrastructure - Dàn bài chi tiết</div>
+  <div class="subtitle">5 chương · 15+ trang · ~5000 từ · 3 section chính (II, III, IV)</div>
+
+  <!-- Chapter I -->
+  <div class="chapter c1">
+    <div class="ch-header">
+      <span class="ch-num">Chương I</span>
+      <span class="ch-title">Introduction & Motivation</span>
+      <span class="ch-meta">~500 từ · 2 trang</span>
+    </div>
+    <div class="ch-body">
+      <div class="sec-row">
+        <span class="sec-id">1.1</span>
+        <div style="flex:1">
+          <div class="sec-title">Bài toán phân phối khóa đối xứng</div>
+          <div class="subsections">
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Recap symmetric key: ưu điểm tốc độ, nhược điểm key exchange</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">O(n²) key pairs cho n node - scale problem</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Secure channel chicken-and-egg problem</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="sec-row">
+        <span class="sec-id">1.2</span>
+        <div style="flex:1">
+          <div class="sec-title">Tại sao asymmetric crypto chưa đủ</div>
+          <div class="subsections">
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Asymmetric giải quyết key exchange nhưng tạo authentication problem</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">MITM attack trên raw public key - ai đảm bảo key đúng người?</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Câu hỏi trung tâm của report: need for trusted binding</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="sec-row">
+        <span class="sec-id">1.3</span>
+        <div style="flex:1">
+          <div class="sec-title">Phạm vi và bố cục report</div>
+          <div class="subsections">
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Giới thiệu 3 section chính và câu hỏi từng section trả lời</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Giới hạn phạm vi: tập trung Web PKI / X.509, không phủ toàn bộ crypto</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chapter II -->
+  <div class="chapter c2">
+    <div class="ch-header">
+      <span class="ch-num">Chương II</span>
+      <span class="ch-title">Cryptographic Foundations</span>
+      <span class="ch-meta">~800 từ · 3 trang · Section 1</span>
+    </div>
+    <div class="ch-body">
+      <div class="sec-row">
+        <span class="sec-id">2.1</span>
+        <div style="flex:1">
+          <div class="sec-title">Asymmetric cryptography</div>
+          <div class="subsections">
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Public/private key pair: trapdoor function, RSA và ECC overview</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Hai chiều sử dụng: encrypt với public key, sign với private key</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Hybrid encryption: tại sao TLS dùng asymmetric chỉ để trao đổi session key</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="sec-row">
+        <span class="sec-id">2.2</span>
+        <div style="flex:1">
+          <div class="sec-title">Digital signature scheme</div>
+          <div class="subsections">
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Hash function: collision resistance, one-way property</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Sign = hash + encrypt(private key); verify = decrypt(public key) + compare hash</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">3 tính chất đảm bảo: authenticity, integrity, non-repudiation</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="sec-row">
+        <span class="sec-id">2.3</span>
+        <div style="flex:1">
+          <div class="sec-title">MITM attack và giới hạn raw public key</div>
+          <div class="subsections">
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Walkthrough tấn công MITM trên Diffie-Hellman / raw key exchange</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Vấn đề cốt lõi: không có binding giữa public key và identity</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Bridge sang Section 2: cần trusted third party để làm binding đó</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chapter III -->
+  <div class="chapter c3">
+    <div class="ch-header">
+      <span class="ch-num">Chương III</span>
+      <span class="ch-title">Trust Architecture & X.509 PKI</span>
+      <span class="ch-meta">~1800 từ · 6 trang · Section 2 - CORE</span>
+    </div>
+    <div class="ch-body">
+      <div class="sec-row">
+        <span class="sec-id">3.1</span>
+        <div style="flex:1">
+          <div class="sec-title">Digital Certificate & X.509</div>
+          <div class="subsections">
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Certificate = chữ ký CA lên (identity + public key) - định nghĩa trực quan</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Cấu trúc X.509 v3: subject, issuer, serial, validity, public key, extensions, signature</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Phân biệt self-signed (root CA) vs CA-signed (end-entity)</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Extensions quan trọng: SAN, Key Usage, Basic Constraints</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="sec-row">
+        <span class="sec-id">3.2</span>
+        <div style="flex:1">
+          <div class="sec-title">Certificate Authority & Chain of Trust</div>
+          <div class="subsections">
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Hierarchy: Root CA - Intermediate CA - End-entity certificate</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Tại sao có Intermediate CA: offline Root, blast radius containment khi compromise</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Path validation algorithm: chain building từ end-entity lên root</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Browser trust store: trust anchor là gì, ai quyết định root nào được tin</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="sec-row">
+        <span class="sec-id">3.3</span>
+        <div style="flex:1">
+          <div class="sec-title">PKI Components đầy đủ</div>
+          <div class="subsections">
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Registration Authority (RA): identity verification trước khi CA ký</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Certificate Repository: LDAP, public directory</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Revocation: CRL (batch, latency issue) vs OCSP (realtime, privacy issue) vs OCSP Stapling</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Revocation là điểm yếu thực tế - soft-fail behavior của browsers</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="sec-row">
+        <span class="sec-id">3.4</span>
+        <div style="flex:1">
+          <div class="sec-title">Trust Models so sánh</div>
+          <div class="subsections">
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Hierarchical (Web PKI): transitive trust rõ ràng, single root of trust per CA</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Web of Trust (PGP): decentralized, peer endorsement, bootstrapping problem</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Bridge CA: cross-domain enterprise, cross-certify giữa các hierarchy</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Trade-off: centralized trust vs decentralized trust - khi nào dùng gì</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="sec-row">
+        <span class="sec-id">3.5</span>
+        <div style="flex:1">
+          <div class="sec-title">Evolution of Authentication Solutions</div>
+          <div class="subsections">
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Layer 1 - Direct/Host-based trust: known_hosts, O(n²) problem</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Layer 2 - Centralized KDC (Kerberos): giải quyết scale, tạo SPOF</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Layer 3 - Web of Trust (PGP): distributed nhưng trust không transitive đáng tin</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Layer 4 - Certificate PKI: kết hợp scalability + verifiability, justify thiết kế ở 3.1-3.4</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chapter IV -->
+  <div class="chapter c4">
+    <div class="ch-header">
+      <span class="ch-num">Chương IV</span>
+      <span class="ch-title">Real-world Deployment & Threats</span>
+      <span class="ch-meta">~1500 từ · 5 trang · Section 3</span>
+    </div>
+    <div class="ch-body">
+      <div class="sec-row">
+        <span class="sec-id">4.1</span>
+        <div style="flex:1">
+          <div class="sec-title">TLS/HTTPS - PKI trong thực tế</div>
+          <div class="subsections">
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">TLS handshake walkthrough: certificate exchange, chain validation, session key negotiation</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">DV vs OV vs EV certificate: mức độ identity verification khác nhau</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Certificate pinning: bypass CA system, dùng trong mobile app</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="sec-row">
+        <span class="sec-id">4.2</span>
+        <div style="flex:1">
+          <div class="sec-title">Notable attacks & PKI failures</div>
+          <div class="subsections">
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">DigiNotar 2011: CA bị compromise toàn bộ, Iran MITM Gmail</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Symantec distrust 2017-2018: Google/Mozilla revoke trust do mis-issuance</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Threat model tổng quát: rogue CA, weak validation, key compromise</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="sec-row">
+        <span class="sec-id">4.3</span>
+        <div style="flex:1">
+          <div class="sec-title">Certificate Transparency & Modern mitigations</div>
+          <div class="subsections">
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">CT logs: append-only Merkle tree, mọi cert phải được log để browsers chấp nhận</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">CAA DNS records: domain owner whitelist CA nào được phép issue</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Let's Encrypt & ACME protocol: automated issuance, democratize HTTPS</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Tác động: certificate lifetime giảm từ 2 năm xuống 90 ngày (2023+)</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chapter V -->
+  <div class="chapter c5">
+    <div class="ch-header">
+      <span class="ch-num">Chương V</span>
+      <span class="ch-title">Conclusion</span>
+      <span class="ch-meta">~400 từ · 1.5 trang</span>
+    </div>
+    <div class="ch-body">
+      <div class="sec-row">
+        <span class="sec-id">5.1</span>
+        <div style="flex:1">
+          <div class="sec-title">Tổng kết PKI như sociotechnical system</div>
+          <div class="subsections">
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">PKI không chỉ là crypto - là vấn đề governance và trust ở quy mô toàn cầu</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Recap hành trình từ key distribution problem đến certificate hierarchy</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="sec-row">
+        <span class="sec-id">5.2</span>
+        <div style="flex:1">
+          <div class="sec-title">Hướng phát triển tương lai</div>
+          <div class="subsections">
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Post-quantum PKI: RSA/ECC dễ bị phá bởi Shor's algorithm, NIST PQC standards (2024)</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Decentralized identity: blockchain-based PKI, W3C DID spec</span></div>
+            <div class="sub-row"><span class="sub-dot">›</span><span class="sub-text">Short-lived certificates như hướng thay thế cho revocation problem</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
