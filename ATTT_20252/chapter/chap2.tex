@@ -1,0 +1,57 @@
+% ============================================================
+%  Chương II – Nền tảng mật mã khóa công khai
+%  ~600 từ · 2 trang
+% ============================================================
+\chapter{Nền tảng mật mã khóa công khai}
+\label{chap:crypto}
+
+% Ý chính: xây dựng logic dẫn truyện — symmetric (có vấn đề key exchange)
+% → asymmetric (giải quyết key exchange nhưng tạo authentication problem)
+% → cần PKI (giải quyết nốt).
+
+% ----------------------------------------------------------
+\section{Mật mã đối xứng và hạn chế}
+\label{sec:2.1}
+
+\subsubsection*{Nguyên lý mật mã đối xứng}
+% Ý chính: cùng khóa K cho mã hóa và giải mã; ưu điểm tốc độ cao (AES, 3DES)
+
+\subsubsection*{Bài toán phân phối khóa}
+% Ý chính: n node cần O(n²) cặp khóa; cần kênh bí mật để giao khóa — vòng tròn luẩn quẩn
+
+\subsubsection*{Giải pháp KDC và giới hạn}
+% Ý chính: KDC (ví dụ Kerberos \cite{Steiner1988}) giải quyết scale
+% nhưng tạo Single Point of Failure, không phù hợp môi trường internet mở
+
+% ----------------------------------------------------------
+\section{Mật mã khóa công khai}
+\label{sec:2.2}
+
+\subsubsection*{Cặp khóa bất đối xứng và trapdoor function}
+% Ý chính: public key mã hóa/verify — private key giải mã/ký
+% Trapdoor one-way function: dễ tính một chiều, cực khó đảo ngược
+
+\subsubsection*{Thuật toán RSA}
+% Ý chính: hard problem = phân tích thừa số nguyên tố lớn \cite{Rivest1978}
+% Key gen, encrypt ($C = M^e \bmod n$), decrypt ($M = C^d \bmod n$)
+
+\subsubsection*{Trao đổi khóa Diffie-Hellman}
+% Ý chính: hai bên thoả thuận session key qua kênh công khai
+% Hard problem = discrete logarithm \cite{Diffie1976}
+
+\subsubsection*{Sơ đồ chữ ký số}
+% Ý chính: $\sigma = \mathrm{Enc}_{K_{\mathrm{priv}}}(H(m))$; verify bằng public key
+% Ba tính chất: authenticity, integrity, non-repudiation
+% Thuật toán thực tế: RSA-PSS, ECDSA, EdDSA
+
+% ----------------------------------------------------------
+\section{Tại sao mật mã bất đối xứng chưa đủ}
+\label{sec:2.3}
+
+\subsubsection*{MITM attack trên raw public key}
+% Ý chính: Mallory chặn key exchange, thay $K_{\mathrm{pub\_Bob}}$ bằng $K_{\mathrm{pub\_Mallory}}$
+% → cả Alice lẫn Bob đều không phát hiện; ví dụ Bảng~\ref{tab:mitm}
+
+\subsubsection*{Vấn đề ràng buộc danh tính}
+% Ý chính: asymmetric crypto không có binding "key X thuộc về entity Y"
+% → đây chính xác là lý do PKI tồn tại; bridge sang Chương~\ref{chap:pki-arch}

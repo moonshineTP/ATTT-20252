@@ -1,0 +1,35 @@
+% ============================================================
+%  Chương VIII – Kết luận
+%  ~200 từ · 0.5 trang
+% ============================================================
+\chapter{Kết luận}
+\label{chap:conclusion}
+
+% Ý chính: PKI là "hạ tầng vô hình" — không ai nhìn thấy nhưng mọi người phụ thuộc.
+% Không chỉ là vấn đề kỹ thuật mà là vấn đề trust và governance ở quy mô toàn cầu.
+
+% ----------------------------------------------------------
+\section{Tổng kết}
+\label{sec:8.1}
+% Ý chính:
+%   - PKI giải quyết bài toán trust ở quy mô internet:
+%     ràng buộc (identity ↔ public key) thông qua chữ ký CA
+%   - Hành trình logic: symmetric (O(n²) problem)
+%     → asymmetric (giải key exchange, tạo authentication problem)
+%     → PKI (hoàn chỉnh cả hai)
+%   - Web PKI + X.509 phụ trách hàng tỷ kết nối HTTPS mỗi ngày
+%   - Thực tế phức tạp hơn lý thuyết: CA có thể bị compromise,
+%     revocation không hoàn hảo, governance là thách thức lớn
+
+% ----------------------------------------------------------
+\section{Ý nghĩa và triển vọng}
+\label{sec:8.2}
+% Ý chính:
+%   - PKI Việt Nam đang trưởng thành: NEAC Root CA, ký số hành chính,
+%     hóa đơn điện tử đang scale nhanh
+%   - Ba xu hướng lớn cần theo dõi:
+%     post-quantum migration (NIST PQC 2024),
+%     automation và short-lived cert (ACME),
+%     decentralized identity (W3C DID)
+%   - Bài học xuyên suốt: \emph{trust is a sociotechnical problem},
+%     không thể giải hoàn toàn bằng kỹ thuật mật mã

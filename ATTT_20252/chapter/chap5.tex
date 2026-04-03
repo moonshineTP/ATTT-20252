@@ -1,0 +1,70 @@
+% ============================================================
+%  Chương V – Triển khai và ứng dụng thực tế
+%  ~1200 từ · 3.5 trang
+% ============================================================
+\chapter{Triển khai và ứng dụng thực tế}
+\label{chap:deploy}
+
+% Ý chính: PKI không tồn tại trong lý thuyết — đây là hạ tầng vô hình
+% mà mọi giao dịch số đang phụ thuộc vào từng giây.
+
+% ----------------------------------------------------------
+\section{HTTPS / TLS}
+\label{sec:5.1}
+
+\subsubsection*{Lịch sử SSL đến TLS 1.3}
+% Ý chính: SSL 2.0 (1995, broken) → SSL 3.0 (POODLE) → TLS 1.0/1.1 (deprecated)
+% → TLS 1.2 (2008, vẫn phổ biến) → TLS 1.3 (2018 \cite{RFC8446}, cải tiến lớn)
+
+\subsubsection*{TLS Handshake và xác minh chứng chỉ}
+% Ý chính: ClientHello → ServerHello + Certificate → CertificateVerify → Finished
+% 4 bước browser validation: chain lên root, validity period, revocation, SAN match domain
+
+\subsubsection*{Cải tiến trong TLS 1.3}
+% Ý chính: 1-RTT (giảm latency), PFS bắt buộc (only ECDHE/DHE),
+% loại bỏ hoàn toàn RSA key exchange, RC4, 3DES, SHA-1 trong handshake
+
+% ----------------------------------------------------------
+\section{Chữ ký số văn bản điện tử}
+\label{sec:5.2}
+
+\subsubsection*{Nguyên lý ký số văn bản}
+% Ý chính: Hash(document) + Sign(private key) → chữ ký số đính kèm tài liệu
+% Phân biệt ký số (cryptographic) khỏi chữ ký điện tử (scanned image)
+
+\subsubsection*{Khung pháp lý tại Việt Nam}
+% Ý chính: Luật Giao dịch điện tử 2023, Nghị định 130/2018
+% Ứng dụng: hóa đơn điện tử (Nghị định 123/2020), khai báo hải quan, văn bản hành chính
+
+\subsubsection*{CA nhà nước Việt Nam}
+% Ý chính: NEAC (Root CA quốc gia dưới Bộ TT\&TT)
+% Các CA cấp 2: VNPT-CA, Viettel-CA, BKAV-CA, FPT-CA
+
+% ----------------------------------------------------------
+\section{S/MIME -- Email bảo mật}
+\label{sec:5.3}
+% Ý chính: ký số và mã hóa email theo chuẩn \cite{RFC8551}
+% Hybrid encryption: mã hoá body bằng AES (session key), mã hoá session key bằng RSA
+% Tích hợp trong Outlook, Thunderbird; cert cần từ CA được trust store tin
+
+% ----------------------------------------------------------
+\section{VPN và IPSec}
+\label{sec:5.4}
+% Ý chính: IKEv2 dùng cert X.509 để xác thực VPN gateway và client
+% Ưu điểm so với PSK: không còn shared secret để lộ; mỗi user có cert riêng dễ revoke
+% OpenVPN với full PKI: Root CA → Client cert + Server cert
+
+% ----------------------------------------------------------
+\section{Code Signing}
+\label{sec:5.5}
+% Ý chính: bảo vệ chuỗi phân phối phần mềm — đảm bảo binary không bị tamper
+% Windows Authenticode (Portable Executable), macOS Gatekeeper/Notarization, Android APK
+% EV Code Signing: được CA xác minh kỹ hơn → bỏ qua SmartScreen ngay lập tức
+
+% ----------------------------------------------------------
+\section{PKI trong eGovernment Việt Nam}
+\label{sec:5.6}
+% Ý chính: ứng dụng PKI ở quy mô quốc gia
+% Cổng Dịch vụ công quốc gia (DVCQG), một cửa điện tử, eTax, e-Invoice
+% Kiến trúc: NEAC Root CA → CA Bộ/Tỉnh → CA Doanh nghiệp/Cá nhân
+% Thực trạng: tốc độ triển khai đang tăng nhanh nhưng vẫn còn thách thức interoperability

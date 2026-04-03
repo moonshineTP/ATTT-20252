@@ -1,0 +1,58 @@
+% ============================================================
+%  Chương VII – Thách thức và xu hướng
+%  ~400 từ · 1.5 trang
+% ============================================================
+\chapter{Thách thức và xu hướng}
+\label{chap:challenges}
+
+% Ý chính: PKI hiện tại không hoàn hảo — vừa có vấn đề kỹ thuật,
+% vừa có vấn đề quản trị (governance). Xu hướng tương lai đang giải quyết từng lớp.
+
+% ----------------------------------------------------------
+\section{Thách thức hiện tại}
+\label{sec:7.1}
+
+\subsubsection*{CA Compromise — bài học từ DigiNotar và Symantec}
+% Ý chính: DigiNotar 2011 \cite{Fox-IT2012}: 531 cert giả, Iran MITM Gmail 300K user
+% → DigiNotar phá sản trong vài tuần sau khi bị distrust
+% Symantec 2017–2018 \cite{Sleevi2017}: mis-issue hàng nghìn cert; Google/Mozilla
+% thực hiện distrust kéo dài 1 năm để không break internet
+% Bài học: CA tập trung là single point of failure về trust; cần accountability
+
+\subsubsection*{Certificate Transparency (CT) như giải pháp giám sát}
+% Ý chính: append-only Merkle tree log công khai; mọi cert TLS phải được log
+% trước khi Chrome/Safari chấp nhận (từ 2018) \cite{RFC9162}
+% Domain owner dùng crt.sh, Google CT để monitor cert giả cho domain của mình
+% CT không ngăn mis-issuance nhưng đảm bảo mis-issuance bị phát hiện
+
+\subsubsection*{Quản lý vòng đời chứng chỉ}
+% Ý chính: cert expiry là rủi ro vận hành thực tế — nhiều outage lớn do quên renew
+% CAA DNS records \cite{RFC8659}: whitelist CA được phép issue cho domain
+% Thách thức ở enterprise: hàng nghìn cert, nhiều team, thiếu automation
+
+\subsubsection*{PKI cho IoT}
+% Ý chính: billions of devices, tài nguyên giới hạn (RAM < 64KB, không có UI)
+% Cần: lightweight cert format, device identity provisioning tự động,
+% Thách thức: làm sao revoke cert của device bị mất/bị hack?
+
+% ----------------------------------------------------------
+\section{Xu hướng mới}
+\label{sec:7.2}
+
+\subsubsection*{Post-Quantum PKI}
+% Ý chính: Shor's algorithm sẽ phá RSA và ECC trên quantum computer đủ mạnh
+% NIST PQC 2024 \cite{NIST-PQC2024}: FIPS 203 (Kyber/CRYSTALS-KEM),
+% FIPS 204 (Dilithium), FIPS 205 (SPHINCS+)
+% Thách thức migration: cert size lớn hơn nhiều (Dilithium sig ~2.4KB vs ECDSA 64B),
+% cần "hybrid" cert (cả ECC + PQC) trong giai đoạn chuyển tiếp
+
+\subsubsection*{Tự động hoá và rút ngắn thời hạn chứng chỉ}
+% Ý chính: ACME \cite{RFC8555} + EST → cert lifecycle hoàn toàn tự động
+% Apple mandate 2023: max 398 ngày; xu hướng 90 ngày; đích đến: 24 giờ
+% Short-lived cert → revocation trở nên ít quan trọng hơn (cert tự hết hạn)
+
+\subsubsection*{Decentralized Identity (DID)}
+% Ý chính: W3C DID v1.0 \cite{W3C-DID2022}: identifier không phụ thuộc CA tập trung
+% Verifiable Credentials (VC): chứng chỉ số thế hệ mới (bằng lái, văn bằng,...)
+% Blockchain-based anchoring: DID document lưu trên distributed ledger
+% Vẫn còn nhiều thách thức: UX, governance, key recovery khi mất private key
