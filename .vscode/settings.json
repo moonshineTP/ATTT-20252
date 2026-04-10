@@ -1,0 +1,57 @@
+{
+    "latex-workshop.latex.rootFile.useSubFile": false,
+    "latex-workshop.latex.outDir": "%DIR%",
+    "latex-workshop.latex.autoBuild.run": "never",
+    "latex-workshop.latex.autoClean.run": "never",
+    "latex-workshop.view.pdf.viewer": "tab",
+    "workbench.editorAssociations": {
+        "*.pdf": "pdf.preview"
+    },
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "pdflatex → biber → pdflatex×2",
+            "tools": ["pdflatex", "biber", "pdflatex", "pdflatex"]
+        },
+        {
+            "name": "latexmk (pdflatex)",
+            "tools": ["latexmk"]
+        }
+    ],
+    "latex-workshop.latex.tools": [
+        {
+            "name": "pdflatex",
+            "command": "pdflatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "biber",
+            "command": "biber",
+            "args": ["%DOCFILE%"],
+            "env": {}
+        },
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pdf",
+                "%DOC%"
+            ],
+            "env": {}
+        }
+    ],
+    "latex-workshop.latex.magic.args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+    ]
+}
