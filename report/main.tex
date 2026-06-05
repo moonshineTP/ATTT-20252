@@ -31,6 +31,10 @@
 
 % --- Graphics & Diagrams ---
 \usepackage{graphicx}
+\makeatletter
+\def\input@path{{report/}{./}}
+\makeatother
+\graphicspath{{report/}{./}}
 \usepackage{float}
 \usepackage{subcaption}
 \usepackage{tikz}               % draw PKI hierarchy, TLS handshake diagrams
