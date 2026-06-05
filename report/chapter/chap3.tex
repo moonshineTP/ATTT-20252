@@ -86,7 +86,7 @@ Mục tiêu lớn nhất của PKI là giải quyết bài toán cốt lõi về
 % Ý chính: PKI thiết lập trust trong public key; sau đó public key đó được dùng cho các mục tiêu an toàn thông tin
 Sau khi PKI đã thiết lập sự tin cậy trong khóa công khai của một thực thể (thông qua việc cấp chứng chỉ số), thực thể đó có thể sử dụng cặp khóa của mình để đạt được các mục tiêu an toàn thông tin cụ thể, như được minh họa trong Hình~\ref{fig:digital-signature-process}. Sơ đồ này cho thấy quy trình tạo và xác thực chữ ký số, giúp đảm bảo tính toàn vẹn (Integrity) và tính xác thực (Authentication) của thông điệp được truyền đi.
 
-\begin{figure}[h]png
+\begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{assets/digital_signature.png} 
     \caption{Quy trình tạo và xác thực chữ ký số sử dụng cặp khóa công khai và bí mật.}
@@ -134,7 +134,7 @@ Giao thức kiểm tra trạng thái chứng chỉ trực tuyến (OCSP) \cite{R
         \hline
         \textbf{Tiêu chí} & \textbf{CRL} & \textbf{OCSP} & \textbf{OCSP Stapling} \\
         \hline
-        Độ trễ cập nhật & Cao (phụ thuộc chu kỳ tải) & Thấp (thời gian thực) & Thấp (thời gian thực, 캐 cache) \\
+        Độ trễ cập nhật & Cao (phụ thuộc chu kỳ tải) & Thấp (thời gian thực) & Thấp (thời gian thực, có cache) \\
         \hline
         Chi phí băng thông & Rất cao (tải toàn bộ list) & Thấp & Rất thấp \\
         \hline
