@@ -1,0 +1,208 @@
+--- Page 1 ---
+Nhập môn An toàn thông tin
+PGS. Nguyễn Linh Giang
+Bộ môn Truyền thông và
+Mạng máy tính
+
+--- Page 2 ---
+Nội dung
+Nhập môn An toàn thông tin
+I.
+Đảm bảo tính mật
+II.
+Các hệ mật khóa đối xứng (mã hóa đối xứng)
+I.
+Các hệ mật khóa công khai ( mã hóa bất đối xứng )
+II.
+Bài toán xác thực
+III.
+Cơ sở bài toán xác thực
+I.
+Xác thực thông điệp
+II.
+Chữ ký số và các giao thức xác thực
+III.
+Các cơ chế xác thực trong các hệ phân tán
+IV.
+An toàn an ninh hệ thống
+IV.
+Phát hiện và ngăn chặn xâm nhập ( IDS, IPS )
+I.
+Lỗ hổng hệ thống
+II.
+2
+
+--- Page 3 ---
+Nội dung
+Tài liệu môn học:
+l
+W. Stallings “Networks and Internetwork security”
+–
+W. Stallings “Cryptography and network security”
+–
+Introduction to Cryptography – PGP
+–
+D. Stinson – Cryptography: Theory and Practice
+–
+3
+
+--- Page 4 ---
+Các chủ đề tiểu luận
+1. Các hệ mật khóa công khai.
+l
+Cơ sở xây dựng hệ mật khóa công khai
+–
+Các hệ mật khóa công khai.
+–
+Các sơ đồ ứng dụng.
+–
+2. Hạ tầng khóa công khai PKI
+l
+Cấu trúc hạ tầng khóa công khai.
+–
+Chứng chỉ số, các chuẩn;
+–
+Triển khai thực tế. Các ứng dụng trong các giao dịch.
+–
+Các hệ thống mã nguồn mở.
+–
+4
+
+--- Page 5 ---
+Các chủ đề tiểu luận
+3. Bảo mật cho mạng IP. IPSec. Mạng riêng ảo VPN.
+l
+Ứng dụng.
+4. Bài toán xác thực thông điệp.
+l
+Các cơ chế xác thực
+–
+Hàm băm và hàm mã hóa xác thực.
+–
+Các giao thức xác thực.
+–
+5. Chữ ký số.
+l
+Các cơ chế tạo chữ ký số. Giao thức chữ ký số.
+–
+Các dịch vụ chữ ký số.
+–
+Chữ ký mù.
+–
+5 – Ứng dụng.
+
+--- Page 6 ---
+Các chủ đề tiểu luận
+6. Phát hiện xâm nhập mạng.
+l
+Các cơ chế phát hiện xâm nhập mạng.
+–
+Phát hiện theo dấu hiệu
+–
+Phát hiện theo bất thường
+–
+Phân tích các đặc trưng thống kê của mạng.
+–
+Ứng dụng.
+–
+7. Bảo mật cho mạng không dây. Phân tích các đặc trưng
+l
+thống kê của các dạng tấn công từ chối dịch vụ. Xác thực
+và bảo mật trong mạng không dây. Phát hiện bất thường
+trong mạng không dây.
+6
+
+--- Page 7 ---
+Các chủ đề tiểu luận
+8. Bảo mật hệ thống, bảo mật mạng. Các
+l
+chính sách, các chuẩn. Phân tích đối với
+Windows và Unix-Linux. Các chính sách an
+ninh mạng cho mạng Cisco.
+9. Bảo vệ dữ liệu đa phương tiện trong quá
+l
+trình phân phối qua hệ thống mạng mở. Vấn
+đề bảo mật, bảo vệ bản quyền và kiểm soát sử
+dụng dữ liệu đa phương tiện.
+7
+
+--- Page 8 ---
+Các chủ đề tiểu luận
+10. Bảo mật cho web services;
+l
+11. Đăng nhập 1 lần với các giao thức
+l
+OpenID, OAuth;
+12. Xác thực Kerberos;
+l
+13. SSL và TLS và các ứng dụng
+l
+14. IPSecurity, giao thức và VPN
+l
+15. Xác thực X509.
+l
+8
+
+--- Page 9 ---
+Các chủ đề tiểu luận
+16. Hạ tầng khóa công khai PKI
+l
+17. PGP, bảo mật thư tín điện tử, S/MIME, bảo mật dịch
+l
+vụ Internet.
+18. Secure electronic transaction
+l
+19. Firewall, các kiến trúc firewall.
+l
+20. Proxy, cấu trúc và hoạt động của proxy;
+l
+21. Rà quét lỗ hổng bảo mật cho Windows, Unix-Linux
+l
+22. Hệ thống phát hiện xâm nhập dựa trên dấu hiệu;
+l
+23. Hệ thống phát hiện xâm nhập dựa trên bất thường;
+l
+9
+
+--- Page 10 ---
+Các chủ đề tiểu luận
+24. Bảo mật mạng LAN không dây;
+l
+25. Các dạng tấn công vào mạng sensor.
+l
+26. Các dạng tấn công từ chối dịch vụ;
+l
+27. Tấn công SQL Injection, phát hiện và tìm kiếm lỗi SQL Injection;
+l
+28. Phát hiện tấn công quét cổng;
+l
+29. Các phương pháp, quy trình phát hiện lỗ hổng hệ thống.
+l
+30. Các mô hình tiền điện tử trong giao dịch điện tử.
+l
+31. Xác thực sinh trắc.
+l
+32. Điện toán đám mây và bảo mật điện toán đám mây.
+l
+33. Kỹ thuật thủy vân số (Digital Watermarking)
+l
+34. Giấu tin trong dữ liệu đa phương tiện (Steganography)
+l
+10
+
+--- Page 11 ---
+Đánh giá
+Giữa kỳ và quá trình: 30%
+l
+Điểm danh: 1/3.
+–
+Thi hết môn: 70%
+l
+Liên hệ giáo viên:
+l
+giangnl@soict.hust.edu.vn;
+l
+số Bộ môn: 024-38682596; mobile:
+l
+0854244425
+11
