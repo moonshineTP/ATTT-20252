@@ -103,6 +103,12 @@ Every figure, table, equation, and section reference should use stable labels wi
 Use `biblatex`/`biber` through `report/references.bib`; add supported claims as citations, not bare URLs.
 Prefer `booktabs` tables, captions below figures and above tables, and cite floats before they appear.
 Treat LaTeX warnings, broken references, missing captions, and overfull boxes as report-quality defects.
+After editing any file under `report/`, run Windows `pdflatex` before ending the pass:
+
+```powershell
+cd report
+pdflatex -synctex=1 -interaction=nonstopmode -file-line-error main.tex
+```
 
 ### PKI Manager skill
 
