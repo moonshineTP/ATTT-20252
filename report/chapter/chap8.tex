@@ -8,30 +8,16 @@
 \section{Tổng kết}
 \label{sec:8.1}
 
-Báo cáo đã đi từ nền tảng mật mã khóa công khai ở
-Chương~\ref{chap:crypto} đến bài toán phân phối khóa và ràng buộc danh tính
-trong hạ tầng PKI ở Chương~\ref{chap:pki-arch}. Trên cơ sở đó,
-Chương~\ref{chap:x509} trình bày chứng chỉ số, X.509 và các chuẩn liên quan,
-trước khi Chương~\ref{chap:deploy} phân tích cách PKI xuất hiện trong HTTPS,
-chữ ký số, S/MIME, VPN và code signing.
+Hạ tầng khóa công khai (PKI) không đơn thuần là một bản phác thảo mật mã tĩnh lặng trên giấy. Bắt đầu từ những thuật toán mã hóa nền tảng, nó đã phát triển thành một hệ sinh thái khổng lồ định hình kiến trúc bảo mật toàn cầu. 
 
-Các chương cuối đặt PKI vào bối cảnh vận hành. Chương~\ref{chap:opensource}
-khảo sát các công cụ và nền tảng mã nguồn mở, từ OpenSSL, XCA đến EJBCA,
-Certbot, Vault PKI và FreeIPA. Chương~\ref{chap:challenges} tổng hợp các
-thách thức về vòng đời chứng chỉ, thu hồi, niềm tin vào CA, tự động hóa và
-crypto-agility. Kết luận chính là PKI không chỉ gồm thuật toán hay
-certificate. Nó là hệ thống kết hợp mật mã, chính sách tin cậy, quy trình vận
-hành và công cụ quản trị.
+Dù ở hình thái bảo vệ lưu lượng HTTPS web, ký duyệt tài liệu pháp lý, hay nhúng sâu vào môi trường Zero Trust dưới dạng vi dịch vụ, hạt nhân của hệ thống vẫn xoay quanh một mục tiêu duy nhất: neo giữ niềm tin có thể xác minh giữa các thực thể ẩn danh. 
+
+Sự tiến hóa của PKI hiện nay đã rời xa các tranh luận về thuật toán cơ sở để đối mặt với thực tế khốc liệt của vận hành: bài toán mở rộng quy mô, kiểm soát vòng đời chứng chỉ ngắn hạn và sự chuẩn bị trước bình minh của kỷ nguyên máy tính lượng tử. PKI, tựu trung lại, là sự kết hợp chặt chẽ giữa tính chính xác của toán học, sự khắt khe của chính sách kiểm định và tự động hóa vận hành.
 
 % ----------------------------------------------------------
 \section{Ý nghĩa và lời cảm ơn}
 \label{sec:8.2}
 
-Qua quá trình thực hiện báo cáo, nhóm hiểu rõ hơn cách public key được gắn với
-danh tính thông qua CA và certificate chain. Báo cáo cũng giúp nhóm nhìn thấy
-vai trò của revocation, trust store, certificate lifecycle và tự động hóa trong
-một hệ PKI thực tế. Những nội dung này tạo nền tảng để tiếp tục đọc tài liệu
-kỹ thuật hoặc xây dựng mô hình thử nghiệm PKI ở mức có kiểm soát.
+Quá trình thực hiện tiểu luận giúp nhóm phá vỡ những hiểu lầm ban đầu về bảo mật ứng dụng. Thay vì coi chứng chỉ số như một hộp đen cấu hình, nhóm đã nắm bắt được quy trình neo tín nhiệm từ Root CA đến thực thể cuối (End-Entity), cũng như thấu hiểu sức nặng của bài toán thu hồi và tự động hóa. Những kiến thức thu nhận được không chỉ dừng ở lý thuyết, mà trực tiếp phục vụ cho việc xây dựng kiến trúc bảo mật cho các dự án phần mềm sau này.
 
-Nhóm xin chân thành cảm ơn PGS. TS. Nguyễn Linh Giang đã hướng dẫn, cung cấp
-định hướng môn học và hỗ trợ nhóm trong quá trình thực hiện báo cáo.
+Chúng em xin gửi lời cảm ơn chân thành tới PGS. TS. Nguyễn Linh Giang. Sự hướng dẫn và định hướng chuyên môn sâu sắc của cô là kim chỉ nam để nhóm hoàn thành trọn vẹn báo cáo này.
