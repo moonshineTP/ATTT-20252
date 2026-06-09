@@ -1,35 +1,37 @@
 % ============================================================
 %  Chương VIII – Kết luận
-%  ~200 từ · 0.5 trang
 % ============================================================
 \chapter{Kết luận}
 \label{chap:conclusion}
 
-% Ý chính: PKI là "hạ tầng vô hình" — không ai nhìn thấy nhưng mọi người phụ thuộc.
-% Không chỉ là vấn đề kỹ thuật mà là vấn đề trust và governance ở quy mô toàn cầu.
-
 % ----------------------------------------------------------
 \section{Tổng kết}
 \label{sec:8.1}
-% Ý chính:
-%   - PKI giải quyết bài toán trust ở quy mô internet:
-%     ràng buộc (identity ↔ public key) thông qua chữ ký CA
-%   - Hành trình logic: symmetric (O(n²) problem)
-%     → asymmetric (giải key exchange, tạo authentication problem)
-%     → PKI (hoàn chỉnh cả hai)
-%   - Web PKI + X.509 phụ trách hàng tỷ kết nối HTTPS mỗi ngày
-%   - Thực tế phức tạp hơn lý thuyết: CA có thể bị compromise,
-%     revocation không hoàn hảo, governance là thách thức lớn
+
+Báo cáo đã đi từ nền tảng mật mã khóa công khai ở
+Chương~\ref{chap:crypto} đến bài toán phân phối khóa và ràng buộc danh tính
+trong hạ tầng PKI ở Chương~\ref{chap:pki-arch}. Trên cơ sở đó,
+Chương~\ref{chap:x509} trình bày chứng chỉ số, X.509 và các chuẩn liên quan,
+trước khi Chương~\ref{chap:deploy} phân tích cách PKI xuất hiện trong HTTPS,
+chữ ký số, S/MIME, VPN và code signing.
+
+Các chương cuối đặt PKI vào bối cảnh vận hành. Chương~\ref{chap:opensource}
+khảo sát các công cụ và nền tảng mã nguồn mở, từ OpenSSL, XCA đến EJBCA,
+Certbot, Vault PKI và FreeIPA. Chương~\ref{chap:challenges} tổng hợp các
+thách thức về vòng đời chứng chỉ, thu hồi, niềm tin vào CA, tự động hóa và
+crypto-agility. Kết luận chính là PKI không chỉ gồm thuật toán hay
+certificate. Nó là hệ thống kết hợp mật mã, chính sách tin cậy, quy trình vận
+hành và công cụ quản trị.
 
 % ----------------------------------------------------------
-\section{Ý nghĩa và triển vọng}
+\section{Ý nghĩa và lời cảm ơn}
 \label{sec:8.2}
-% Ý chính:
-%   - PKI Việt Nam đang trưởng thành: NEAC Root CA, ký số hành chính,
-%     hóa đơn điện tử đang scale nhanh
-%   - Ba xu hướng lớn cần theo dõi:
-%     post-quantum migration (NIST PQC 2024),
-%     automation và short-lived cert (ACME),
-%     decentralized identity (W3C DID)
-%   - Bài học xuyên suốt: \emph{trust is a sociotechnical problem},
-%     không thể giải hoàn toàn bằng kỹ thuật mật mã
+
+Qua quá trình thực hiện báo cáo, nhóm hiểu rõ hơn cách public key được gắn với
+danh tính thông qua CA và certificate chain. Báo cáo cũng giúp nhóm nhìn thấy
+vai trò của revocation, trust store, certificate lifecycle và tự động hóa trong
+một hệ PKI thực tế. Những nội dung này tạo nền tảng để tiếp tục đọc tài liệu
+kỹ thuật hoặc xây dựng mô hình thử nghiệm PKI ở mức có kiểm soát.
+
+Nhóm xin chân thành cảm ơn PGS. TS. Nguyễn Linh Giang đã hướng dẫn, cung cấp
+định hướng môn học và hỗ trợ nhóm trong quá trình thực hiện báo cáo.

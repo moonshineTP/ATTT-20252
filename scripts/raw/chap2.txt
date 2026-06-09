@@ -1,0 +1,1477 @@
+--- Page 1 ---
+Nhập môn An toàn thông tin
+PGS. Nguyễn Linh Giang
+Bộ môn Truyền thông và
+Mạng máy tính
+
+--- Page 2 ---
+Nội dung
+Nhập môn An toàn thông tin
+I.
+Đảm bảo tính mật
+II.
+Các hệ mật khóa đối xứng (mã hóa đối xứng)
+I.
+Các hệ mật khóa công khai ( mã hóa bất đối xứng )
+II.
+Bài toán xác thực
+III.
+Cơ sở bài toán xác thực
+I.
+Xác thực thông điệp
+II.
+Chữ ký số và các giao thức xác thực
+III.
+Các cơ chế xác thực trong các hệ phân tán
+IV.
+An toàn an ninh hệ thống
+IV.
+Phát hiện và ngăn chặn xâm nhập ( IDS, IPS )
+I.
+Lỗ hổng hệ thống
+II.
+2
+
+--- Page 3 ---
+Nội dung
+Tài liệu môn học:
+l
+W. Stallings “Networks and Internetwork security”
+–
+W. Stallings “Cryptography and network security”
+–
+Introduction to Cryptography – PGP
+–
+D. Stinson – Cryptography: Theory and Practice
+–
+3
+
+--- Page 4 ---
+Chương II.
+Các phương pháp mật mã khóa đối
+xứng
+Sơ đồ chung của phương pháp mật mã khóa đối xứng
+1.
+Một số phương pháp mật mã khóa đối xứng kinh điển
+2.
+Hệ mật hoàn hảo và không hoàn hảo
+3.
+Phương pháp DES
+4.
+Quản trị và phân phối khóa
+5.
+Đảm bảo tính riêng tư sử dụng phương pháp mật mã
+6.
+khoá đối xứng
+4
+
+--- Page 5 ---
+Sơ đồ chung của phương pháp
+mã hóa đối xứng
+Sơ đồ mã hóa đối xứng
+l
+Mật mã và thám mã
+l
+5
+
+--- Page 6 ---
+Sơ đồ mật mã khóa đối xứng
+Một số thuộc tính của mô hình mật mã khóa đối
+l
+xứng
+:
+Thuật toán mã hóa phải đủ mạnh để không thể giải mã
+–
+được thông điệp nếu chỉ dựa trên duy nhất nội dung của văn
+bản được mã hóa( ciphertext ).
+Sự an toàn của phương pháp mã hóa đối xứng chỉ phụ
+–
+thuộc vào độ bí mật của khóa mà không phụ thuộc vào độ bí
+mật của thuật toán.
+Phương pháp mật mã khóa đối xứng giả thiết rằng:
+l
+Thám mã không thực hiện được nếu chỉ biết thông điệp bị
+–
+mã hóa và thuật toán mã hóa.
+Không cần giữ bí mật thuật toán.
+–
+Chỉ cần giữ bí mật khóa.
+6 –
+
+--- Page 7 ---
+Sơ đồ mật mã khóa đối xứng
+*
+X
+Thám mã
+*
+K
+X Y X
+Nguồn Nguồn
+Khối mã hóa Khối giải mã
+thông tin thông tin
+K
+Kênh mật
+Khóa
+mật
+Mô hình hệ thống mã hóa đối xứng.
+7
+
+--- Page 8 ---
+Sơ đồ chung của phương pháp mật
+mã khóa đối xứng
+Nguồn thông tin:
+l
+Tập hợp thông điệp của nguồn:
+–
+Các xâu ký tự X = { X , X , ..., X };
+1 2 M
+Thông điệp: xâu ký tự độ dài m:
+–
+X = [ x , x , ..., x ]
+i i1 i2 im
+x Î A; A – bảng ký tự nguồn; thông thường A= {0, 1}
+ik
+Mỗi thông điệp X có một xác suất xuất hiện P( X = X )
+–
+i i
+– thuộc tính thống kê của nguồn thông điệp:
+8
+
+--- Page 9 ---
+Sơ đồ chung của phương pháp
+mật mã khóa đối xứng
+Khóa mật mã
+l
+Tập hợp khoá K = { K , K , ... K },
+–
+1 2 L
+Khóa độ dài l: K =[k , ..., k ];
+–
+i i1 il
+k C, C - bảng ký tự khóa; thông thường C = {0, 1}
+Î
+ij
+Xác suất tạo khóa P{K=k} và phân bố xác suất tạo
+–
+khóa.
+Phân phối khóa giữa các bên trao đổi thông tin:
+–
+Phân phối khóa không tập trung: Nếu khóa K được tạo ra từ phía
+l
+nguồn, khóa K cần được chuyển cho phía nhận tin thông qua một
+kênh bí mật .
+Phân phối khóa tập trung: Khóa K do bên thứ ba được ủy quyền
+l
+tạo ra và được phân phối cho cả hai phía gửi và nhận tin.
+9
+
+--- Page 10 ---
+Sơ đồ chung của phương pháp
+mật mã khóa đối xứng
+Mã mật:
+l
+Tập hợp thông điệp mã mật Y = [ Y , Y , ..., Y ]
+–
+1 2 N
+Thông điệp mã mật: Y = [y , y , ..., y ]
+–
+j j1 j2 jn
+y ÎB, B – bảng ký tự mã mật; thông thường B = {0, 1}
+–
+jp
+10
+
+--- Page 11 ---
+Sơ đồ chung của phương pháp
+mật mã khóa đối xứng
+Quá trình mật mã và giải mã:
+l
+Quá trình mã hóa:
+–
+Y = E ( X )
+K
+Để tăng thêm độ bất định của quá trình mã hóa, sử dụng số
+l
+ngẫu nhiên R
+Y = E ( X )
+K,R
+Quá trình giải mã:
+–
+Bên nhận giải mã thông điệp bằng khóa được phân phối:
+l
+X = D ( Y ) = D ( E ( X ) )
+K K K,R
+11
+
+--- Page 12 ---
+Sơ đồ chung của phương pháp
+mã hóa đối xứng
+Phía tấn công
+l
+Vấn đề đặt ra: đối phương nhận được thông điệp
+–
+Y, nhưng không có được khóa K. Dựa vào thông
+điệp Y, đối phương phải khôi phục lại hoặc K,
+hoặc X hoặc cả hai.
+Đối phương có thể chỉ cần khôi phục lại thông điệp X
+l
+bằng thông điệp X*.
+Nếu đối phương muốn biết thêm các thông điệp trong
+l
+tương lai: cần phải xác định được khóa K.
+12
+
+--- Page 13 ---
+Mật mã và thám mã
+Mật mã
+l
+Các tiêu chí phân loại hệ thống mật mã:
+–
+Dạng của phép toán tham gia vào mã hóa văn
+l
+bản từ dạng thông thường sang dạng được mật
+mã hóa.
+Phân loại các phương pháp mật mã theo số
+l
+lượng khóa được dùng trong thuật toán;
+Phân loại các phương pháp mật mã theo số
+l
+lượng khóa được dùng trong thuật toán:
+13
+
+--- Page 14 ---
+Mật mã và thám mã
+Phân loại theo dạng của phép toán tham gia
+l
+vào mã hóa văn bản từ dạng rõ sang dạng
+được mã.
+Các phương pháp mã hóa thông thường này dựa
+–
+vào các nguyên lý sau:
+Phép thế: mỗi ký tự trong bản thông điệp sẽ được ánh xạ vào phần
+l
+tử khác.
+Phép hoán vị: các ký tự trong thông điệp ban đầu được phân bố lại.
+l
+Phép dịch;
+l
+Yêu cầu chính: không mất mát thông tin.
+l
+14
+
+--- Page 15 ---
+Mật mã và thám mã
+Phân loại các phương pháp mật mã theo số
+l
+lượng khóa được dùng trong thuật toán:
+Nếu bên gửi và bên nhận cùng dùng chung một khóa:
+–
+hệ thống mã hóa đối xứng.
+Nếu hai khóa của bên gửi và bên nhận khác nhau:
+–
+phương pháp mã hóa bất đối xứng.
+15
+
+--- Page 16 ---
+Mật mã và thám mã
+Phân loại các phương pháp mật mã theo số
+l
+lượng khóa được dùng trong thuật toán:
+Mã hóa khối ( block cipher ): bản rõ được xử lý
+–
+theo từng khối thông tin và tạo đầu ra theo từng
+khối thông tin.
+Mã hóa dòng ( stream cipher ): bản rõ được xử lý
+–
+liên tục theo từng bit.
+16
+
+--- Page 17 ---
+Mật mã và thám mã
+Thám mã
+l
+Quá trình xác định nội dung bản rõ X hoặc khóa K hoặc
+–
+cả hai từ bên thứ ba ( cryptanalyst ).
+Chiến lược sử dụng phụ thuộc vào tính chất của sơ đồ
+–
+mã hoá và những thông tin do thám mã nắm được.
+Các dạng thám mã: Các dạng tấn công vào bản mã.
+–
+Chỉ biết bản mật ( ciphertext only attack).
+l
+Biết một số cặp bản rõ và bản mật tương ứng ( known plaintext attack ).
+l
+Lựa chọn trước bản rõ ( chosen plaintext attack ).
+l
+Bản mã cho trước ( chosen ciphertext attack ).
+l
+Văn bản tuỳ chọn ( chosen text attack ).
+l
+17
+
+--- Page 18 ---
+Mật mã và thám mã
+Chỉ biết bản mật ( ciphertext only attack).
+l
+Dạng thám mã này là yếu nhất. Bên thám mã biết:
+–
+Thuật toán mật mã.
+l
+Bản mật.
+l
+Phương pháp tấn công: phương pháp vét cạn:
+–
+Thử tất cả các tổ hợp khóa có thể để tìm ra tổ hợp khóa thích hợp.
+l
+Khi không gian khóa lớn thì khó thực hiện.
+l
+Đối phương biết thuộc tính thống kê của nguồn tạo ra
+–
+bản rõ, tìm bản mật qua phân tích thống kê.
+Đối phương biết thêm: dạng ban đầu của bản rõ: ngôn ngữ,
+l
+nguồn gốc, hoặc định dạng file.
+Dễ đối phó: đối phương chỉ có lượng thông tin ít nhất để
+–
+phá mã.
+18
+
+--- Page 19 ---
+Mật mã và thám mã
+Biết một số cặp bản rõ và bản mật tương ứng ( known
+l
+plaintext attack ).
+Thám mã biết:
+–
+Thuật toán mã hoá.
+l
+Mã mật.
+l
+Một hoặc một số cặp bản rõ – bản mật được dung cùng
+l
+một khoá mật.
+Thám mã tìm cách phát hiện khóa mật K.
+–
+Thám mã có thể dựa vào nguồn gốc của thông điệp và ước
+–
+đoán được một số thông tin trong bản rõ. Từ đó dựa vào cặp
+thông điệp xác định khóa mật.
+19
+
+--- Page 20 ---
+Mật mã và thám mã
+Lựa chọn trước bản rõ ( chosen plaintext attack )
+l
+Khi bên thám mã thu được hệ thống nguồn
+–
+Sử dụng một bản rõ được lựa chọn trước để xác định
+–
+bản mã và từ đó xác định cấu trúc khóa mật.
+Thám mã biết:
+–
+Thuật toán mã hoá.
+l
+Văn bản mật mã.
+l
+Bản rõ được thám mã lựa chọn cùng với bản mật do khoá mật sinh
+l
+ra.
+20
+
+--- Page 21 ---
+Mật mã và thám mã
+Bản mã chọn trước ( chosen ciphertext attack ). Thám mã
+l
+biết:
+Thuật toán mã hoá.
+–
+Bản mật.
+–
+Nội dung của một số bản mã và bản rõ đã được giải mã tương ứng sử
+–
+dụng khoá mật.
+Thám mã phải tìm bản rõ hoặc xác định được khóa mật.
+–
+21
+
+--- Page 22 ---
+Mật mã và thám mã
+Văn bản tuỳ chọn ( chosen text attack ). Thám mã
+l
+biết:
+Thuật toán mã hoá.
+–
+Bản mật.
+–
+Bản rõ được thám mã lựa chọn cùng với bản mật sinh ra bởi
+–
+khoá mật.
+Nội dung của bản mật và bản rõ được đã giải mã tương ứng
+–
+sử dụng mã mật.
+Tìm khoá mật.
+–
+22
+
+--- Page 23 ---
+Mật mã và thám mã
+Chỉ có các thuật toán mã hóa yếu sẽ bị
+l
+phá đối với loại tấn công chỉ dùng văn
+bản mật.
+Các thuật toán mã hóa được thiết kế
+l
+để chống dạng tấn công với bản rõ đã
+biết ( known plaintext attack ).
+23
+
+--- Page 24 ---
+Tính mật
+An toàn vô điều kiện ( unconditional secure ) –
+l
+Mật hoàn hảo
+Nếu bản mật không đủ thông tin để xác đinh duy nhất
+–
+bản rõ tương ứng, không phụ thuộc vào đối phương
+có bao nhiêu bản mật.
+Tính mật của bản mã được đảm bảo không phụ thuộc vào
+–
+thời gian mà đối phương dùng để phá mã mật.
+Chưa có sơ đồ mật mã đạt an toàn vô điều kiện trừ sơ đồ
+–
+mã mật sử dụng một lần ( one-time pad )
+24
+
+--- Page 25 ---
+Tính mật
+An toàn thực tiễn hay an toàn theo tính
+l
+toán ( computational secure ) :
+Giá thành để phá hệ mật vượt quá giá trị của thông tin
+–
+được mã.
+Thời gian để phá hệ mật vượt quá thời hạn giữ mật
+–
+của thông tin.
+25
+
+--- Page 26 ---
+Tính mật
+Ví dụ: thuật toán DES ( Data Encryption Standard ): Khoá nhị phân
+–
+Độ dài 32 bit ÞSố lượng khoá: 232 Þ 35.8 phút xử lý với tốc độ
+•
+1 phép mã hoá/µs Þ 2.15 ms với tốc độ 106 phép mã hoá / µs.
+Độ dài 56 bit ÞSố lượng khoá: 256 Þ 1142 năm xử lý với tốc độ
+•
+1 phép mã hoá/µs Þ 10.01 giờ với tốc độ 106 phép mã hoá / µs.
+Độ dài 128 bit ÞSố lượng khoá: 2128 Þ 5.4 x 1024 năm xử lý với
+•
+tốc độ 1 phép mã hoá/µs Þ 5.4 x 1018 năm với tốc độ 106 phép
+mã hoá / µs.
+Ví dụ: Khoá sử dụng 26 ký tự bằng các phép hoán vị ÞSố lượng
+–
+khoá: 26! » 4 x 1026 Þ 6.4 x 1012 năm xử lý với tốc độ 1 phép mã
+hoá/µs Þ 6.4 x 106 năm với tốc độ 106 phép mã hoá / µs.
+26
+
+--- Page 27 ---
+Một số phương pháp mật mã khóa
+đối xứng kinh điển
+Các phương pháp thay thế
+l
+Mã Caesar
+–
+Các ký tự chữ cái được gán giá trị ( a = 1, b = 2, ... )
+l
+Ký tự của bản rõ ( plaintext ) p được thay thế bằng ký tự
+l
+của bản mật ( ciphertext ) C theo luật mã hoá sau:
+C = E( p ) = ( p + k ) mod ( 26 )
+Trong đó k nhận các giá trị từ 1 đến 25.
+Trong phương pháp này, k chính là khoá mật mã.
+l
+27
+
+--- Page 28 ---
+Một số phương pháp mã hóa đối
+xứng kinh điển
+Quá trình giải mã:
+l
+p = D( C ) = ( C – k ) mod ( 26 )
+Phương pháp phá mã: một cách đơn giản: dùng các khoá k từ
+l
+1 đến 25 để giải mã cho đến khi nhận được thông điệp có ý
+nghĩa.
+Các vấn đề của mã Caesar:
+l
+– Thuật toán mã hoá và giải mã đã biết trước.
+– Thám mã:
+Không gian khóa nhỏ: chỉ có 25 khoá;
+l
+Khi thám mã bằng phương pháp vét cạn: chỉ cần thử với 25
+l
+khóa;
+– Ngôn ngữ trong bản rõ đã biết trước và dễ dàng nhận biết.
+28
+
+--- Page 29 ---
+Một số phương pháp mật mã khóa đối
+xứng kinh điển
+Các vấn đề cần nghiên cứu khi khảo sát các
+l
+thuật toán mật mã:
+Thuộc tính thống kê của nguồn tin bản rõ
+–
+Sơ đồ tạo khóa, không gian khóa, các sơ đồ quản
+–
+lý và phân phối khóa
+Thuật toán mã hóa và giải mã
+–
+Độ an toàn của hệ mật.
+–
+Vấn đề khẳng định giải mã được đúng bản rõ.
+–
+
+--- Page 30 ---
+Một số phương pháp mã hóa đối
+xứng kinh điển
+Mã mật Hill
+–
+Thuật toán mã hoá
+l
+Mỗi ký tự được gán giá trị số: a = 0, b = 1, ..., z = 25
+–
+Lựa chọn m ký tự liên tiếp của bản rõ;
+–
+Thay thế các ký tự đã lựa chọn bằng m ký tự mã mật.
+–
+Việc thay thế ký tự được thực hiện bằng m phương trình
+–
+tuyến tính.
+Hệ phương trình mã hóa:
+–
+C = KP ( mod 26 )
+K- ma trận khóa
+Thuật toán giải mã
+l
+P = K-1C ( mod 26 )
+30
+
+--- Page 31 ---
+Một số phương pháp mã hóa đối
+xứng kinh điển
+Ví dụ: với m = 3, hệ các phương trình tuyến tính có dạng
+–
+sau:
+C = ( k p + k p + k p ) mod 26
+1 11 1 12 2 13 3
+C = ( k p + k p + k p ) mod 26
+2 21 1 22 2 23 3
+C = ( k p + k p + k p ) mod 26
+3 31 1 32 2 33 3
+æ C ö æ k k k öæ p ö
+1 11 12 13 1
+ç ÷ ç ÷ç ÷
+C = k k k p
+ç ÷ ç ÷ç ÷
+2 21 22 23 2
+ç ÷ ç ÷ç ÷
+C k k k p
+è ø è øè ø
+3 31 32 33 3
+C = KP
+31
+
+--- Page 32 ---
+Một số phương pháp mã hóa đối
+xứng kinh điển
+Ma trận K là ma trận khoá mật mã
+–
+æ17 17 5 ö
+Ví dụ: với ma trận K bằng:
+– ç ÷
+K = 21 18 21
+ç ÷
+ç ÷
+2 2 19
+è ø
+Xâu ký tự: “paymoremoney” sẽ được mã hoá thành
+“LNSHDLEWMTRW”
+“pay” Û (15, 0, 24 ); K( 15, 0, 24 )T mod 26 = ( 11, 13, 18) Û
+“LNS”
+32
+
+--- Page 33 ---
+Một số phương pháp mã hóa đối
+xứng kinh điển
+Giải mã thông điệp bằng ma trận K-1.
+–
+æ 4 9 15ö
+ç ÷
+K-1 = 15 17 6
+ç ÷
+ç ÷
+24 0 17
+è ø
+Hệ mã Hill:
+–
+Các phép toán thực hiện theo modulo 26
+–
+ì C = E (P) = KP
+K
+í
+P = D (C) =
+K-1
+C =
+K-1
+KP = P
+î
+K
+33
+
+--- Page 34 ---
+Một số phương pháp mã hóa đối
+xứng kinh điển
+Độ an toàn của hệ mã Hill
+l
+Tính mật cao khi phía tấn công chỉ có bản mật.
+–
+Thám mã hệ mã Hill: dễ dàng bị phá nếu bên tấn công
+–
+biết được bản rõ và bản mật tương ứng ( known plaintext
+attack )
+Hệ mã mật Hill m x m;
+l
+Thám mã đã có m cặp bản rõ – bản mật, mỗi văn bản có độ dài m;
+l
+Tạo các cặp: P = ( p , p , ..., p ) và C = ( C , C , ..., C ) sao cho
+l
+j 1j 2j mj j 1j 2j mj
+C = KP với 1£ j £ m đối với một khoá K chưa biết.
+j j
+Xác định hai ma trận m x m, X = ( p ) và Y = ( C )
+l
+ij ij
+34
+
+--- Page 35 ---
+Một số phương pháp mã hóa đối
+xứng kinh điển
+Ta có Y = XK Þ K = X-1Y.
+l
+Ví dụ: bản rõ: “friday” được mã hoá bằng mật mã Hill 2 x 2
+l
+thành “PQCFKU”.
+Ta có: K( 5 17 ) = ( 15 16 ); K( 8 3 ) = ( 2 5 ); K( 0 24 ) = ( 10 20 )
+–
+Với hai cặp ban đầu ta có :
+–
+æ15 16ö æ5 17ö
+ç ÷ = ç ÷K Þ
+ç ÷ ç ÷
+2 5 8 3
+è ø è ø
+-1
+æ5 17ö æ15 16ö æ9 1 öæ15 16ö æ7 19ö
+K = ç ÷ ç ÷ = ç ÷ç ÷ = ç ÷
+ç ÷ ç ÷ ç ÷ç ÷ ç ÷
+8 3 2 5 2 15 2 5 8 3
+è ø è ø è øè ø è ø
+35
+
+--- Page 36 ---
+Một số phương pháp mã hóa đối
+xứng kinh điển
+Hệ thống mã Vernam.
+–
+Hệ mã mật Vernam:
+l
+Dùng mã nhị phân
+–
+Mã hoá: C = p Å k
+–
+i i i
+p: bit thứ i của bản rõ;
+l i
+k: bit thứ i của khoá;
+l i
+C: bit thứ i của bản mật;
+l i
+Å: phép toán XOR.
+l
+Giải mã : p = C Å k
+–
+i i i
+Tạo khoá:
+–
+Khoá có độ dài bằng bản rõ.
+l
+Khóa được chọn sao cho khoá và bản rõ độc lập thống kê.
+l
+Tạo vòng lặp với một khoá. Như vậy thực tế, hệ thống làm
+l
+36
+việc với một khóa rất dài nhưng lặp lại.
+
+--- Page 37 ---
+Một số phương pháp mã hóa đối
+xứng kinh điển
+Độ an toàn:
+l
+Hệ thống Vernam có thể bị phá nếu đối phương biết
+–
+một bản mã có độ dài đủ lớn, sử dụng một số bản rõ
+đã biết.
+Với khoá được sinh ngẫu nhiên, có độ dài bằng độ dài
+–
+bản rõ, không lặp lại: sơ đồ mã sử dụng một lần ( one-
+time pad ): không thể phá khoá. Đầu ra độc lập thống
+kê với bản rõ.
+Vấn đề nảy sinh: tính mật cho quá trình trao đổi khoá
+–
+37
+
+--- Page 38 ---
+Một số phương pháp mã hóa đối
+xứng kinh điển
+Đảm bảo an toàn dữ liệu: nhiều thuật toán mật mã.
+l
+Ðánh giá một thuật toán mật mã theo:
+l
+Tính mật, độ phức tạp, tốc độ thực hiện thuật toán, sơ đồ
+–
+phân phối khoá.
+Các phương pháp mật mã kinh điển như phương pháp
+l
+mã hoá thay thế, hoán vị còn đơn giản.
+Nhược điểm:
+–
+Độ an toàn thấp vì không đạt độ phức tạp cần thiết;
+l
+Dễ bị lộ khoá do cả người gửi và người nhận đều sử dụng cùng một
+l
+khoá => cần pha phân phối khoá dễ bị tấn công
+38
+
+--- Page 39 ---
+Phương pháp mật mã DES
+Bản rõ X, bản mã mật Y là các chuỗi nhị phân độ dài
+l
+64 bit.
+Khóa K có độ dài 56 bit.
+l
+Từng khối 64 bit được mã hóa độc lập sử dụng
+l
+chung một khóa.
+39
+
+--- Page 40 ---
+Phương pháp mật mã DES
+Phương pháp S-DES( DES giản lược )
+l
+Phương pháp mật mã DES
+l
+40
+
+--- Page 41 ---
+S- DES
+(Simplified data encryption standard)
+Cấu trúc của DES là rất phức tạp
+l
+S-DES - phiên bản đơn giản của DES;
+–
+Cho phép:
+–
+Mã hoá và giải mã bằng tay;
+l
+Hiểu biết sâu về hoạt động chi tiết của giải thuật DES.
+l
+S-DES đơn giản hơn nhiều so với DES
+l
+Các tham số của S-DES nhỏ hơn trong DES;
+–
+Do giáo sư Edward Schaefer thuộc trường đại học Santa
+l
+Clara phát triển
+41
+
+--- Page 42 ---
+Thuật toán S-DES (Simplified DES)
+DECRYPTION
+ENCRYPTION
+10-bit key
+8-bit plaintext
+8-bit plaintext
+P10
+Shift IP
+IP
+P8
+K K
+1 1
+f k f k
+Shift
+SW SW
+P8
+K K
+2 2
+f f
+k k
+IP-1 IP-1
+42
+8-bit ciphertext
+8-bit ciphertext
+
+--- Page 43 ---
+Thuật toán S-DES (Simplified DES)
+Giải thuật mã hoá S-DES sử dụng phương
+l
+pháp mã hoá theo khối
+Đầu vào:
+l
+- 8-bit block của bản rõ
+- 10-bit khoá
+Đầu ra:
+l
+- 8-bit của bản mã
+43
+
+--- Page 44 ---
+Thuật toán S-DES
+Thuật toán mã hoá bao gồm 4 hàm:
+l
+- Hàm IP(Initial Permutation)
+- Hàm f
+k
+- Hàm SW (Switch)
+- Hàm IP-1
+Thuật toán mã hoá::
+l
+ciphertext=IP-1(f(SW(f(IP(plaintext)))))
+Thuật toán giải mã :
+l
+plaintext =IP (f(SW(f(IP-1 (ciphertext)))))
+44
+
+--- Page 45 ---
+Thuật toán S-DES (Simplified DES)
+Sinh khoá trong S-DES
+10-bit key
+P10
+5 5
+LS-1 LS-1
+5 5
+P8
+8
+LS-2 LS-2
+5 5
+P8
+88
+45
+
+--- Page 46 ---
+Thuật toán S-DES (Simplified DES)
+Các hàm sinh khoá:
+P10:Đây là hàm hoán vị tuân theo luật như trong bảng
+l
+LS-1: Là hàm dịch vòng 1 bit
+l
+LS-2: Là hàm dịch vòng 2 bit
+l
+P8:Là hàm hoán vị tuân theo luật như trong bảng
+l
+46
+
+--- Page 47 ---
+Thuật toán S-DES Mã hoá S-DES:
+Hàm IP và hàm IP-1:
+Hàm IP tuân theo luật sau:
++
++ Hàm IP-1 tuân heo luật sau:
+47
+
+--- Page 48 ---
+Thuật toán S-DES Hàm f :
+k
+8-bit plaintext
+IP
+4
+4
+E/P
+f
+k F
+8 8
++ K 1
+4
+4
+S0 S0
+2
+2
+P4
+4
++
+48 4
+
+--- Page 49 ---
+Thuật toán S-DES
+E/P(expension/permutation):
+Hàm E/P tuân theo luật sau:
+l
+Nếu gọi 4 bit đầu vào là (n ,n ,n ,n ) thì E/P được
+l
+1 2 3 4
+biểu diễn chi tiết như sau:
+49
+
+--- Page 50 ---
+Thuật toán S-DES
+Khối thay thế S-box
+Đầu vào S-box: khối 8 bit được chia thành hai khối 4 bit;
+l
+Mỗi khối 4 bit được đưa vào S và S
+l
+0 1
+Thay thế mỗi khối 4 bit bằng khối 2 bit;
+l
+Các khối S và S được định nghĩa như sau:
+l
+0 1
+S : S :
+0 1
+50
+
+--- Page 51 ---
+Thuật toán S-DES
+Khối thay thế S-box
+Phần tử trong khối S-box có độ dài 2 bit;
+l
+Quá trình thay thế trong S-box:
+l
+Với 4 bit đầu vào là (b1,b2,b3,b4);
+–
+b1 và b4 kết hợp thành một số chỉ hàng của S
+l
+box,
+b2 và b3 tạo thành số chỉ cột trong S box;
+l
+Phần tử nằm trên hàng và cột đã xác định thay
+l
+thế cho 4 bit đầu vào của S-box đó.
+51
+
+--- Page 52 ---
+Thuật toán S-DES
+Hoán vị P4
+Hoán vị P4 tuân theo luật sau:
+l
+52
+
+--- Page 53 ---
+Thuật toán S-DES
+Hàm SW
+Hàm f chỉ thực hiện trên 4 bit trái của đầu
+l
+k
+vào;
+Hàm SW hoán đổi 4 bit phải và 4 bit trái để
+l
+lần áp dụng hàm f thứ 2 sẽ thực hiện trên 4
+k
+bit phải.
+Áp dụng hàm f lần 2 thực hiện các hàm E/P
+l
+k
+,S ,S ,P4 như trên.
+0 1
+53
+
+--- Page 54 ---
+Mật mã DES
+(Data Encryption Standard)
+Phương pháp mật mã DES được Ủy ban tiêu chuẩn Mỹ
+l
+(U.S National Bureau for Standards) công bố năm 1971
+để sử dụng trong các cơ quan chính phủ liên bang.
+Thuật tóan được IBM phát triển.
+l
+DES có một số đặc điểm sau:
+l
+Sử dụng khoá 56 bít.
+–
+Xử lý khối vào 64 bít, biến đổi khối vào thành khối ra 64 bít.
+–
+Mã hoá và giải mã được sử dụng cùng một khoá.
+–
+DES được thiết kế để thực hiện hiệu quả bằng phần cứng.
+–
+DES thường được sử dụng để mã hoá các dòng dữ liệu mạng
+–
+và mã hoá dữ liệu được lưu trữ trên đĩa.
+54
+
+--- Page 55 ---
+Giải mã DES
+Với DES, có thể sử dụng cùng chức
+l
+năng để giải mã hoặc mã hoá một khối.
+Điểm khác biệt: khi giải mã, các khoá
+l
+phải được sử dụng theo thứ tự ngược
+lại.
+55
+
+--- Page 56 ---
+Độ an toàn của DES
+Độ an tòan hệ mật khoá đối xứng phụ thuộc hai tham số: độ
+l
+phức tạp của thuật toán và độ dài của khoá.
+Khoá có độ dài 56 bít, không gian khóa sẽ có 256 khoá có
+l
+thể sử dụng.
+Nếu tính mật của phương pháp chỉ phụ thuộc vào độ phức
+l
+tạp của thuật toán.
+Có nghĩa rằng sẽ không có phương pháp nào khác để phá hệ
+–
+thống mật mã ngoài cách thử mọi tổ hợp khoá có thể: phương
+pháp tấn công vét cạn (brute-force attack).
+Nếu một siêu máy tính có thể thử một triệu khoá trong một
+–
+giây, thì thời gian tổng cộng để để tìm ra khoá đúng là khoảng
+2000 năm.
+56
+
+--- Page 57 ---
+Kết luận
+DES đã được phân tích kỹ lưỡng và công nhận là vững chắc. Các
+l
+hạn chế của nó đã được hiểu rõ và có thể xem xét trong quá trình
+thiết kế.
+Để tăng độ an toàn của DES, sử dụng các hệ thống mật mã DES mở
+–
+rộng
+DES mở rộng khoá có thể là 128 bít, 192 bít,... độ lớn khối có thể là
+–
+128 bít. Do vậy, độ an toàn của DES mở rộng cao hơn rất nhiều.
+57
+
+--- Page 58 ---
+Mật mã khối ( block cipher )
+Định nghĩa
+l
+Mã khối là mật mã khóa đối xứng thực hiện trên
+–
+nhóm bit có độ dài cố định. Nhóm bit này được gọi
+là một khối. Quá trình chuyển đổi không thay đổi.
+Khi mã hóa, mã khối có thể thực hiện trên từng khối
+–
+độ dài 128 bit của bản rõ tại đầu vào thứ nhất và cho
+ra khối 128 bit của mã mật.
+Quá trình biến đổi được kiểm soát bằng đầu vào thứ hai:
+l
+khóa mật
+Quá trình giải mã thực hiện tương tự: nhận tại đầu
+–
+vào thứ nhất khối 128 bit của mật mã, khóa mật và
+tại đầu ra ta nhận được khối 128 bit của bản rõ
+58
+
+--- Page 59 ---
+Mật mã khối ( block cipher )
+Để mã hóa bản tin có độ dài lớnhơn kích thước khối,
+–
+( ví dụ 128 bit ), các chế độ xử lý ( mode of operation
+) được sử dụng.
+Mã hóa khối tương phản với mã hóa dòng ( stream
+–
+cipher ), trong đó mỗi ký tự được thao tác một lần và
+quá trình chuyển đổi thay đổi trong suốt quá trình mã
+hóa.
+Ví dụ mã hóa khối:
+–
+Thuật toán DES do công ty IBM xây dựng và công bố năm
+l
+1977.
+Hậu duệ của DES, Advanced Encryption Standard (AES), ra
+l
+đời năm 2001.
+59
+
+--- Page 60 ---
+Mật mã khối
+Mã khối và mã dòng: mã theo từng khối bit và mã từng bit riêng rẽ
+l
+Plaintext= 010100110111=
+key 000 001 010 011 100 101 110 111
+(010)(100)(110)(111)
+0 001 111 110 000 100 010 101 011
+Ciphertext = 111 011 000 101 1 001 110 111 100 011 010 000 101
+2 001 000 100 101 110 111 010 011
+theo key=1
+3 100 101 110 111 000 001 010 011
+Ciphertext = 100 011 011 111
+4 101 110 100 010 011 001 011 111
+theo key=4
+Số lượng key: 22 < 5 < 23 key cần có độ dài 3 bit để cho kích
+l
+thước khoá bang kích thước khối: key size= block size= 3.
+Kích thước khoá nhỏ: không an toàn.
+l
+Nếu bên tấn công Eve bắt được thông điệp mật C=001, sẽ khó lựa
+l
+chọn P= 000 hay 101.
+60
+
+--- Page 61 ---
+Mật mã khối ( block cipher )
+Mật mã khối gồm một cặp thuật toán:
+l
+Thuật toán mã hóa, E, và
+–
+Thuật toán giải mã, E-1.
+–
+Cả hai thuật toán đều có hai đầu vào:
+–
+Khối dữ liệu đầu vào kích thước n bit và
+l
+Khóa độ dài k bit,
+l
+Đầu ra là khối dữ liệu kích thước n-bit.
+–
+61
+
+--- Page 62 ---
+Mật mã khối ( block cipher )
+Sơ đồ mã hóa và giải mã khối
+l
+62
+
+--- Page 63 ---
+Mật mã khối ( block cipher )
+Đối với một khóa xác định, hàm giải mã là hàm
+l
+ngược của hàm mã hóa:
+E -1( E ( M ) ) = M
+K K
+Đối với mỗi khối M và khóa K.
+Với mỗi khóa K, E là hoán vị ( song ánh ) trên
+l
+K
+tập hợp các khối đầu vào. Mỗi khóa sẽ lựa
+chọn một hoán vị từ tập hợp 2n! phần tử.
+63
+
+--- Page 64 ---
+Mật mã khối
+Điều kiện để tạo mã khối an toàn:
+l
+Kích thước khối phải đủ lớn để ngăn chặn tấn
+–
+công bang phân tích thống kê.
+Kích thước khối lớn sẽ làm chậm quá trình xử lý
+l
+Không gian khoá (độ dài khoá) cần phải đủ lớn để
+–
+ngăn chặn tấn công vét cạn.
+Khoá không được có độ dài quá lớn – khó phân phối và
+l
+quản trị
+64
+
+--- Page 65 ---
+Mật mã khối ( block cipher )
+Kích thước khối n, thông thường bằng 64 hoặc 128 bit,
+l
+Một số mật mã khối có kích thước khối thay đổi.
+–
+Kỹ thuật cho phép bản rõ với độ dài tùy ý được mã hóa: sơ đồ
+l
+padding.
+Mỗi chế độ làm việc có một đặc tính riêng biệt phụ thuộc vào sai
+l
+số truyền lan, tính dễ truy cập ngẫu nhiên và khả năng bị tổn
+thương đối với từng loại tấn công cụ thể.
+Kích thước khóa k thường bằng 40, 56, 64, 80, 128, 192 và 256
+l
+bits.
+Đến năm 2006, độ dài khóa 80 bits thường được chọn là kích thước khóa tối
+–
+thiểu để ngăn chặn tấn công vét cạn ( brute force attacks ).
+65
+
+--- Page 66 ---
+Mật mã khối
+Điều kiện để thiết kế các mã khối an toàn
+l
+Hàm nhập nhằng (Confusion):
+–
+Là hàm làm cho mối quan hệ giữa bản mật vào bản rõ đủ
+l
+phức tạp để đối phương không phát hiện được quy luật;
+Hàm này là hàm phi tuyến
+l
+Thường dùng phép thế
+l
+Hàm khuếch tán (Diffusion):
+–
+Làm phân tán thông tin từ bản rõ vào toàn bộ bản mật;
+l
+Sự thay đổi trong bản rõ sẽ ảnh hưởng tới nhiều phần của
+l
+bản mật
+Ngăn chặn tấn công bằng phân tích thống kê
+66 l
+Thường dùng hoán vị, đổi chỗ
+l
+
+--- Page 67 ---
+Mật mã khối ( block cipher )
+Mã khối lặp
+l
+Phần lớn các mật mã khối được
+–
+xây dựng trên cơ sở áp dụng lặp đi
+lặp lại một hàm f đơn giản gồm thay
+thế và hoán vị.
+Mỗi vòng lặp được gọi là một chu
+l
+kỳ ( round ) và hàm lặp được gọi là
+hàm quay vòng. Thông thường số
+lần quay vòng từ 4 đến 32 lần.
+Nhiều mật mã khối có thể được
+l
+phân loại thành các cấu trúc Feistel
+- các mạng thay thế-hoán vị.
+Các phép toán số học, lôgic ( đặc
+l
+biệt là XOR ), các S-box và các
+phép hoán vị thường được sử dụng
+67
+
+--- Page 68 ---
+Mật mã khối
+Các thuộc tính của mật mã khối:
+l
+Kích thước khối Block size: kích thước càng lớn sẽ
+–
+càng an toàn
+Kích thước khoá Key size: kích thước càng lớn sẽ
+–
+càng an toàn (không gian khoá lớn)
+Số vòng (number of round): càng nhiều vòng lặp, độ
+–
+phức tạp và tính an toàn càng cao.
+Mode mã hoá (Encryption modes): xác định phương
+–
+thức phân chia thông điệp lớn thành các khối –
+quan trọng đối với sự an toàn của thông điệp mật
+68
+
+--- Page 69 ---
+Mật mã khối ( block cipher )
+Mật mã khối và các mật mã cơ sở khác
+l
+Mật mã khối có thể được sử dụng để xây dựng các mật mã cơ
+–
+sở khác (cryptographic primitives).
+Để cho các phương pháp mã hóa này trở thành mật mã an toàn,
+l
+những thuật toán này cần được xây dựng theo phương pháp đúng
+đắn.
+Các mật mã dòng có thể được xây dựng dựa trên mật mã khối.
+–
+Các chế độ OFB-mode và CTR mode là những chế độ theo khối.
+l
+Cho phép chuyển một mật mã khối thành mật mã dòng.
+l
+Mật mã khối có thể sử dụng để xây dựng các hàm băm, và
+–
+ngược lại, những hàm băm có thể là cơ sở để xây dựng những
+mật mã khối.
+Ví dụ: những mật mã khối dựa trênhàm băm:SHACAL, BEAR và
+l
+LION.
+69
+
+--- Page 70 ---
+Mật mã khối ( block cipher )
+Những bộ sinh số giả ngẫu nhiên an toàn theo phương
+–
+diện mật mã có thể được tạo nên từ các mật mã khối.
+Mã xác thực thông điệp (MAC) cũng thường được xây
+–
+dựng từ các mật mã khối. Ví dụ: CBC-MAC, OMAC,
+PMAC.
+Các mã xác thực cũng được xây dựng từ mật mã khối.
+–
+Cho phép thực hiện mã hóa mật và mã hóa xác thực đồng thời.
+l
+Điều này làm cho phương pháp cung cấp được cả tính riêng tư
+l
+cũng như tính xác thực đồng thời. Ví dụ CCM, EAX, GCM,
+OCB.
+70
+
+--- Page 71 ---
+Mật mã khối ( block cipher )
+Thám mã khối
+l
+Bên cạnh các phương pháp thám mã như thám mã tuyến tính,
+–
+thám mã vi phân, còn có một số phương pháp khác:
+Thám mã vi phân ngắn gọn ( Truncated differential cryptanalysis );
+l
+Thám mã vi phân từng phần ( Partial differential cryptanalysis );
+l
+Tấn công trượt ( Slide attacks );
+l
+Tấn công Bu-mê-răng ( Boomerang attacks ),
+l
+Tấn công toàn phương và tích phân,
+l
+Tấn công XSL,
+l
+Tấn công vi sai bất khả và
+l
+Tấn công đại số
+l
+Đối với mỗi mật mã khối mới được xây dựng, để có tính hiệu quả,
+–
+mật mã đó phải thể hiện độ an toàn đối với các tấn công đã biết.
+71
+
+--- Page 72 ---
+Hệ mật hoàn hảo và không hoàn hảo
+Điều kiện cần để hệ mật
+l
+là hệ mật hoàn hảo X *
+Thám mã
+*
+K
+X Y X
+Nguồn Thuật toán Thuật toán Nguồn
+thông điệp mã hóa giải mã thông điệp
+Đối phương biết:
+K
+Kênh mật
+- Bản tin mật mã;
+- Thuật tóan mật mã;
+Nguồn tạo
+R
+Khóa
+số ngẫu - Thông tin về nguồn thông
+mật
+nhiên điệp: thuộc tính thống
+72
+kê của bản rõ
+
+--- Page 73 ---
+Hệ mật hoàn hảo và không hoàn hảo
+Nguồn thông tin X = [ X , X , ..., X ], X Î A; A –
+–
+1 2 M i
+bảng ký tự bản rõ cùng các thuộc tính thống kê (
+latin, nhị phân, ...).
+Khoá K = [ K , K , ... K ], khóa K được tạo ra.
+–
+1 2 L
+Các ký tự của khoá K nằm trong một bảng ký tự: bảng ký
+l
+tự nhị phân { 0, 1 }
+Bộ tạo số ngẫu nhiên: R = [ R , R , ..., R ];
+–
+1 2 J
+Thông điệp được mã hóa là hàm của X, R và K : Y
+–
+= [ Y , Y , ..., Y ]
+1 2 N
+Y = E ( X )
+KR
+Bên nhận giải mã thông điệp bằng khóa đã phân
+–
+phối:
+73
+X = D ( Y )
+K
+
+--- Page 74 ---
+Hệ mật hoàn hảo và không hoàn
+hảo
+Giả thiết sử dụng khóa và tạo số ngẫu nhiên:
+–
+Khóa mật chỉ được sử dụng một lần.
+l
+M bit của văn bản rõ sẽ được mã hoá trước khi khoá mật K
+l
+và chuỗi ngẫu nhiên R thay đổi.
+Đối phương chỉ biết được văn bản mã mật Y và thuật
+–
+tóan mã hóa, giải mã.
+Sơ đồ hệ mật hoàn hảo: Văn bản rõ X độc lập thống
+–
+kê với văn bản mã mật Y.
+P( X = x | Y = y ) = P( X = x )
+đối với mọi bản tin rõ: X = [ x , x , ..., x ] và bản tin
+1 2 M
+mật Y.
+74
+
+--- Page 75 ---
+Hệ mật hoàn hảo và không hoàn
+hảo
+Ví dụ: hệ mã Vernam
+–
+Bảng chữ cái: A = { 0, 1, ..., |A|– 1 }
+l
+Độ dài của văn bản gốc, khoá và văn bản mã bằng nhau:
+l
+M = L = N.
+Khoá được chọn ngẫu nhiên: P( K = k ) = |A|-M đối với
+l
+|A|M tổ hợp khoá.
+Quá trình mã hoá: Y = X Å K , i = 1, 2, ..., M.
+l
+i i i
+Do với mỗi ký tự x thuộc X và y thuộc Y ta có duy nhất
+l
+j i i j
+ki thuộc Kj, do đó: P( Y = y | X = x ) = P( Z = z ) = |A|-M
+không phụ thuộc vào X.
+75
+
+--- Page 76 ---
+Hệ mật hoàn hảo và không hoàn
+hảo
+Định lý: đối với hệ mật hoàn hảo
+–
+H( X ) = H( X | Y ) £ H( K )
+Nếu bản rõ và bản mã cùng bảng ký tự, : L = L
+–
+X K
+Khi dấu bằng xảy ra: trong trường hợp one time pad.
+l
+Các hệ mật không hoàn hảo
+l
+Đặt vấn đề: khi nào thám mã có thể phá được các
+–
+hệ mật không hoàn hảo ?!
+76
+
+--- Page 77 ---
+Quản trị và phân phối khóa trong mã
+hóa đối xứng
+Đặt vấn đề:
+l
+Trong kỹ thuật mật mã truyền thống, hai phía tham gia
+–
+vào truyền tin phải chia sẻ khoá mật Þ khoá phải
+được đảm bảo bí mật : phải duy trì được kênh mật
+phân phối khóa.
+Khóa phải được sử dụng một lần: Khoá phải được
+–
+thường xuyên thay đổi.
+Mức độ an toàn của bất kỳ hệ mật sẽ phụ thuộc vào kỹ
+–
+thuật phân phối khoá.
+77

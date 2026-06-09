@@ -1,0 +1,761 @@
+--- Page 1 ---
+Nhập môn An toàn thông tin
+PGS. Nguyễn Linh Giang
+Bộ môn Truyền thông và
+Mạng máy tính
+
+--- Page 2 ---
+Nội dung
+Nhập môn An toàn thông tin
+I.
+Đảm bảo tính mật
+II.
+Các hệ mật khóa đối xứng (mã hóa đối xứng)
+I.
+Các hệ mật khóa công khai ( mã hóa bất đối xứng )
+II.
+Bài toán xác thực
+III.
+Cơ sở bài toán xác thực
+I.
+Xác thực thông điệp
+II.
+Chữ ký số và các giao thức xác thực
+III.
+Các cơ chế xác thực trong các hệ phân tán
+IV.
+An toàn an ninh hệ thống
+IV.
+Phát hiện và ngăn chặn xâm nhập ( IDS, IPS )
+I.
+Lỗ hổng hệ thống
+II.
+2
+
+--- Page 3 ---
+Nội dung
+Tài liệu môn học:
+l
+W. Stallings “Networks and Internetwork security”
+–
+W. Stallings “Cryptography and network security”
+–
+Introduction to Cryptography – PGP
+–
+D. Stinson – Cryptography: Theory and Practice
+–
+3
+
+--- Page 4 ---
+Chương III. Các hệ mật khóa công khai
+Nguyên lý hệ mật khoá công khai
+l
+Thuật toán RSA
+l
+Sơ đồ trao đổi khoá Diffie-Hellman
+l
+Một số hệ mật khóa công khai khác
+l
+4
+
+--- Page 5 ---
+Nguyên lý hệ mật khoá công khai
+Đặc điểm
+l
+Mật mã công khai dựa trên cơ sở của các hàm
+–
+toán học.
+Không dựa trên phép thay thế và đổi chỗ như
+–
+trong phương pháp mã hoá đối xứng.
+Mã mật công khai là bất đối xứng.
+–
+Trong cơ chế mã mật khoá công khai sử dụng hai khoá:
+l
+khoá mật và khoá công khai.
+Các hệ quả của việc sử dụng hai khoá bất đối xứng:
+l
+tính toàn vẹn, tính xác thực, phân phối khoá.
+5
+
+--- Page 6 ---
+Nguyên lý hệ mật khoá công khai
+Xuất xứ:
+l
+Hệ mã mật khoá công khai được phát triển nhằm
+–
+giải quyết hai vấn đề phức tạp nảy sinh từ
+phương pháp mã hoá đối xứng:
+Vấn đề thứ nhất: bài toán phân phối khoá;
+l
+Vấn đề thứ hai: chữ ký số.
+l
+6
+
+--- Page 7 ---
+Nguyên lý hệ mật khoá công khai
+Hệ mật khoá công khai.
+l
+Sơ đồ mã mật khoá công khai sử dụng một khoá
+–
+để mã hoá và một khoá khác có liên quan để giải
+mã. Các thuật toán mã hoá và giải mã có một số
+đặc điểm quan trọng sau:
+Không thể xác định được khoá giải mã nếu chỉ biết
+l
+thuật toán mã hoá và khoá mã hoá.
+Một số hệ mã mật khoá công khai ( như RSA ) còn
+l
+cung cấp khả năng sử dụng bất kỳ một khoá trong cặp
+khoá làm khoá mã hoá thì khoá còn lại sẽ được dùng
+làm khoá giải mã.
+7
+
+--- Page 8 ---
+Nguyên lý hệ mật khoá công khai
+Sơ đồ mã hoá công khai:
+–
+A và B có các cặp khóa (K , K ), (K , K ). Các khóa này dùng để mã
+l
+RA PA RB PB
+hoá và giải mã các thông điệp.
+A và B công bố khoá công khai K , K trong cặp khoá, khoá còn lại được
+l
+PA PB
+giữ mật.
+Khi gửi thông điệp cho B, A sẽ mã hoá văn bản bằng khoá công khai K
+l
+PB
+của B.
+Khi nhận được thông điệp, B sẽ giải mã bằng khoá mật K . Bên thứ ba
+l
+RB
+không giải mã được thông điệp vì chỉ có B biết khoá mật K của B.
+RB
+Khóa công khai của B Khóa riêng của B
+Văn bản rõ
+Mã hóa Mã mật Giải mã Văn bản rõ
+A B
+Đảm bảo tính mật
+8
+
+--- Page 9 ---
+Nguyên lý hệ mật khoá công khai
+Sơ đồ xác thực:
+–
+Nếu A muốn gửi thông điệp được xác thực cho B, A sẽ
+l
+mã hoá văn bản bằng khoá riêng của A.
+Khi B nhận được thông điệp, B sẽ giải mã bằng khoá
+l
+công khai của A. Không một bên thứ ba có thể giải mã
+được thông điệp vì chỉ có B biết khoá mật của B.
+Khóa riêng của A Khóa công khai của A
+Văn bản rõ
+Mã hóa Mã mật Giải mã Văn bản rõ
+A B
+Đảm bảo tính xác thực
+9
+
+--- Page 10 ---
+Nguyên lý hệ mật khoá công khai
+Các yêu cầu đối với hệ mật khóa công khai
+l
+Quá trình sinh cặp khóa K , K là dễ trên phương diện tính toán;
+–
+P R
+Quá trình mã hóa bản tin bằng khóa công khai K ở bên gửi là dễ:
+–
+P
+Y = E (M);
+KP
+Quá trình giải mã ra văn bản rõ khi biết khóa riêng K và bản tin mật Y
+–
+R
+là dễ:
+M = D (Y);
+KR
+Đối với thám mã, nếu chỉ biết K sẽ rất khó trên phương diện tính toán
+–
+P
+để tính ra K ;
+R
+Đối với thám mã, nếu chỉ biết K và bản tin mật Y sẽ rất khó trên
+–
+P
+phương diện tính toán để tính ra bản tin rõ M;
+Nguyên lý đối xứng: quá trình mã hóa – giải mã có thể áp dụng theo
+–
+hai chiều: M = D [E (M)]
+KP KR
+10
+
+--- Page 11 ---
+Nguyên lý hệ mật khoá công khai
+Các ứng dụng của hệ mật khóa công khai
+l
+Ứng dụng trong mật mã – mã hóa, giải mã (RSA):
+–
+Bên gửi mã hóa bằng khóa công khai của bên nhận;
+l
+Bên nhận giải mã bằng khóa riêng.
+l
+Ứng dụng trong phân phối khóa(RSA, Diffie-Helman):
+–
+duy trì kênh mật phân phối khóa đối xứng bằng cơ sở
+mã mật công khai;
+Ứng dụng trong chữ ký số (RSA, DSS):
+–
+Bên gửi ký bằng khóa riêng.
+l
+Bên nhận xác thực chữ ký bằng khóa công khai của bên gửi.
+l
+11
+
+--- Page 12 ---
+Thuật toán mã hoá công khai RSA
+Cơ sở lý thuyết số
+l
+Sơ đồ thuật toán
+l
+Thám mã RSA
+l
+12
+
+--- Page 13 ---
+Sơ đồ thuật toán RSA
+Xuất xứ
+l
+RSA do Ron Rivest, Adi Shamir và Len Adlenman
+–
+phát minh năm 1977;
+Hệ thống mã khoá công khai phổ biến và đa năng:
+–
+Được sử dụng trong các ứng dụng mã hóa/giải mã;
+l
+Chứng thực;
+l
+Phân phối và trao đổi khoá.
+l
+13
+
+--- Page 14 ---
+Sơ đồ thuật toán RSA
+Thuật toán RSA:
+l
+Phương pháp mã hóa khối;
+–
+Văn bản rõ và văn bản mật là các số nguyên có giá trị
+–
+từ 0 đến n-1, n – số nguyên lớn;
+Mỗi khối có giá trị nhỏ hơn n.
+–
+Kích thước của khối (số bít) nhỏ hơn hoặc bằng log (n).
+–
+2
+Thực tế, kích thước của khối là k bit với
+–
+2k < n ≤ 2k+1.
+14
+
+--- Page 15 ---
+Sơ đồ thuật toán RSA
+Cặp khóa: (e, d)
+–
+Mã hoá
+–
+Bản rõ M < n
+Mã mật C = Me mod n
+Giải mã
+–
+Mã mật C
+Bản rõ M = Cd mod n =
+(Me)d mod n
+15
+
+--- Page 16 ---
+Sơ đồ thuật toán RSA
+Bên gửi và bên nhận phải biết số n.
+–
+Bên gửi biết khóa công khai là cặp (e, n).
+–
+Bên nhận có khóa riêng là cặp (d, n).
+–
+Các yêu cầu:
+–
+Có thể tìm được các số e, d, n sao cho:
+l
+Med = M mod n " M < n.
+Thực hiện tính Me và Cd một cách đơn giản " M < n.
+l
+Không thể xác định được d nếu biết e và n
+l
+16
+
+--- Page 17 ---
+Sơ đồ thuật toán RSA
+Tạo khoá
+l
+Tìm các số e, d sao cho:
+–
+Med=M mod n
+Hệ quả của định lý Euler: cho p và q là số nguyên tố,
+–
+n và m là hai số nguyên sao cho: n=pq và 0 < m < n,
+k là số nguyên bất kỳ. Đẳng thức sau nghiệm đúng:
+mkf(n)+1=mk(p-1)(q-1)+1ºm mod n
+Như vậy: ed = kf(n)+1, tức là:
+–
+ed º1 mod f(n) hay d ºe-1 mod f(n) có nghĩa là
+–
+gcd(f(n), d) = 1 và gcd(f(n), e) = 1
+17
+
+--- Page 18 ---
+Sơ đồ thuật toán RSA
+Sơ đồ tạo khóa RSA
+–
+18
+
+--- Page 19 ---
+Sơ đồ thuật toán RSA
+Ví dụ
+–
+p = 7, q = 17
+l
+n = pq = 119; f(n)=(p-1)(q-1)=96
+l
+Chọn e nguyên tố cùng nhau với f(n), nhỏ hơn f(n),
+l
+Chọn e = 5;
+–
+Tìm d: dºe-1 mod f(n)
+l
+d=77 => cặp khóa: e=(5, 119); d=(77, 119)
+–
+19
+
+--- Page 20 ---
+Sơ đồ thuật toán RSA
+Mã hoá và giải mã
+l
+Vấn đề trong thuật toán mã hoá và giải mã RSA là việc thực hiện phép
+–
+toán luỹ thừa và phép toán đồng dư với số nguyên lớn.
+Giải quyết dựa trên tính chất của phép toán mođun:
+–
+[(a mod n) x (b mod n)] mod n = (a x b) mod n
+Tính am với m lớn.
+–
+Biểu diễn nhị phân của m =b b …b =å 2i
+l
+k k-1 0 bi≠0
+Do đó:
+l
+æ ö
+çå 2i ÷
+ç ÷
+am = aèbi¹0 ø = Õ a2i
+b ¹0
+i
+( )
+am mod n = Õ a2i mod n = Õ a2i mod n
+20 b ¹0 b ¹0
+i i
+
+--- Page 21 ---
+Sơ đồ thuật toán RSA
+Sinh khoá
+l
+Các bước quan trọng trong tạo khóa:
+–
+Xác định 2 số nguyên tố p và q. Để tránh tấn công vét cạn, p và q
+l
+phải lớn.
+Xác định e và d
+l
+Xác định số nguyên tố p, q (sử dụng thuật toán Miller – Rabin)
+-
+1. Chọn một số nguyên lẻ n ngẫu nhiên (sử dụng bộ sinh số
+giả ngẫu nhiên).
+2. Chọn một số nguyên a < n ngẫu nhiên.
+3. Thực hiện thuật toán xác suất để kiểm tra số nguyên tố.
+Nếu n test thành công thì loại bỏ giá trị n và quay lại bước 1.
+4. Nếu n test thành công với số lượng test đủ, chấp nhận n;
+mặt khác, quay lại bước 2.
+- Chọn e và tính d từ e và f(n) (sử dụng thuật toán Euclid)
+21
+
+--- Page 22 ---
+Thám mã RSA
+Tấn công vét cạn: thử vét cạn toàn bộ không
+l
+gian khóa riêng.
+Tấn công toán học: thực hiện bài toán phân
+l
+tích số nguyên thành tích hai số nguyên tố.
+Tấn công dựa vào thời gian: dựa vào thời
+l
+gian để thực hiện thuật toán giải mã.
+22
+
+--- Page 23 ---
+- tấn công vét cạn
+Thám mã RSA
+Phương pháp: thực hiện vét cạn toàn bộ không gian
+l
+khoá.
+Biện pháp đối phó:
+l
+Sử dụng không gian có khoá kích thước lớn, tức là tăng số bít
+–
+của d và e.
+Không gian khóa có kích thước lớn sẽ làm quá trình sinh khoá,
+–
+mã hoá, giải mã thực hiện chậm đi.
+23
+
+--- Page 24 ---
+Thám mã RSA - Tấn công toán học
+Các phương pháp tấn công toán học vào
+l
+RSA:
+Phân tích n thành tích hai số nguyên tố p và q;
+–
+Sau đó cho phép tính f(n)=(p-1)(q-1);
+l
+Từ f(n) có thể tính d=e-1 mod f(n).
+l
+Xác định f(n) trực tiếp không qua p và q;
+–
+Cho phép từ f(n) có thể tính d=e-1 mod f(n).
+l
+Xác định trực tiếp d không qua tính f(n).
+–
+24
+
+--- Page 25 ---
+- Tấn công toán học
+Thám mã RSA
+Trường hợp đơn giản nhất là người thám mã biết
+l
+được f(n)
+Phân tích n thành tích của 2 thừa số nguyên tố: Có
+l
+nhiều thuật toán phân tích n thành hai thừa số
+nguyên tố.
+Có ba thuật toán hiệu quả trên các số rất lớn:
+–
+Thuật toán sàng bình phương (quadratic sieve),
+l
+Đường cong elip (elliptic curve) và
+l
+Sàng trường số.
+l
+Các thuật toán được biết đến nhiều trước đây:
+–
+Thuật toán p – 1 của Pollard,
+l
+Thuật toán p + 1 của William,
+l
+Thuật toán chia nhỏ liên tiếp
+l
+Thuật toán chia thử.
+l
+25
+
+--- Page 26 ---
+Thám mã RSA - Tấn công toán học
+Những yêu cầu đối với p và q:
+l
+p và q chỉ nên khác nhau về độ dài khoảng vài hàng
+–
+số nhị phân và trong khoảng từ 1075 đến 10100;
+(p-1) và (q-1) phải có những thừa số nguyên tố lớn;
+–
+Gcd(p-1, q-1) phải nhỏ.
+–
+Thực tế cho thấy, nếu e < n và d < n1/4 thì d có thể
+–
+dễ dàng tính được!
+26
+
+--- Page 27 ---
+Thám mã RSA - Tấn công dựa thời gian
+Nội dung của phương pháp này dựa vào việc theo dõi thời gian
+l
+thực hiện thuật toán giải mã;
+Có thể áp dụng đối với những hệ mật khóa công khai khác!
+–
+Là dạng tấn công chỉ sử dụng mã mật (ciphertext only attack)
+–
+Biện pháp đối phó:
+l
+Thời gian tính mũ là hằng: Làm cho thời gian tính mũ là như
+–
+nhau trước khi trả về kết quả. Biện pháp này đơn giản nhưng
+làm giảm hiệu năng.
+Thực hiện trễ ngẫu nhiên: Thêm các trễ thời gian ngẫu nhiên
+–
+vào thuật toán mũ hoá.
+Làm mù: Nhân văn bản mật với một số ngẫu nhiên trước khi
+–
+thực hiện mũ hoá. Khi đó thám mã sẽ không biết bit nào của
+mã mật được xử lý và do đó ngăn chặn được quá trình phân
+tích mã mật.
+27
+
+--- Page 28 ---
+Lý thuyết số
+Số học modun
+l
+Định lý Euler và định lý Fermat
+l
+Kiểm tra số nguyên tố
+l
+Thuật toán Euclid
+l
+Định lý số dư Trung Hoa
+l
+Sinh giả ngẫu nhiên các số nguyên lớn
+l
+28
+
+--- Page 29 ---
+Số học modun
+Định lý về số dư. Cho một số nguyên dương n và một số nguyên a. Khi
+l
+đó tồn tại duy nhất các số q và r với , sao cho a = qn + r.
+r gọi là số dư của phép chia a cho n.
+Định nghĩa số dư. Cho một số nguyên dương n và số nguyên a. Ký hiệu
+l
+a mod n là số dư khi chia a cho n.
+a = x n + (a mod n)
+Định nghĩa 2. Hai số a và b được gọi là đồng dư theo mođun n nếu a
+l
+mod n = b mod n, a º b (mod n)
+Ví dụ: 11 = 1 x 7 + 4 => 11 mod 7 = 4
+l
+-11 = (-2) x 7 + 3 => -11 mod 7 = 3
+º
+73 4 (mod 23)
+29
+
+--- Page 30 ---
+Định lý Euler và định lý Fermat
+Định lý nhỏ Fermat: Nếu p là số nguyên tố và a là số
+l
+nguyên dương không chia hết cho p thì
+p-1
+a º 1(mod p)
+Hàm Euler
+l
+Hàm Euler được ký hiệu là f(n) là số các số nguyên dương
+–
+nhỏ hơn n và nguyên tố cùng nhau với n
+Nếu p là số nguyên tố, f(p) = p – 1
+–
+Nếu p,q ÎP, n = pXq, thì f(n) = (p – 1)X(q – 1)
+–
+Định lý Euler: Nếu hai số nguyên a và n nguyên tố cùng
+l
+nhau, ta có af(n)º 1 (mod n)
+30
+
+--- Page 31 ---
+Kiểm tra số nguyên tố
+Định lý
+n
+Chứng minh
+l
+- Xét trường hợp (x + 1), (x – 1) đồng thời chia hết cho p.
+- Xét trường hợp (x - 1) chia hết cho p.
+- Tương tự xét trường hợp (x + 1) chia hết cho p ta suy ra x -1 (mod p)
+Kết quả suy ra
+l
+31
+
+--- Page 32 ---
+1.3 Kiểm tra số nguyên tố (tiếp)
+Thuật toán Miller, Rabin: kiểm tra
+l
+một số có phải là một số nguyên
+tố không dựa vào kết quả của
+định lý trên.
+Input của thuật toán là số nguyên
+n và một số nguyên a nào đó
+nhỏ hơn n. Nếu WITNESS có giá
+trị trả về là TRUE thì n không
+phải là số nguyên tố, nếu
+WITNESS có giá trị trả về là
+FALSE thì n có thể là số nguyên
+tố
+Ví dụ
+l
+Đánh giá độ phức tạp
+l
+32
+
+--- Page 33 ---
+Thuật toán Euclid
+Tìm ước số chung lớn nhất
+l
+- Định lý
+- Chứng minh
+- Ví dụ
+- Đánh giá độ phức tạp
+33
+
+--- Page 34 ---
+Thuật toán Euclid (tiếp)
+Tìm phần tử đối xứng
+l
+Thuật toán Euclid mở rộng sẽ trả về phần tử đối xứng của d nếu
+gcd(d, f) = 1.
+34
+
+--- Page 35 ---
+Định lý số dư Trung Hoa
+Định lý
+l
+§ Hai kết quả của định lý số dư Trung Hoa
+§ Ứng dụng của định lý số dư Trung Hoa
+§ Ví dụ
+35
+
+--- Page 36 ---
+Sinh giả ngẫu nhiên các số nguyên lớn
+Bộ sinh số giả ngẫu nhiên
+l
+Kỹ thuật được sử dụng rộng rãi trong việc sinh giả ngẫu nhiên là
+phương pháp đồng dư tuyến tính lần đầu tiên được đề xuất bởi
+Lehmer.
+Sinh số giả ngẫu nhiên dựa trên kỹ thuật mật mã
+l
+Bộ sinh số giả ngẫu nhiên Blum Blum Shub
+l
+36
+
+--- Page 37 ---
+Hệ mật Diffie-Hellman
+Các sơ đồ quản lý khoá của hệ mật khoá
+l
+công khai
+Quản lý và chứng thực khoá công khai;
+–
+Cấp phát chứng thư số;
+–
+Trao đổi khoá mã hoá-giải mã của hệ mật khoá
+–
+đối xứng:
+Xây dựng kênh truyền bí mật để trao đổi phiên.
+l
+Dùng cơ chế bảo mật của hệ mật khoá công khai;
+–
+37
+
+--- Page 38 ---
+Nguyên lý trao đổi khóa Diffie-Hellman
+Được Diffie-Hellman đưa ra vào 1976
+l
+Là sự kết hợp của hai mô hình xác thực và
+l
+mật của hệ KCK
+Việc sinh ra các cặp khoá là hoàn toàn khác
+l
+nhau đối với người sử dụng
+Sử dụng cơ chế trao đổi khoá trực tiếp
+l
+không qua trung gian xác thực
+38
+
+--- Page 39 ---
+Nguyên lý trao đổi khóa Diffie-Helman
+Sử dụng trong các ứng dụng trao đổi khoá
+l
+khi sử dụng hệ mật khoá đối xứng.
+Nguyên tắc: hai người sử dụng có thể trao
+l
+đổi khoá phiên an toàn - được dùng để mã
+hoá và giải mã các thông điệp;
+Thuật toán tự giới hạn chỉ dùng cho các ứng
+l
+dụng sử dụng kĩ thuật trao đổi khoá;
+39
+
+--- Page 40 ---
+Cơ sở hình thành thuật toán
+Nguyên tắc toán học :
+l
+m là một số nguyên tố:
+–
+y=ai mod m là bài toán dễ;
+–
+Bài toán ngược là bài toán khó. Đặc biệt với m lớn.
+–
+Dựa trên phép tính logarit rời rạc
+l
+40
+
+--- Page 41 ---
+Thuật toán logarit rời rạc
+Thuật toán logarit rời rạc:
+l
+Một số nguyên tố p;
+–
+Một gốc nguyên thuỷ a của p : là các số mà luỹ thừa
+–
+của a theo modul p thuộc (1,p-1)
+Với b bất kì nguyên sẽ luôn $i sao cho b= ai mod p.
+–
+41
+
+--- Page 42 ---
+Thuật toán Diffie-Hellman
+42
+
+--- Page 43 ---
+Thuật toán trao đổi khoá
+43
+
+--- Page 44 ---
+Tính bảo mật của hệ mật
+Thám mã có sẵn các thông tin :p,a,Y ,Y
+l
+i j
+Để có thể giải được K ,X bắt buộc thám mã
+l
+phải sử dụng thuật toán logarit rời rạc : rất
+khó nếu p lớn
+Vì thế nên chọn p càng lớn càng tốt : như thế
+l
+thì việc tính toán ra X coi như không thể
+44
+
+--- Page 45 ---
+Hệ mật và thám mã
+Thám mã có thể tấn công vào các thông tin : p
+l
+,a,Y ,Y
+j j
+Và sử dụng thuật toán rời rạc để tính ra X, sau
+l
+đó tính ra K
+Quan trọng nhất là độ phức tạp của thuật toán
+l
+logarit phụ thuộc vào chọn số nguyên tố p
+Tấn công man in the middle
+l
+45
+
+--- Page 46 ---
+Lĩnh vực ứng dụng
+Tự quá trình thuật toán đã hạn chế ứng dụng
+l
+chỉ sử dụng cho quá trình trao đổi khoá mật là
+chủ yếu
+Sử dụng trong chữ kí điện tử.
+l
+Các ứng dụng đòi hỏi xác thực người sử dụng.
+l
+46

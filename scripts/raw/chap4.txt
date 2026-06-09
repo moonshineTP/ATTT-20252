@@ -1,0 +1,530 @@
+--- Page 1 ---
+Nhập môn An toàn thông tin
+PGS. Nguyễn Linh Giang
+Bộ môn Truyền thông và
+Mạng máy tính
+
+--- Page 2 ---
+Nội dung
+Nhập môn An toàn thông tin
+I.
+Đảm bảo tính mật
+II.
+Các hệ mật khóa đối xứng (mã hóa đối xứng)
+I.
+Các hệ mật khóa công khai ( mã hóa bất đối xứng )
+II.
+Bài toán xác thực
+III.
+Cơ sở bài toán xác thực
+I.
+Xác thực thông điệp
+II.
+Chữ ký số và các giao thức xác thực
+III.
+Các cơ chế xác thực trong các hệ phân tán
+IV.
+An toàn an ninh hệ thống
+IV.
+Phát hiện và ngăn chặn xâm nhập ( IDS, IPS )
+I.
+Lỗ hổng hệ thống
+II.
+2
+
+--- Page 3 ---
+Nội dung
+Tài liệu môn học:
+l
+W. Stallings “Networks and Internetwork security”
+–
+W. Stallings “Cryptography and network security”
+–
+Introduction to Cryptography – PGP
+–
+D. Stinson – Cryptography: Theory and Practice
+–
+3
+
+--- Page 4 ---
+Chương IV. Tin cậy hai bên
+Phân cấp khóa
+l
+Quản trị và phân phối khóa trong sơ đồ mã
+l
+hóa đối xứng
+Quản trị khóa trong sơ đồ mã hóa công khai
+l
+Chia sẻ khóa phiên bí mật bằng hệ mã hóa
+l
+công khai
+Đảm bảo tính mật
+l
+4
+
+--- Page 5 ---
+Quản trị và phân phối khóa trong mã
+hóa đối xứng
+Đặt vấn đề:
+l
+Trong kỹ thuật mật mã truyền thống, hai phía tham gia
+–
+vào truyền tin phải chia sẻ khoá mật Þ khoá phải
+được đảm bảo bí mật : phải duy trì được kênh mật
+phân phối khóa.
+Khóa phải được sử dụng một lần: Khoá phải được
+–
+thường xuyên thay đổi.
+Mức độ an toàn của bất kỳ hệ mật sẽ phụ thuộc vào kỹ
+–
+thuật phân phối khoá.
+5
+
+--- Page 6 ---
+Quản trị và phân phối khóa trong mã
+hóa đối xứng
+Một số kỹ thuật phân phối khoá.
+l
+Phân phối khóa không tập trung: Khoá được A lựa
+–
+chọn và phân phối vật lý tới B.
+Phân phối khóa tập trung: Người thứ ba C lựa chọn
+–
+khoá và phân phối vật lý tới A và B.
+Nhận xét:
+–
+Hai kỹ thuật này khá cồng kềnh khi các bên tham gia vào
+l
+trao đổi thông tin với số lượng lớn.
+6
+
+--- Page 7 ---
+Quản trị và phân phối khóa trong mã
+hóa đối xứng
+Ít nhất có hai cấp khoá :
+–
+Việc giao tiếp giữa hai tram đầu cuối sẽ
+l
+Bảo vệ bằng được mã hoá bằng một khoá tạm thời gọi
+Sử dụng Dữ liệu
+mật mã
+là khoá phiên.
+phân
+Khoá phiên sẽ được sử dụng trong
+cấp khóa –
+thời gian một kết nối lôgic như trong
+Khóa
+Bảo vệ bằng
+Dữ liệu mạng ảo hoặc liên kết vận chuyển,
+phiên
+được mã mật mã
+hóa sau đó sẽ được loại bỏ.
+Khoá phiên được truyền dưới dạng
+–
+mã hoá bằng mã chính ( master key ).
+Khoá chính này được chia sẻ giữa
+Bảo vệ
+Khóa KDC và trạm đầu cuối hoặc người sử
+không bằng
+Dữ liệu
+chính
+mật mã dụng.
+7
+
+--- Page 8 ---
+Quản trị và phân phối khóa trong mã
+hóa đối xứng
+Kịch bản quá trình phân phối khóa.
+l
+Giả thiết: mội người sử dụng cùng chia sẻ một khóa mật chính
+–
+với trung tâm phân phối khóa ( KDC ).
+Tiền đề:
+–
+Người sử dụng A muốn thiết lập kết nối lôgic với người sử dụng
+l
+B.
+Hai phía trao đổi thông tin yêu cầu khóa phiên sử dụng một lần
+l
+để bảo mật dữ liệu truyền qua kết nối.
+Phía A có khóa mật K , khóa này chỉ có A và KDC biết.
+l
+MA
+Phía B có khóa mật K , khóa này chỉ có B và KDC biết.
+l
+MB
+8
+
+--- Page 9 ---
+Quản trị và phân phối khóa trong
+mã hóa đối xứng
+Yêu cầu: Kịch bản phân
+l
+Trung tâm phối khóa sử
+A->KDC: KDC: xác thực (1)Yêu cầu || N phân phối
+– 1 dụng sơ đồ mã
+khóa KDC
+A. hóa đối xứng
+[ID ; E [Yêu cầu cấp
+l
+A KMA
+khóa; ID ]; N ]
+B 1
+(2)E [K || Yêu cầu || N ]
+Ka s 1
+(2')EKa[Ks || Yêu cầu || N1||EKb[Ks ||ID , Yêu cầu || N1]]
+A
+Bên khởi
+(3)EKb[Ks ||ID A , Yêu cầu || N1] Bên nhận
+tạo liên kết
+liên kết B
+A
+
+--- Page 10 ---
+Quản trị và phân phối khóa trong mã
+hóa đối xứng
+Vấn đề xác thực: Kịch bản phân
+l
+Trung tâm phối khóa sử
+– B cần xác thực: (1)Yêu cầu || N 1 phân phối dụng sơ đồ mã
+khóa KDC
+Nguồn gốc của E [ hóa đối xứng
+l kb
+K || IDA ]: bằng
+S (2)E [Ks || Yêu cầu || N || E (Ks, ID ||N )]
+Ka 1 Kb A 1
+khóa Kb.
+Tính tòan vẹn của
+l
+(3) E [K || ID ||N ]
+Kb s A 1
+E [ K || IDA ].
+kb S
+Xác thực A.
+l
+Bên khởi
+– A cần xác thực: tạo liên kết Các bước phân phối khóa Bên nhận
+liên kết B
+A
+Xác thực B.
+l
+l Xác thực phiên làm (4) E Ks [N 1 ||N 2 ]
+việc với B. (5) E [ f(N )] Các bước
+Ks 2
+xác thực
+10
+
+--- Page 11 ---
+Quản trị và phân phối khóa trong mã
+hóa đối xứng
+Kịch bản phân phối khóa không tập trung
+(1)Yêu cầu || N
+1
+Bên khởi
+Bên nhận
+tạo liên kết
+liên kết B
+A
+(2)E [K || Yêu cầu || ID || f(N ) || N )]
+MKm s B 1 2
+(3) E [ f(N )]
+Ks 2
+11
+
+--- Page 12 ---
+Quản lý khóa trong sơ đồ mật mã khóa
+công khai
+Các mô hình quản lý khóa
+l
+Bài toán phân phối khóa: tập trung xây dựng kênh
+–
+mật phân phối khóa phiên bí mật.
+Hai hướng sử dụng mật mã khóa công khai:
+–
+Phân phối khóa công khai;
+l
+Sử dụng mã hóa khóa công khai để phân phối khóa
+l
+phiên
+12
+
+--- Page 13 ---
+Phân phối khóa công khai
+Các mô hình
+l
+Công bố công khai
+–
+Công bố thư mục công khai
+–
+Trung tâm ủy quyền khóa công khai
+–
+Chứng thư khóa công khai
+–
+13
+
+--- Page 14 ---
+Phân phối khóa công khai
+Công bố công khai
+l
+Các bên tham gia trao đổi thông tin tự công bố
+–
+khóa công khai;
+Điểm mạnh: đơn giản.
+–
+Điểm yếu:
+–
+Một người thứ 3 có thể giả mạo khóa công khai;
+l
+Bên C giả mạo bên nhận tin B, gửi khóa công khai của
+–
+mình K cho A;
+PC
+A mã hóa các bản tin gửi cho B bằng khóa K của C;
+–
+PC
+B không đọc được bản tin A gửi
+–
+C có thể đọc được bản tin A gửi B
+–
+14
+
+--- Page 15 ---
+Phân phối khóa công khai
+Quản lý thư mục khóa công khai
+l
+Có bên thứ ba C được ủy quyền quản lý khóa công khai;
+–
+Bên thứ ba C tạo cho mỗi bên tham gia trao đổi thông tin một
+–
+thư mục lưu trữ khóa;
+Các bên đăng ký và gửi khóa công khai tới C. Quá trình đăng
+–
+ký có thể thực hiện trên kênh bảo mật.
+Các bên có thể thay thế khóa công khai theo nhu cầu
+–
+Khi đã sử dụng khóa nhiều lần để mã hóa lượng dữ liệu lớn;
+l
+Khi khóa riêng cần phải thay thế
+l
+15
+
+--- Page 16 ---
+Phân phối khóa công khai
+Bên C định kỳ công bố toàn bộ thư mục khóa hoặc
+–
+cập nhật;
+Các bên có thể truy cập thư mục khóa qua các kênh
+–
+bảo mật.
+Vấn đề xác thực đối với bên thứ ba C.
+l
+Điểm yếu:
+–
+Nếu thám mã biết được khóa riêng của C
+l
+Toàn bộ các khóa công khai được lưu trữ có thể bị giả mạo.
+–
+Có thể nghe trộm các thông điệp do các bên trao đổi .
+–
+16
+
+--- Page 17 ---
+Phân phối khóa công khai
+Ủy quyền khóa
+l
+Trung tâm Kịch bản quản lý
+công khai (1)Yêu cầu
+quản lý
+khóa K || T khóa công khai
+PB 1 khóa PKA
+Bên thứ ba được
+–
+(5)E [K || Yêu cầu || T ]
+KRpka PA 2
+ủy quyền PKA
+tham gia lưu giữ (2)E [K || Yêu cầu || T ] (4)Yêu cầu khóa
+KRpka PB 1
+K || T
+PA 2
+khóa; (3) E [ID ||N ]
+Kpb A 1
+Các bên A, B biết
+–
+khóa công khai
+Bên khởi Bên nhận
+của PKA;
+tạo A B
+(6) E [N ||N ]
+KPA 1 2
+(7) E [ f(N )] Các bước
+KPB 2
+xác thực
+17
+
+--- Page 18 ---
+Phân phối khóa công khai
+Chứng chỉ khóa công khai
+l
+Trung tâm cấp phát chứng thư số CA;
+–
+Chỉ cần xác nhận khóa công khai một lần;
+–
+Không cần truy cập CA mỗi khi cần khóa công khai;
+–
+Khóa công khai sẽ do các bên tự quản lý;
+–
+Sơ đồ hoạt động:
+–
+Các bên gửi khóa công khai tới CA để chứng thực;
+l
+Nhận chứng thư số từ CA kèm thời gian hiệu lực;
+l
+Các bên xuất trình chứng thư số trong các giao dịch;
+l
+18
+
+--- Page 19 ---
+Phân phối khóa công khai
+Trung tâm
+Kịch bản cấp phát
+(1)Yêu cầu cấp phát cấp phát
+chứng thư số || K chứng chỉ chứng thư số
+PA
+số CA
+(1)Yêu cầu cấp phát
+chứng thư số || K
+PB
+(2)Chứng thư số A
+(2)Chứng thư số B
+(3) Chứng thư số A
+Chứng thư số:
+- Số serial của chứng thư số;
+- Thông tin riêng của người sở hữu;
+- Khóa công khai của người sở hữu;
+- Chứng thực của CA: mã hóa bằng
+Bên A Bên B
+khóa riêng của CA – KR
+CA
+- Thời hạn hiệu lực của chứng thư số
+- Đảm bảo tính toàn vẹn của chứng
+thư số
+- Thuật toán mật mã
+(4) Chứng thư số B
+
+--- Page 20 ---
+Phân phối khóa mật đối xứng sử dụng
+mã hóa công khai
+Sơ đồ đơn giản:
+l
+A gửi B: K || ID
+–
+PA A
+B tạo khóa phiên K và gửi lại A: E (K )
+–
+s KPA S
+Sơ đồ kèm xác thực
+l
+A gửi B: E (N ||ID )
+–
+KPB 1 A
+B gửi A: E (N ||N )
+–
+KPA 1 2
+A gửi B: E (N )
+–
+KPB 2
+A gửi B: E (E (K ))
+–
+KPB KRA S
+20
+
+--- Page 21 ---
+Đảm bảo tính riêng tư
+Các cơ chế đảm bảo an toàn hệ thống:
+1.
+Cơ chế bảo mật đường liên kết ( link encryption approaches ).
+–
+Mỗi đường truyền thông có thể bị tấn công đều được kết nối với các
+l
+thiết bị mã hóa tại hai đầu Þ mọi quá trình truyền tải trên đường đều
+được bảo mật.
+Nhược điểm:
+l
+– Yêu cầu nhiều thiết bị mã hóa – giải mã đối với mạng lớn.
+– Thông điệp phải được giải mã mỗi khi đi vào bộ chuyển mạch gói bởi vì bộ
+chuyển mạch cần phải đọc địa chỉ ( vitual circuit number ) trong phần đầu gói
+tin để định tuyến cho gói.
+– Như vậy thông điệp là một điểm yếu tại mỗi bộ chuyển mạch. Do đó nếu phải
+làm việc với mạng công cộng, người sử dụng không thể kiểm soát được an
+toàn thông tin tại nút mạng.
+21
+
+--- Page 22 ---
+Đảm bảo tính riêng tư
+Cơ chế bảo mật đầu – cuối ( end – to – end encryption
+–
+approaches ).
+Quá trình mã hóa mật được thực hiện tại hai hệ thống đầu cuối.
+l
+Máy trạm nguồn mã hóa thông tin và được truyền qua mạng tới
+trạm đích.
+Trạm nguồn và trạm đích cùng chia sẻ khóa mật và do đó có thể
+l
+giải mã thông điệp.
+Dạng bảo mật này cho phép bảo đảm an toàn đối với các tấn công
+l
+vào các điểm kết nối hoặc các điểm chuyển mạch.
+Dạng bảo mật này cho phép người sử dụng yên tâm về mức độ an
+l
+toàn của mạng và đường liên kết truyền thông.
+22
+
+--- Page 23 ---
+Đảm bảo tính riêng tư
+Thủ tục đệm luồng truyền tải:
+–
+Khóa
+Bản
+Bản rõ rời
+mật liên
+rạc
+tục
+Mã hóa
+Bộ tạo sinh
+dữ liệu ngẫu
+nhiên liên tục
+23
+
+--- Page 24 ---
+Kết chương
+Quản lý khóa công khai
+–
+Giải quyết vấn đề giả mạo khóa công khai.
+l
+Bên thứ 3 chứng thực khóa công khai.
+l
+Yêu cầu giao dịch chứng thực mỗi khi có phiên trao đổi
+–
+thông tin: phức tạp, làm tăng giao dịch trong mạng
+Cấp chứng chỉ số xác nhận chủ thể cho các bên tham gia
+–
+trao đổi thông tin.
+Các thông tin xác nhận chủ thể
+l
+ID của chứng chỉ.
+l
+Dấu hiệu đặc trưng xác định duy nhất chủ thể: khóa
+l
+công khai (quan hệ 1-1 với khóa riêng bí mật).
+24 Dấu xác thực của bên cấp chứng chỉ số: mã hóa bằng
+l
+khóa riêng của bên thứ 3 cấp chứng chỉ số
+
+--- Page 25 ---
+Kết chương
+Thời hạn hiệu lực của chứng chỉ số.
+l
+Dấu hiệu để xác thực tính toàn vẹn về mặt nội
+l
+dung của chứng chỉ số.
+25

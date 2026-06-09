@@ -209,6 +209,56 @@
   url         = {https://www.rfc-editor.org/rfc/rfc9162}
 }
 
+@techreport{RFC6749,
+  author      = {D. Hardt},
+  title       = {{The OAuth 2.0 Authorization Framework}},
+  institution = {IETF},
+  type        = {RFC},
+  number      = {6749},
+  year        = {2012},
+  url         = {https://www.rfc-editor.org/rfc/rfc6749}
+}
+
+@techreport{RFC7515,
+  author      = {M. Jones and J. Bradley and N. Sakimura},
+  title       = {{JSON Web Signature (JWS)}},
+  institution = {IETF},
+  type        = {RFC},
+  number      = {7515},
+  year        = {2015},
+  url         = {https://www.rfc-editor.org/rfc/rfc7515}
+}
+
+@techreport{RFC7517,
+  author      = {M. Jones},
+  title       = {{JSON Web Key (JWK)}},
+  institution = {IETF},
+  type        = {RFC},
+  number      = {7517},
+  year        = {2015},
+  url         = {https://www.rfc-editor.org/rfc/rfc7517}
+}
+
+@techreport{RFC7519,
+  author      = {M. Jones and J. Bradley and N. Sakimura},
+  title       = {{JSON Web Token (JWT)}},
+  institution = {IETF},
+  type        = {RFC},
+  number      = {7519},
+  year        = {2015},
+  url         = {https://www.rfc-editor.org/rfc/rfc7519}
+}
+
+@techreport{RFC8705,
+  author      = {B. Campbell and J. Bradley and N. Sakimura and T. Lodderstedt},
+  title       = {{OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens}},
+  institution = {IETF},
+  type        = {RFC},
+  number      = {8705},
+  year        = {2020},
+  url         = {https://www.rfc-editor.org/rfc/rfc8705}
+}
+
 % --------------------------------------------------------
 %  [3] Textbooks
 % --------------------------------------------------------
@@ -287,6 +337,133 @@
   title        = {Trang thông tin điện tử Trung tâm Chứng thực điện tử quốc gia},
   year         = {2026},
   url          = {https://neac.gov.vn}
+}
+
+@misc{OpenSSLX509,
+  author       = {{OpenSSL Project}},
+  title        = {{openssl-x509}: Certificate Display and Signing Command},
+  year         = {2026},
+  url          = {https://docs.openssl.org/master/man1/openssl-x509/}
+}
+
+@misc{OpenSSLVerify,
+  author       = {{OpenSSL Project}},
+  title        = {{openssl-verify}: Certificate Verification Command},
+  year         = {2026},
+  url          = {https://docs.openssl.org/master/man1/openssl-verify/}
+}
+
+@misc{XCA,
+  author       = {Christian Hohnst{"a}dt},
+  title        = {XCA: Certificate and Key Management},
+  year         = {2026},
+  url          = {https://hohnstaedt.de/xca/}
+}
+
+@misc{EJBCA,
+  author       = {{Keyfactor}},
+  title        = {EJBCA Documentation},
+  year         = {2026},
+  url          = {https://docs.keyfactor.com/ejbca/}
+}
+
+@misc{EJBCAProfiles,
+  author       = {{Keyfactor}},
+  title        = {EJBCA Certificate Profiles Overview},
+  year         = {2026},
+  url          = {https://docs.keyfactor.com/ejbca/latest/certificate-profiles-overview}
+}
+
+@misc{EJBCAEndEntityProfiles,
+  author       = {{Keyfactor}},
+  title        = {EJBCA End Entity Profiles Overview},
+  year         = {2026},
+  url          = {https://docs.keyfactor.com/ejbca/latest/end-entity-profiles-overview}
+}
+
+@misc{EJBCAREST,
+  author       = {{Keyfactor}},
+  title        = {EJBCA REST Interface},
+  year         = {2026},
+  url          = {https://docs.keyfactor.com/ejbca/latest/ejbca-rest-interface}
+}
+
+@misc{EJBCAACME,
+  author       = {{Keyfactor}},
+  title        = {EJBCA ACME},
+  year         = {2026},
+  url          = {https://docs.keyfactor.com/ejbca/latest/acme}
+}
+
+@misc{EJBCAOCSP,
+  author       = {{Keyfactor}},
+  title        = {EJBCA OCSP},
+  year         = {2026},
+  url          = {https://docs.keyfactor.com/ejbca/latest/ocsp}
+}
+
+@misc{LetsEncryptDocs,
+  author       = {{Let's Encrypt}},
+  title        = {Documentation},
+  year         = {2026},
+  url          = {https://letsencrypt.org/docs/}
+}
+
+@misc{LetsEncryptChallenges,
+  author       = {{Let's Encrypt}},
+  title        = {Challenge Types},
+  year         = {2026},
+  url          = {https://letsencrypt.org/docs/challenge-types/}
+}
+
+@misc{LetsEncryptRateLimits,
+  author       = {{Let's Encrypt}},
+  title        = {Rate Limits},
+  year         = {2026},
+  url          = {https://letsencrypt.org/docs/rate-limits/}
+}
+
+@misc{CertbotDocs,
+  author       = {{Electronic Frontier Foundation}},
+  title        = {Certbot User Guide},
+  year         = {2026},
+  url          = {https://eff-certbot.readthedocs.io/en/stable/using.html}
+}
+
+@misc{VaultPKI,
+  author       = {{HashiCorp}},
+  title        = {PKI Secrets Engine},
+  year         = {2026},
+  url          = {https://developer.hashicorp.com/vault/docs/secrets/pki}
+}
+
+@misc{VaultPKIQuickStart,
+  author       = {{HashiCorp}},
+  title        = {Build Your Own Certificate Authority with Vault},
+  year         = {2026},
+  url          = {https://developer.hashicorp.com/vault/docs/secrets/pki/quick-start-root-ca}
+}
+
+@misc{OIDCCore,
+  author       = {N. Sakimura and J. Bradley and M. Jones and B. de Medeiros
+                  and C. Mortimore},
+  title        = {{OpenID Connect Core 1.0}},
+  year         = {2014},
+  url          = {https://openid.net/specs/openid-connect-core-1_0.html}
+}
+
+@misc{DogtagPKI,
+  author       = {{Dogtag PKI Team}},
+  title        = {Dogtag PKI Documentation},
+  year         = {2026},
+  url          = {https://www.dogtagpki.org/wiki/PKI_Main_Page}
+}
+
+@misc{FreeIPA,
+  author       = {{FreeIPA Project}},
+  title        = {About FreeIPA},
+  year         = {2026},
+  url          = {https://www.freeipa.org/page/About}
 }
 
 % --------------------------------------------------------

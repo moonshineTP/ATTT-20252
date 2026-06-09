@@ -1,58 +1,112 @@
 % ============================================================
 %  Chương VII – Thách thức và xu hướng
-%  ~400 từ · 1.5 trang
 % ============================================================
 \chapter{Thách thức và xu hướng}
 \label{chap:challenges}
 
-% Ý chính: PKI hiện tại không hoàn hảo — vừa có vấn đề kỹ thuật,
-% vừa có vấn đề quản trị (governance). Xu hướng tương lai đang giải quyết từng lớp.
+PKI vẫn là nền tảng để ràng buộc public key với danh tính.
+Khi số lượng certificate tăng, rủi ro chính chuyển sang kiểm soát
+vòng đời, niềm tin và khóa riêng.
 
 % ----------------------------------------------------------
 \section{Thách thức hiện tại}
 \label{sec:7.1}
 
-\subsubsection*{CA Compromise — bài học từ DigiNotar và Symantec}
-% Ý chính: DigiNotar 2011 \cite{Fox-IT2012}: 531 cert giả, Iran MITM Gmail 300K user
-% → DigiNotar phá sản trong vài tuần sau khi bị distrust
-% Symantec 2017–2018 \cite{Sleevi2017}: mis-issue hàng nghìn cert; Google/Mozilla
-% thực hiện distrust kéo dài 1 năm để không break internet
-% Bài học: CA tập trung là single point of failure về trust; cần accountability
+Thách thức đầu tiên là quản lý vòng đời chứng chỉ. Một certificate có thể
+được cấp đúng nhưng gây lỗi khi hết hạn, không được gia hạn, hoặc bị bỏ quên
+trong một trust store cũ. Ở quy mô lớn, tổ chức phải kiểm kê certificate, chủ
+sở hữu, CA phát hành, thời hạn và mục đích sử dụng. Thiếu kiểm kê làm xoay
+vòng khóa và thay thế certificate trở thành thao tác thủ công dễ sai.
 
-\subsubsection*{Certificate Transparency (CT) như giải pháp giám sát}
-% Ý chính: append-only Merkle tree log công khai; mọi cert TLS phải được log
-% trước khi Chrome/Safari chấp nhận (từ 2018) \cite{RFC9162}
-% Domain owner dùng crt.sh, Google CT để monitor cert giả cho domain của mình
-% CT không ngăn mis-issuance nhưng đảm bảo mis-issuance bị phát hiện
+Thu hồi chứng chỉ cũng có giới hạn thực tế. CRL được định nghĩa trong profile
+X.509, nhưng có thể lớn và có độ trễ phân phối \cite{RFC5280}. OCSP cho phép
+kiểm tra trạng thái trực tuyến, nhưng lại phụ thuộc vào responder và chính
+sách xử lý khi dịch vụ trạng thái không sẵn sàng \cite{RFC6960}. Vì vậy, thu
+hồi không phải cơ chế tức thời tuyệt đối.
 
-\subsubsection*{Quản lý vòng đời chứng chỉ}
-% Ý chính: cert expiry là rủi ro vận hành thực tế — nhiều outage lớn do quên renew
-% CAA DNS records \cite{RFC8659}: whitelist CA được phép issue cho domain
-% Thách thức ở enterprise: hàng nghìn cert, nhiều team, thiếu automation
-
-\subsubsection*{PKI cho IoT}
-% Ý chính: billions of devices, tài nguyên giới hạn (RAM < 64KB, không có UI)
-% Cần: lightweight cert format, device identity provisioning tự động,
-% Thách thức: làm sao revoke cert của device bị mất/bị hack?
+Niềm tin vào CA là rủi ro tập trung. Nếu CA cấp sai hoặc bị xâm phạm, trình
+duyệt và hệ điều hành phải dựa vào root store, chính sách CA và cơ chế distrust
+để giới hạn thiệt hại. CA/B Forum Baseline Requirements đặt yêu cầu cho CA
+publicly-trusted \cite{CABForum}.
 
 % ----------------------------------------------------------
-\section{Xu hướng mới}
+\section{Tự động hóa và giám sát}
 \label{sec:7.2}
 
-\subsubsection*{Post-Quantum PKI}
-% Ý chính: Shor's algorithm sẽ phá RSA và ECC trên quantum computer đủ mạnh
-% NIST PQC 2024 \cite{NIST-PQC2024}: FIPS 203 (Kyber/CRYSTALS-KEM),
-% FIPS 204 (Dilithium), FIPS 205 (SPHINCS+)
-% Thách thức migration: cert size lớn hơn nhiều (Dilithium sig ~2.4KB vs ECDSA 64B),
-% cần "hybrid" cert (cả ECC + PQC) trong giai đoạn chuyển tiếp
+Xu hướng chính là giảm thao tác thủ công. ACME chuẩn hóa cách client tạo
+order, chứng minh quyền kiểm soát identifier, gửi CSR và nhận certificate
+\cite{RFC8555}. Certificate lifecycle management mở rộng ý tưởng này sang
+kiểm kê, cấp phát, gia hạn, thu hồi và audit. Short-lived certificate cũng
+giảm khoảng thời gian rủi ro khi khóa hoặc certificate bị lộ.
 
-\subsubsection*{Tự động hoá và rút ngắn thời hạn chứng chỉ}
-% Ý chính: ACME \cite{RFC8555} + EST → cert lifecycle hoàn toàn tự động
-% Apple mandate 2023: max 398 ngày; xu hướng 90 ngày; đích đến: 24 giờ
-% Short-lived cert → revocation trở nên ít quan trọng hơn (cert tự hết hạn)
+Tự động hóa cần đi kèm policy. Nếu hệ thống cấp certificate không kiểm soát
+được ai có quyền yêu cầu, tên nào được cấp, hoặc profile nào được dùng, lỗi
+thủ công chỉ chuyển thành lỗi tự động. Vì vậy, inventory, phân quyền và audit
+là điều kiện vận hành, không phải phần phụ.
 
-\subsubsection*{Decentralized Identity (DID)}
-% Ý chính: W3C DID v1.0 \cite{W3C-DID2022}: identifier không phụ thuộc CA tập trung
-% Verifiable Credentials (VC): chứng chỉ số thế hệ mới (bằng lái, văn bằng,...)
-% Blockchain-based anchoring: DID document lưu trên distributed ledger
-% Vẫn còn nhiều thách thức: UX, governance, key recovery khi mất private key
+Bảng~\ref{tab:pki-trends} tóm tắt vai trò của một số hướng xử lý hiện nay.
+
+\begin{table}
+    \centering
+    \small
+    \caption{Một số hướng xử lý thách thức PKI}
+    \label{tab:pki-trends}
+    \begin{tabularx}{\textwidth}{@{} >{\raggedright\arraybackslash}p{0.22\textwidth}
+        >{\raggedright\arraybackslash}p{0.30\textwidth}
+        >{\raggedright\arraybackslash}X @{} }
+        \toprule
+        \textbf{Hướng} & \textbf{Giảm rủi ro} & \textbf{Giới hạn} \\
+        \midrule
+        ACME và CLM
+            & Giảm lỗi cấp phát và gia hạn thủ công
+            & Cần policy, phân quyền và inventory. \\
+        Short-lived certificate
+            & Giảm thời gian hiệu lực khi có sự cố
+            & Phụ thuộc tự động hóa gia hạn ổn định. \\
+        Certificate Transparency
+            & Tăng khả năng phát hiện certificate cấp sai
+            & Không thay thế validation hoặc revocation. \\
+        Crypto-agility
+            & Cho phép thay thuật toán và profile
+            & Cần hỗ trợ từ CA, HSM, TLS stack và client. \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+Certificate Transparency bổ sung lớp giám sát cho Web PKI. RFC~9162 mô tả CT
+bằng các log append-only dựa trên Merkle Tree, giúp certificate đã cấp có thể
+được audit công khai \cite{RFC9162}. CT làm tăng minh bạch và hỗ trợ phát
+hiện mis-issuance. Nó không tự xác thực domain, không thu hồi certificate và
+không thay thế chính sách CA.
+
+% ----------------------------------------------------------
+\section{PKI trong hệ thống hiện đại}
+\label{sec:7.3}
+
+PKI ngày càng gắn với machine identity. Service, container, workload và thiết
+bị IoT đều cần danh tính mật mã để kết nối an toàn. Khác với người dùng,
+những thực thể này có số lượng lớn, vòng đời ngắn và thường được tạo tự động.
+Điều đó làm certificate inventory và policy trở thành phần của hạ tầng vận
+hành.
+
+Trong kiến trúc zero trust và microservice, mTLS dùng certificate để xác thực
+hai chiều giữa các service. Cách làm này giảm phụ thuộc vào vị trí mạng,
+nhưng tăng yêu cầu đối với CA nội bộ, phân phối trust anchor và xoay vòng
+private key. Internal PKI vì vậy cần tích hợp với quản trị danh tính, secret
+management và audit thay vì chỉ phát hành certificate rời rạc.
+
+% ----------------------------------------------------------
+\section{Post-quantum}
+\label{sec:7.4}
+
+Máy lượng tử đủ mạnh sẽ đe dọa RSA, Diffie-Hellman, ECDSA và ECDH vì các hệ
+này dựa trên bài toán phân tích số hoặc logarit rời rạc. NIST đã công bố các
+chuẩn hậu lượng tử chính năm 2024, gồm KEM và thuật toán chữ ký số
+\cite{NIST-PQC2024}. Tác động tới PKI không chỉ là thay thuật toán. Certificate
+và chữ ký có thể lớn hơn, chain validation phức tạp hơn, còn CA, HSM, TLS
+stack và trust store phải cùng hỗ trợ profile mới.
+
+Vì chưa nên dự đoán chắc mốc thời gian cho khả năng phá vỡ lượng tử, hướng
+thực tế là crypto-agility. Một hệ PKI cần thay được thuật toán, profile và
+policy mà không làm gián đoạn cấp phát, xác minh và thu hồi certificate. Đây
+là lý do PKI phải tiến hóa ở tầng vận hành, không chỉ ở lựa chọn thuật toán.
