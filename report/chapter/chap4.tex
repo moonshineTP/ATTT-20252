@@ -4,24 +4,22 @@
 \chapter{Chứng chỉ số và các chuẩn}
 \label{chap:x509}
 
-Chứng chỉ số là đối tượng dữ liệu mà PKI phát hành và
-kiểm tra. Với chứng chỉ X.509, một CA ký lên dữ liệu gồm
-danh tính, khóa công khai, thời hạn hiệu lực và các ràng buộc
-sử dụng. Bên nhận không cần biết trước khóa công khai của chủ
-thể. Họ kiểm tra chữ ký của CA, chuỗi chứng chỉ, thời hạn,
-trạng thái thu hồi và tên được chứng nhận.
+Chứng chỉ số là cầu nối liên kết một định danh với khóa công khai tương ứng, cho phép các thực thể độc lập thiết lập kênh giao tiếp an toàn mà không cần chia sẻ bí mật từ trước. Mọi hạ tầng PKI đều xoay quanh vòng đời của đối tượng này: từ lúc khởi tạo, phân phối cho đến khi thu hồi.
+
+Trong hệ sinh thái hiện đại, X.509 đã trở thành khuôn dạng chuẩn mực thực tế. Một chứng chỉ X.509 không chỉ lưu trữ khóa công khai mà còn mang theo chữ ký của Certificate Authority (CA) cùng hệ thống chính sách vận hành. Chương này phân tích cấu trúc của X.509, quy trình cấp phát qua Certificate Signing Request (CSR) và các chuẩn định dạng liên quan như họ PKCS.
 
 % ----------------------------------------------------------
 \section{Chứng chỉ số X.509}
 \label{sec:4.1}
 
-X.509 xuất phát từ hệ thư mục X.500 của ITU-T. Trong Web PKI
-hiện nay, cách diễn giải được dùng rộng rãi là hồ sơ Internet
-X.509 do RFC~5280 định nghĩa cho chứng chỉ và CRL~\cite{RFC5280}.
-Phiên bản 1 chứa các trường cơ bản. Phiên bản 2 thêm định danh
-riêng cho issuer và subject. Phiên bản 3 bổ sung cơ chế
-extension, nhờ đó cùng một khuôn dạng chứng chỉ có thể biểu diễn
-CA, máy chủ TLS, người dùng email, thiết bị hoặc chứng chỉ ký mã.
+X.509 ban đầu là một phần của hệ thư mục X.500 do ITU-T thiết kế. Khi Internet phát triển, IETF đã thu hẹp và chuẩn hóa khuôn dạng này thành hồ sơ PKIX thông qua RFC~5280~\cite{RFC5280}. Hồ sơ này định nghĩa chính xác cách các ứng dụng Web PKI xử lý chứng chỉ và danh sách thu hồi (CRL).
+
+Khuôn dạng X.509 đã trải qua ba phiên bản:
+\begin{itemize}
+    \item \textbf{Phiên bản 1:} Chứa các trường cơ sở như số seri, thuật toán, thời hạn và tên.
+    \item \textbf{Phiên bản 2:} Thêm định danh duy nhất cho issuer và subject để xử lý trùng lặp tên.
+    \item \textbf{Phiên bản 3:} Đưa vào cơ chế extension (phần mở rộng), biến X.509 thành một bộ khung linh hoạt. Nhờ extension, cùng một định dạng có thể phục vụ chứng chỉ root CA, máy chủ TLS, thư điện tử hay chữ ký mã.
+\end{itemize}
 
 Một chứng chỉ X.509 gồm ba phần ở mức ASN.1. Phần
 \texttt{tbsCertificate} là dữ liệu \enquote{to be signed}:
@@ -97,15 +95,16 @@ vì thuộc phạm vi Chương~\ref{chap:deploy}.
 \section{Distinguished Name}
 \label{sec:4.3}
 
-Distinguished Name (DN) là tên phân cấp theo mô hình X.500.
-Trong chứng chỉ, DN thường xuất hiện ở \texttt{issuer} và
-\texttt{subject}. Các thuộc tính thường gặp gồm
-\texttt{C} cho quốc gia, \texttt{ST} cho bang hoặc tỉnh,
-\texttt{L} cho địa phương, \texttt{O} cho tổ chức,
-\texttt{OU} cho đơn vị tổ chức, \texttt{CN} cho common name và
-\texttt{emailAddress} cho địa chỉ thư điện tử. DN hữu ích trong
-môi trường tổ chức vì nó mô tả subject bằng các thuộc tính có cấu
-trúc.
+Distinguished Name (DN) là định danh phân cấp thừa hưởng từ mô hình X.500. Trong chứng chỉ, DN được dùng để định danh \texttt{issuer} và \texttt{subject}. Một DN cấu thành từ các thuộc tính cơ bản:
+\begin{description}
+    \item[\texttt{C} (Country):] Mã quốc gia chuẩn ISO.
+    \item[\texttt{ST} (State/Province):] Tỉnh hoặc bang.
+    \item[\texttt{L} (Locality):] Thành phố hoặc địa phương.
+    \item[\texttt{O} (Organization):] Tên tổ chức.
+    \item[\texttt{OU} (Organizational Unit):] Đơn vị trực thuộc tổ chức.
+    \item[\texttt{CN} (Common Name):] Tên gọi phổ thông.
+\end{description}
+Cấu trúc này hữu ích trong môi trường doanh nghiệp vì nó phân định rõ subject theo cây phân cấp.
 
 Trong HTTPS, \texttt{CN} không còn là nơi chính để kiểm tra tên
 miền. RFC~6125 yêu cầu ứng dụng ưu tiên subject alternative name
@@ -198,26 +197,24 @@ rằng người gửi CSR có quyền kiểm soát khóa bí mật, nhưng nó k
 chứng minh danh tính pháp lý hoặc quyền sở hữu tên miền. Phần đó
 thuộc trách nhiệm xác minh của RA hoặc CA.
 
-Luồng cấp chứng chỉ có bốn bước. Thứ nhất, subject tạo cặp khóa và
-bảo vệ khóa bí mật cục bộ. Thứ hai, subject tạo CSR chứa khóa công
-khai và thông tin định danh mong muốn. Thứ ba, CA kiểm tra quyền
-kiểm soát tên miền, thông tin tổ chức hoặc tiêu chí tương ứng với
-loại chứng chỉ. Thứ tư, CA ký dữ liệu X.509 và trả lại chứng chỉ.
-Khóa bí mật không cần rời khỏi hệ thống của subject trong luồng
-thông thường.
+Quy trình cấp phát chứng chỉ diễn ra theo bốn bước:
+\begin{enumerate}
+    \item Subject tự sinh cặp khóa và bảo vệ khóa bí mật cục bộ.
+    \item Subject tạo CSR bằng khóa công khai và thông tin định danh mong muốn, sau đó ký CSR bằng khóa bí mật.
+    \item CA tiếp nhận CSR và kiểm tra quyền kiểm soát tên miền hoặc tiêu chí của loại chứng chỉ tương ứng.
+    \item CA phát hành chứng chỉ X.509 bằng cách ký lên dữ liệu đã xác minh và gửi lại cho subject.
+\end{enumerate}
+Trong toàn bộ luồng vận hành này, khóa bí mật không bao giờ rời khỏi hệ thống của subject.
 
 \section{Phân loại chứng chỉ}
 \label{sec:4.6}
 
-CA/Browser Forum Baseline Requirements định nghĩa yêu cầu tối
-thiểu cho chứng chỉ máy chủ TLS được tin cậy công khai, bao gồm
-quy trình xác minh tên miền, thông tin subject và vận hành CA
-\cite{CABForum}. Trong thực tế, chứng chỉ TLS thường được phân
-loại theo mức xác minh danh tính: domain validation (DV),
-organization validation (OV) và extended validation (EV). DV xác
-minh quyền kiểm soát tên miền. OV thêm kiểm tra tổ chức. EV áp
-dụng bộ yêu cầu nhận diện tổ chức chặt hơn theo tài liệu EV riêng
-của CA/Browser Forum~\cite{CABForumEV}.
+CA/Browser Forum Baseline Requirements quy định mức tiêu chuẩn tối thiểu để một chứng chỉ máy chủ TLS được các trình duyệt tin cậy~\cite{CABForum}. Tùy vào quy trình xác minh danh tính, chứng chỉ TLS chia làm ba nhóm chính:
+\begin{description}
+    \item[Domain Validation (DV):] CA chỉ kiểm tra subject có quyền kiểm soát tên miền hay không. Quá trình này hoàn toàn tự động.
+    \item[Organization Validation (OV):] CA kiểm tra thêm sự tồn tại pháp lý của tổ chức.
+    \item[Extended Validation (EV):] CA thực hiện các bước định danh tổ chức nghiêm ngặt dựa trên quy tắc EV Guidelines~\cite{CABForumEV}.
+\end{description}
 
 \begin{table}[ht]
     \centering
@@ -267,22 +264,14 @@ quan.
 \section{Các chuẩn PKCS}
 \label{sec:4.7}
 
-PKCS là họ chuẩn ban đầu do RSA Laboratories công bố cho các đối
-tượng mật mã trong triển khai thực tế. Trong phạm vi chứng chỉ số,
-ba chuẩn cần quan tâm là PKCS~\#7/CMS, PKCS~\#10 và PKCS~\#12.
-Báo cáo không liệt kê toàn bộ họ PKCS vì nhiều chuẩn đã lỗi thời
-hoặc nằm ngoài trọng tâm PKI.
+Trong khi X.509 định nghĩa bản thân chứng chỉ, thực tế triển khai cần thêm các chuẩn định dạng để đóng gói, vận chuyển và sử dụng chúng một cách an toàn. Public-Key Cryptography Standards (PKCS) do RSA Laboratories khởi xướng đóng vai trò lấp đầy khoảng trống này. 
 
-PKCS~\#7 định nghĩa cú pháp cho dữ liệu được ký hoặc mã hóa. Hậu
-thân chuẩn hóa trong IETF là Cryptographic Message Syntax (CMS),
-được RFC~5652 mô tả~\cite{RFC5652}. CMS là nền tảng cho nhiều
-định dạng chữ ký và thông điệp bảo mật, trong đó có S/MIME.
-PKCS~\#10 là định dạng CSR như đã trình bày ở
-Mục~\ref{sec:4.5}. PKCS~\#12 định nghĩa định dạng đóng gói khóa
-bí mật, chứng chỉ và chuỗi chứng chỉ vào một tệp, thường có phần
-bảo vệ bằng mật khẩu; RFC~7292 mô tả định dạng này~\cite{RFC7292}.
-Tệp \texttt{.p12} hoặc \texttt{.pfx} thường được dùng khi xuất
-nhập chứng chỉ người dùng hoặc chứng chỉ máy chủ giữa các hệ thống.
+Dù họ PKCS có rất nhiều thành phần, hạ tầng PKI hiện đại chủ yếu dựa vào ba chuẩn cốt lõi:
+\begin{itemize}
+    \item \textbf{PKCS~\#7 (CMS):} Quy định cú pháp bao gói dữ liệu mật mã. IETF đã tiếp quản và phát triển chuẩn này thành Cryptographic Message Syntax (CMS) qua RFC~5652~\cite{RFC5652}. CMS chính là nền tảng cho S/MIME và nhiều giao thức ký số.
+    \item \textbf{PKCS~\#10:} Định dạng tiêu chuẩn cho Certificate Signing Request, quy định cách subject đóng gói thông tin và khóa công khai để gửi cho CA~\cite{RFC2986} (xem Mục~\ref{sec:4.5}).
+    \item \textbf{PKCS~\#12:} Định dạng tệp kho lưu trữ mật mã~\cite{RFC7292}. Một tệp \texttt{.p12} hoặc \texttt{.pfx} có thể chứa đồng thời khóa bí mật, chứng chỉ cá nhân và toàn bộ chuỗi chứng chỉ CA, thường được mã hóa bảo vệ bằng mật khẩu để di chuyển giữa các hệ thống.
+\end{itemize}
 
 \section{RFC và chuẩn quan trọng}
 \label{sec:4.8}
