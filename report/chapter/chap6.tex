@@ -1,73 +1,403 @@
 % ============================================================
 %  Chương VI – Các hệ thống PKI mã nguồn mở
-%  ~700 từ · 2 trang
 % ============================================================
 \chapter{Các hệ thống PKI mã nguồn mở}
 \label{chap:opensource}
 
-% Ý chính: PKI không chỉ là lý thuyết — có nhiều tool mã nguồn mở cho phép
-% xây dựng PKI từ môi trường lab nhỏ đến doanh nghiệp lớn.
+PKI trong triển khai thực tế không chỉ là một chuẩn chứng chỉ. Nó là
+một hệ sinh thái công cụ. Mỗi công cụ giải quyết một phần khác nhau của
+bài toán: thao tác mật mã, quản lý CA cục bộ, tự động hóa TLS công cộng,
+phát hành chứng chỉ nội bộ, hoặc tích hợp với hệ thống định danh.
+
+Chương này khảo sát các hệ thống và công cụ mã nguồn mở theo vai trò
+công nghệ. Trọng tâm là vị trí của từng công cụ trong hệ sinh thái PKI,
+không phải quy trình demo hoặc thiết kế triển khai của nhóm.
+
+% ----------------------------------------------------------
+\section{Tiêu chí phân loại}
+\label{sec:6.1}
+
+Một công cụ PKI có thể được phân loại theo vai trò chính. Nhóm thứ nhất
+là \textit{cryptographic toolkit}, gồm thư viện và CLI để tạo khóa, tạo
+CSR, ký, chuyển đổi và kiểm tra chứng chỉ. OpenSSL thuộc nhóm này.
+
+Nhóm thứ hai là công cụ quản lý chứng chỉ cục bộ. Chúng phù hợp với lab,
+học tập hoặc hệ thống nhỏ cần giao diện trực quan. XCA là ví dụ tiêu
+biểu vì nó quản lý khóa, CSR, chứng chỉ, CRL và template trong cơ sở dữ
+liệu cục bộ \cite{XCA}.
+
+Nhóm thứ ba là ACME client và public CA tự động hóa. Let’s Encrypt là CA
+công cộng miễn phí và tự động. Certbot là ACME client dùng để yêu cầu,
+cài đặt và gia hạn chứng chỉ từ các CA tương thích ACME
+\cite{LetsEncryptDocs,CertbotDocs,RFC8555}.
+
+Nhóm thứ tư là CA platform. Đây là các hệ thống quản trị PKI có profile,
+quy trình đăng ký, phát hành, thu hồi, API và tích hợp vận hành. EJBCA
+và Dogtag nằm trong nhóm này \cite{EJBCA,DogtagPKI}.
+
+Nhóm thứ năm là internal PKI hoặc secret management. Vault PKI Secrets
+Engine phát hành chứng chỉ X.509 nội bộ qua API và chính sách truy cập,
+thường dùng cho dịch vụ nội bộ hoặc mTLS \cite{VaultPKI}.
+
+Nhóm cuối là identity và authentication stack. OAuth 2.0 và OpenID
+Connect không phải nền tảng PKI. Chúng dùng TLS, chữ ký số, JWT, JWS và
+JWKS trong hệ xác thực và phân quyền \cite{RFC6749,OIDCCore,RFC7515,RFC7517,RFC7519}.
+
+Các tiêu chí so sánh gồm chức năng CA, giao diện, API, ACME, vòng đời
+chứng chỉ, thu hồi, OCSP/CRL, audit, tích hợp định danh và độ phức tạp
+vận hành. Một công cụ tốt trong lab chưa chắc phù hợp để vận hành CA có
+chính sách. Ngược lại, nền tảng enterprise thường quá nặng cho nhu cầu
+kiểm thử cục bộ.
 
 % ----------------------------------------------------------
 \section{OpenSSL}
-\label{sec:6.1}
+\label{sec:6.2}
 
-\subsubsection*{Tổng quan OpenSSL}
-% Ý chính: thư viện mật mã nền tảng phổ biến nhất (Apache, Nginx, OpenVPN, curl,...)
-% Hai thành phần: libssl (TLS handshake) + libcrypto (mật mã tổng quát)
-% Heartbleed 2014: bài học về dependency vào một thư viện duy nhất
+OpenSSL là thư viện và dòng lệnh nền tảng cho nhiều thao tác mật mã.
+Trong bối cảnh PKI, hai lệnh quan trọng là \texttt{openssl x509} và
+\texttt{openssl verify}. Tài liệu OpenSSL mô tả \texttt{x509} là lệnh
+hiển thị và ký chứng chỉ. Nó có thể xem trường chứng chỉ, chuyển đổi PEM
+và DER, tạo chứng chỉ từ PKCS~\#10 request, tự ký chứng chỉ và ký bằng
+CA key \cite{OpenSSLX509}.
 
-\subsubsection*{Xây dựng CA đơn giản với OpenSSL}
-% Ý chính: demo workflow hoàn chỉnh:
-%   1. genrsa / ecparam → tạo khóa Root CA
-%   2. req -x509 → self-signed Root CA cert
-%   3. req → tạo CSR cho server
-%   4. x509 -CA → ký cert bằng Root CA
-%   5. verify → kiểm tra chain
-% Listing~\ref{lst:openssl-ca}: các lệnh terminal minh họa
+Lệnh \texttt{verify} kiểm tra chuỗi chứng chỉ. Nó nhận trust anchor qua
+\texttt{-CAfile}, \texttt{-CApath} hoặc nguồn tin cậy tương ứng. Nó cũng
+có tùy chọn kiểm tra hostname, email, IP và mục đích sử dụng chứng chỉ
+\cite{OpenSSLVerify}. Vì vậy, OpenSSL là công cụ cơ sở để quan sát và
+kiểm tra hành vi PKI.
+
+Một số lệnh ngắn cho thấy vai trò công nghệ của OpenSSL:
+
+\begin{lstlisting}[language=bash, caption={Một số thao tác PKI với OpenSSL}, label={lst:openssl-pki}]
+openssl x509 -in server.crt -text -noout
+openssl verify -CAfile ca-chain.pem server.crt
+openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -out server.crt
+\end{lstlisting}
+
+Giới hạn của OpenSSL nằm ở tầng quản trị. Nó không tự cung cấp portal RA,
+profile người dùng, phê duyệt, audit tập trung, HSM policy hoặc API vòng
+đời chứng chỉ. Có thể xây dựng CA đơn giản bằng OpenSSL, nhưng phần quản
+trị sẽ nằm trong script và quy trình bên ngoài.
+
+% ----------------------------------------------------------
+\section{XCA}
+\label{sec:6.3}
+
+XCA là công cụ giao diện đồ họa để xây dựng và quản trị các đối tượng
+PKI dựa trên X.509. Trang chính thức mô tả XCA quản lý chứng chỉ, CSR,
+khóa riêng RSA/DSA/EC, smartcard và CRL. Dữ liệu được lưu trong cơ sở dữ
+liệu như SQLite, MySQL, PostgreSQL hoặc SQL Server qua ODBC
+\cite{XCA}.
+
+XCA phù hợp với môi trường local và lab. Người dùng có thể tạo CA nhỏ,
+tạo sub-CA, dùng template cho chứng chỉ và xem chuỗi chứng chỉ trong giao
+diện. Điều này làm XCA dễ tiếp cận hơn OpenSSL khi mục tiêu là học cấu
+trúc PKI hoặc quản lý một kho chứng chỉ nhỏ.
+
+So với OpenSSL, XCA mạnh ở trực quan hóa và quản lý local certificate
+store. OpenSSL mạnh hơn ở CLI, scripting và kiểm tra tự động trong
+pipeline. Cả hai đều không nên được mô tả như CA platform enterprise.
+Chúng thiếu các lớp vận hành như RA workflow, phân quyền quản trị, API
+chuẩn hóa và audit tập trung.
 
 % ----------------------------------------------------------
 \section{EJBCA}
-\label{sec:6.2}
-% Ý chính: PKI doanh nghiệp đầy đủ, viết Java/JEE, mã nguồn mở (LGPL)
-% Tính năng: Multi-CA, HSM, RA portal web, OCSP Responder, CMP, SCEP, EST
-% Triển khai nhanh qua Docker; bản Community miễn phí
-% Phù hợp: tổ chức tài chính, nhà nước, telco cần PKI quy mô lớn
-
-% ----------------------------------------------------------
-\section{Let's Encrypt và Certbot}
-\label{sec:6.3}
-
-\subsubsection*{Let's Encrypt và sứ mệnh}
-% Ý chính: CA phi lợi nhuận (ISRG); phát hành >3 tỷ cert từ 2015
-% Mục tiêu: "Encrypt the entire Web" — từ <40\% HTTPS lên >94\% (Chrome 2023)
-% Cert miễn phí, tự động, chỉ DV \cite{RFC8555}
-
-\subsubsection*{ACME Protocol và Certbot}
-% Ý chính: ACME (Automated Certificate Management Environment) tự động hoá DV challenge
-% Challenge types: HTTP-01 (file trên domain), DNS-01 (TXT record), TLS-ALPN-01
-% Certbot: client phổ biến nhất, hỗ trợ --auto-renew (cron)
-% Giới hạn: chỉ DV, không offline use-case, rate limits (50 cert/domain/tuần)
-
-% ----------------------------------------------------------
-\section{Các công cụ và nền tảng khác}
 \label{sec:6.4}
 
-\subsubsection*{XCA}
-% Ý chính: GUI tool đa nền tảng, phù hợp học tập và lab;
-% không cần CLI — kéo thả để tạo CA hierarchy, xuất PKCS\#12
+EJBCA là trọng tâm của nhóm CA platform mã nguồn mở. Tài liệu chính thức
+mô tả EJBCA như hệ thống có hướng dẫn cho CA, RA, vận hành, tích hợp và
+khắc phục sự cố \cite{EJBCA}. So với OpenSSL hoặc XCA, EJBCA không chỉ
+ký chứng chỉ. Nó quản lý chính sách phát hành và vòng đời chứng chỉ.
 
-\subsubsection*{HashiCorp Vault PKI Secrets Engine}
-% Ý chính: cloud-native PKI; phát hành cert short-lived (5–60 phút)
-% Tích hợp tốt với Kubernetes, Terraform; audit log đầy đủ
-% Phù hợp service-to-service mTLS trong microservices
+Trong EJBCA, certificate profile là template giới hạn cấu trúc chứng chỉ.
+Profile có thể quy định thuật toán khóa, kích thước khóa, mục đích chứng
+chỉ, Key Usage, Extended Key Usage, Certificate Transparency và CA được
+phép phát hành \cite{EJBCAProfiles}. End entity profile là template cho
+subject DN và thông tin của chủ thể. Nó cũng giới hạn certificate profile
+mà một end entity được dùng khi đăng ký \cite{EJBCAEndEntityProfiles}.
 
-\subsubsection*{CFSSL (Cloudflare)}
-% Ý chính: Golang, lightweight REST API; dùng nội bộ tại Cloudflare
-% Ưu điểm: dễ nhúng vào CI/CD pipeline; hỗ trợ bundle, sign, verify
+Cách tách certificate profile khỏi end entity profile cho phép EJBCA mô
+hình hóa chính sách CA rõ hơn công cụ local. Certificate profile mô tả
+loại chứng chỉ được phát hành. End entity profile mô tả đối tượng được
+đăng ký và quyền dùng profile. RA hoặc quy trình enrollment có thể dựa
+vào hai lớp này để kiểm soát yêu cầu cấp chứng chỉ.
 
-\subsubsection*{Dogtag / FreeIPA (Red Hat)}
-% Ý chính: tích hợp LDAP (389-DS) + Kerberos + PKI trong một stack
-% Phù hợp Linux enterprise; quản lý identity tập trung
+EJBCA có REST interface cho quản trị CA và quản lý chứng chỉ. Tài liệu
+REST nêu các nhóm API cho ACME, CA management, certificate, end entity,
+approval, crypto token và ConfigDump. REST API mặc định bị tắt và có thể
+dùng xác thực bằng client certificate hoặc OAuth \cite{EJBCAREST}.
+
+EJBCA cũng hỗ trợ ACME. Tài liệu ACME của EJBCA ghi nhận việc triển khai
+RFC~8555, hỗ trợ order, authorization, challenge, finalize, revocation,
+key change, tải chứng chỉ và renewal information. Các challenge được nêu
+gồm \texttt{http-01}, \texttt{dns-01}, \texttt{tls-alpn-01} và một số
+kiểu mở rộng \cite{EJBCAACME}.
+
+Về thu hồi, EJBCA cung cấp OCSP responder. Tài liệu OCSP mô tả endpoint
+\texttt{/ejbca/publicweb/status/ocsp}, OCSP Key Bindings, cấu hình AIA
+trong certificate profile và transaction logs cho request/response
+\cite{EJBCAOCSP}. Những chức năng này đặt EJBCA gần với môi trường CA
+vận hành thực tế hơn công cụ chỉ tạo chứng chỉ.
+
+Tài liệu EJBCA cũng có phần tích hợp Hardware Security Modules trong mục
+integration \cite{EJBCA}. Điều này quan trọng vì private key của CA là
+tài sản có rủi ro cao. Trong hệ thống nghiêm túc, CA key thường cần cơ
+chế bảo vệ và chính sách vận hành riêng.
+
+Vị trí công nghệ của EJBCA là CA platform hoàn chỉnh. Nó phù hợp khi cần
+mô phỏng hoặc vận hành CA có policy, profile, enrollment, thu hồi, OCSP,
+API và tích hợp bảo mật. Đổi lại, độ phức tạp cao hơn OpenSSL và XCA.
+Người vận hành phải hiểu cấu hình CA, profile, quyền quản trị, lưu khóa
+và quy trình thu hồi.
 
 % ----------------------------------------------------------
+\section{Let’s Encrypt và Certbot}
+\label{sec:6.5}
+
+Let’s Encrypt là CA công cộng miễn phí, tự động và mở do Internet
+Security Research Group vận hành \cite{LetsEncryptDocs}. Nó thuộc Web
+PKI công cộng, không phải CA nội bộ cho tên riêng hoặc định danh doanh
+nghiệp. Certbot là ACME client phổ biến để lấy, cài đặt, gia hạn, thu
+hồi, xóa và liệt kê chứng chỉ \cite{CertbotDocs}.
+
+ACME định nghĩa cách client tự động làm việc với CA. RFC~8555 mô tả luồng
+điển hình: tạo hoặc dùng account, tạo order, lấy authorization, hoàn
+thành challenge, finalize order bằng CSR và tải chứng chỉ đã cấp
+\cite{RFC8555}. Vì vậy, ACME chuyển nhiều thao tác cấp TLS certificate
+thành giao thức tự động.
+
+Các challenge ACME chứng minh quyền kiểm soát identifier. HTTP-01 dùng
+file dưới đường dẫn \texttt{/.well-known/acme-challenge/} và chỉ chạy
+trên cổng 80. DNS-01 dùng TXT record dưới
+\texttt{\_acme-challenge}. TLS-ALPN-01 chạy qua TLS trên cổng 443 và dùng
+ALPN riêng \cite{LetsEncryptChallenges}. DNS-01 hỗ trợ wildcard
+certificate, còn HTTP-01 và TLS-ALPN-01 không hỗ trợ wildcard theo tài
+liệu Let’s Encrypt \cite{LetsEncryptChallenges}.
+
+Certbot cung cấp các plugin xác thực và cài đặt. Apache và Nginx plugin
+có thể lấy và cài chứng chỉ. Webroot plugin đặt challenge file trong web
+root hiện có. Standalone plugin chạy web server tạm thời và cần truy cập
+cổng 80. DNS plugin dùng TXT record và cần thiết cho wildcard certificate
+\cite{CertbotDocs}.
+
+Gia hạn là điểm mạnh vận hành của Certbot. Lệnh \texttt{certbot renew}
+kiểm tra các chứng chỉ đã biết và gia hạn chứng chỉ gần hết hạn. Hầu hết
+cài đặt Certbot có scheduled task chạy \texttt{certbot renew}. Certbot
+cũng hỗ trợ hook trước, sau và sau khi triển khai để dừng, khởi động hoặc
+nạp lại dịch vụ \cite{CertbotDocs}.
+
+Giới hạn chính của mô hình này là nó phụ thuộc vào quyền kiểm soát tên
+miền. Let’s Encrypt cũng áp dụng rate limit. Tài liệu hiện hành nêu giới
+hạn 50 chứng chỉ mới cho mỗi registered domain trong 7 ngày và 5 chứng
+chỉ cho cùng exact identifier set trong 7 ngày \cite{LetsEncryptRateLimits}.
+Do đó, tự động hóa cần môi trường staging và cấu hình gia hạn cẩn thận.
+
+% ----------------------------------------------------------
+\section{Vault PKI}
+\label{sec:6.6}
+
+Vault PKI Secrets Engine thuộc nhóm internal PKI và secret management.
+Tài liệu HashiCorp mô tả engine này sinh chứng chỉ X.509 động. Dịch vụ có
+thể lấy chứng chỉ qua cơ chế xác thực và phân quyền của Vault, thay vì
+luồng CSR thủ công với CA ngoài \cite{VaultPKI}.
+
+Vault PKI thường dùng role để ràng buộc chính sách phát hành. Role có thể
+giới hạn domain được phép, cho phép subdomain và đặt TTL tối đa. Chứng
+chỉ được phát hành bằng cách gọi endpoint \texttt{issue} theo tên role,
+và Vault trả về certificate, issuing CA, private key, key type và serial
+number \cite{VaultPKIQuickStart}.
+
+Điểm mạnh của Vault PKI là API-driven issuance và TTL ngắn. Tài liệu
+HashiCorp nhấn mạnh certificate TTL ngắn giúp giảm phụ thuộc vào thu hồi
+và làm CRL nhỏ hơn trong môi trường nhiều workload \cite{VaultPKI}. Mỗi
+instance dịch vụ có thể nhận chứng chỉ riêng, giúp giảm rủi ro khi phải
+xoay vòng một chứng chỉ dùng chung.
+
+Vault PKI phù hợp với internal TLS, mTLS giữa service và hạ tầng ứng dụng.
+Nó không thay thế public CA vì chứng chỉ do Vault phát hành chỉ được tin
+bởi các hệ thống đã cài trust anchor tương ứng. Nó cũng không phải CA
+platform enterprise đầy đủ theo nghĩa EJBCA hoặc Dogtag. Vai trò chính
+của Vault là phát hành bí mật và chứng chỉ ngắn hạn theo policy.
+
+% ----------------------------------------------------------
+\section{OAuth/OIDC và PKI}
+\label{sec:6.7}
+
+OAuth 2.0 là authorization framework cho dịch vụ HTTP. RFC~6749 định
+nghĩa các vai trò như resource owner, resource server, client và
+authorization server. Client nhận access token có scope và thời hạn, thay
+vì dùng trực tiếp mật khẩu của resource owner \cite{RFC6749}.
+
+OpenID Connect bổ sung identity layer trên OAuth 2.0. OpenID Connect Core
+định nghĩa ID Token là JWT chứa claim về sự kiện xác thực người dùng. ID
+Token phải được ký bằng JWS và có thể được mã hóa thêm bằng JWE
+\cite{OIDCCore}.
+
+JWT là định dạng compact để mang claim giữa hai bên. RFC~7519 mô tả JWT
+Claims Set và các claim như \texttt{iss}, \texttt{sub}, \texttt{aud},
+\texttt{exp} và \texttt{iat}. Nội dung JWT có thể được bảo vệ bằng JWS
+hoặc JWE \cite{RFC7519}. JWS cung cấp chữ ký số hoặc MAC trên payload
+\cite{RFC7515}.
+
+JWKS là tập các JSON Web Key. RFC~7517 định nghĩa JWK Set là JSON object
+có mảng \texttt{keys}. Trường \texttt{kid} giúp bên xác minh chọn đúng
+khóa khi có nhiều khóa hoặc khi xoay khóa \cite{RFC7517}. Vì vậy,
+resource server có thể lấy public key từ JWKS để kiểm tra chữ ký token.
+
+Ranh giới với PKI cần được giữ rõ. PKI quản lý ràng buộc public key với
+identity qua certificate và chuỗi CA. OAuth/OIDC quản lý authorization,
+identity token và xác minh token. Điểm giao là TLS certificate bảo vệ kênh
+đến IdP hoặc API, IdP ký token bằng private key, và service xác minh token
+bằng public key.
+
+Một điểm giao trực tiếp hơn là mutual TLS trong OAuth. RFC~8705 định
+nghĩa \texttt{tls\_client\_auth} cho client authentication dựa trên
+X.509 mutual TLS và certificate-bound access token. Với token dạng này,
+resource server phải so khớp certificate trình bày qua mTLS với binding
+trong token \cite{RFC8705}.
+
+% ----------------------------------------------------------
+\section{Dogtag và FreeIPA}
+\label{sec:6.8}
+
+Dogtag Certificate System là enterprise-class open source Certificate
+Authority. Tài liệu Dogtag mô tả nó là full PKI platform quản lý vòng đời
+chứng chỉ, gồm issuance, revocation, retrieval và profiles. Nó cũng hỗ
+trợ CRL generation, OCSP responder, SCEP và local Registration Authority
+\cite{DogtagPKI}.
+
+Dogtag phù hợp với môi trường cần CA nội bộ có chức năng enterprise.
+So với EJBCA, Dogtag thường được nhìn trong hệ sinh thái Linux doanh
+nghiệp và Red Hat. Nó mạnh hơn OpenSSL/XCA vì có vòng đời chứng chỉ,
+profile, thu hồi và dịch vụ PKI. Đổi lại, vận hành Dogtag đòi hỏi hiểu
+nhiều thành phần hệ thống hơn.
+
+FreeIPA là hệ thống identity management cho môi trường Linux/UNIX. Tài
+liệu FreeIPA mô tả nó tích hợp identity, authentication, authorization và
+account management. Nó quản lý user, group, host và các đối tượng bảo mật
+mạng. FreeIPA dùng Dogtag Certificate System để cung cấp CA và RA
+functions \cite{FreeIPA}.
+
+Vị trí của FreeIPA khác Dogtag thuần PKI. FreeIPA đặt certificate service
+trong hệ định danh gồm Kerberos, LDAP, DNS, web UI và CLI \cite{FreeIPA}.
+Nó phù hợp khi tổ chức muốn quản lý user, host, service và certificate
+trong cùng một miền nội bộ. Mức phức tạp cao hơn công cụ local, nhưng đổi
+lại có tích hợp định danh tập trung.
+
+% ----------------------------------------------------------
+\section{So sánh hệ sinh thái}
+\label{sec:6.9}
+
+\begin{center}
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\begin{longtable}{@{} >{\raggedright\arraybackslash}p{0.10\textwidth}
+    >{\raggedright\arraybackslash}p{0.10\textwidth}
+    >{\raggedright\arraybackslash}p{0.11\textwidth}
+    >{\raggedright\arraybackslash}p{0.10\textwidth}
+    >{\raggedright\arraybackslash}p{0.09\textwidth}
+    >{\raggedright\arraybackslash}p{0.10\textwidth}
+    >{\raggedright\arraybackslash}p{0.09\textwidth}
+    >{\raggedright\arraybackslash}p{0.09\textwidth}
+    >{\raggedright\arraybackslash}p{0.09\textwidth}
+    >{\raggedright\arraybackslash}p{0.10\textwidth} @{} }
+    \caption{So sánh một số công cụ và hệ thống PKI mã nguồn mở}
+    \label{tab:opensource-pki-tools} \\
+    \toprule
+    \textbf{Công cụ} & \textbf{Nhóm} & \textbf{Vai trò chính}
+        & \textbf{Môi trường} & \textbf{CA} & \textbf{API}
+        & \textbf{Thu hồi} & \textbf{Định danh}
+        & \textbf{Độ phức tạp} & \textbf{Giới hạn chính} \\
+    \midrule
+    \endfirsthead
+    \toprule
+    \textbf{Công cụ} & \textbf{Nhóm} & \textbf{Vai trò chính}
+        & \textbf{Môi trường} & \textbf{CA} & \textbf{API}
+        & \textbf{Thu hồi} & \textbf{Định danh}
+        & \textbf{Độ phức tạp} & \textbf{Giới hạn chính} \\
+    \midrule
+    \endhead
+    OpenSSL
+        & Toolkit
+        & Thao tác khóa, CSR, chứng chỉ
+        & Local, script
+        & Rất cơ bản
+        & CLI
+        & Qua CRL khi cấu hình
+        & Không
+        & Thấp
+        & Không có RA workflow hoặc audit tập trung. \\
+    XCA
+        & Local management
+        & Quản lý CA và certificate store cục bộ
+        & Lab, học tập
+        & CA cục bộ
+        & Thấp
+        & Có CRL
+        & Không
+        & Thấp đến vừa
+        & Không phải enterprise CA hoặc API-first system. \\
+    EJBCA
+        & CA platform
+        & Quản trị CA có profile và lifecycle
+        & CA nội bộ, CA có policy
+        & Đầy đủ
+        & REST, ACME
+        & OCSP, CRL
+        & RA, OAuth cho REST
+        & Cao
+        & Cần cấu hình profile, quyền và vận hành khóa. \\
+    Let’s Encrypt/Certbot
+        & Public ACME
+        & Tự động hóa TLS public
+        & Web PKI công cộng
+        & CA công cộng
+        & ACME, plugin
+        & ACME revocation
+        & Domain validation
+        & Vừa
+        & Phụ thuộc domain control và rate limit. \\
+    Vault PKI
+        & Internal PKI
+        & Cấp chứng chỉ nội bộ ngắn hạn
+        & Service nội bộ, mTLS
+        & CA nội bộ
+        & HTTP API, role
+        & CRL, TTL ngắn
+        & Vault auth/policy
+        & Vừa
+        & Không thay public CA hoặc CA enterprise. \\
+    OAuth/OIDC stack
+        & Identity/auth
+        & Xác minh token và identity
+        & IdP, API
+        & Không phải CA
+        & JWKS, token validation
+        & Không quản lý chứng chỉ
+        & Rất mạnh
+        & Vừa đến cao
+        & Quản lý token, không quản lý PKI. \\
+    Dogtag/FreeIPA
+        & Enterprise identity + PKI
+        & CA và certificate trong identity domain
+        & Linux enterprise
+        & Đầy đủ trong Dogtag
+        & Web, CLI
+        & CRL, OCSP
+        & LDAP, Kerberos
+        & Cao
+        & Phức tạp và gắn với hệ sinh thái Linux. \\
+    \bottomrule
+\end{longtable}
+\end{center}
+
+Có thể nhìn hệ sinh thái này theo tầng. OpenSSL và XCA nằm ở tầng local
+PKI và kiểm thử. Certbot và Let’s Encrypt giải quyết tự động hóa TLS
+trong Web PKI công cộng. EJBCA đại diện cho CA platform hoàn chỉnh, nơi
+policy và vòng đời chứng chỉ là trung tâm.
+
+Vault PKI phù hợp với chứng chỉ nội bộ ngắn hạn cho application
+infrastructure. OAuth/OIDC không phải PKI platform, nhưng dùng chữ ký số,
+JWKS, mTLS và TLS certificate trong xác thực hiện đại. Dogtag và FreeIPA
+đặt PKI vào hệ identity enterprise, nơi user, host, service và certificate
+được quản lý cùng nhau.

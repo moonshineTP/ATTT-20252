@@ -1,72 +1,306 @@
 % ============================================================
 %  Chương IV – Chứng chỉ số và các chuẩn
-%  ~900 từ · 2.5 trang
 % ============================================================
 \chapter{Chứng chỉ số và các chuẩn}
 \label{chap:x509}
 
-% Ý chính: chứng chỉ số là "sản phẩm" cốt lõi của PKI.
-% Chương đi sâu vào format, cấu trúc nội tại, phân loại,
-% và hệ sinh thái chuẩn hoá xung quanh.
+Chứng chỉ số là đối tượng dữ liệu mà PKI phát hành và
+kiểm tra. Với chứng chỉ X.509, một CA ký lên dữ liệu gồm
+danh tính, khóa công khai, thời hạn hiệu lực và các ràng buộc
+sử dụng. Bên nhận không cần biết trước khóa công khai của chủ
+thể. Họ kiểm tra chữ ký của CA, chuỗi chứng chỉ, thời hạn,
+trạng thái thu hồi và tên được chứng nhận.
 
 % ----------------------------------------------------------
 \section{Chứng chỉ số X.509}
 \label{sec:4.1}
 
-\subsubsection*{Lịch sử và phiên bản}
-% Ý chính: v1 (1988, ITU-T X.500) → v2 (1993, thêm UID) → v3 (1996, extensions) \cite{RFC5280}
-% Định nghĩa trực quan: cert = CA ký lên (identity + public key)
+X.509 xuất phát từ hệ thư mục X.500 của ITU-T. Trong Web PKI
+hiện nay, cách diễn giải được dùng rộng rãi là hồ sơ Internet
+X.509 do RFC~5280 định nghĩa cho chứng chỉ và CRL~\cite{RFC5280}.
+Phiên bản 1 chứa các trường cơ bản. Phiên bản 2 thêm định danh
+riêng cho issuer và subject. Phiên bản 3 bổ sung cơ chế
+extension, nhờ đó cùng một khuôn dạng chứng chỉ có thể biểu diễn
+CA, máy chủ TLS, người dùng email, thiết bị hoặc chứng chỉ ký mã.
 
-\subsubsection*{Cấu trúc X.509 v3}
-% Ý chính: Version, SerialNumber, SignatureAlgorithm, Issuer,
-% Validity (notBefore/notAfter), Subject, SubjectPublicKeyInfo, Extensions, Signature
-% Bảng~\ref{tab:x509-fields}: liệt kê và giải thích từng trường
+Một chứng chỉ X.509 gồm ba phần ở mức ASN.1. Phần
+\texttt{tbsCertificate} là dữ liệu \enquote{to be signed}:
+CA ký đúng phần này. Phần thuật toán chữ ký cho biết thuật toán
+được dùng, chẳng hạn RSA với SHA-256 hoặc ECDSA với SHA-256.
+Phần giá trị chữ ký chứa chữ ký trên \texttt{tbsCertificate}.
+Cấu trúc này cho phép bên kiểm tra tái tạo dữ liệu đã ký và xác
+minh bằng khóa công khai của issuer.
 
-\subsubsection*{Distinguished Name (DN)}
-% Ý chính: C, ST, L, O, OU, CN — cách nhận dạng entity trong X.500 namespace
-% Lưu ý: CN khác SAN; CN không dùng để validate domain kể từ RFC 2818
+X.509 được mã hóa theo DER trong tầng nhị phân. DER là một dạng
+mã hóa xác định của ASN.1, nên cùng một cấu trúc dữ liệu có đúng
+một biểu diễn byte hợp lệ. PEM là lớp bao gói văn bản: dữ liệu DER
+được mã hóa Base64 và đặt giữa các dòng
+\texttt{-----BEGIN CERTIFICATE-----} và
+\texttt{-----END CERTIFICATE-----}. Vì vậy, DER và PEM không phải
+hai loại chứng chỉ khác nhau. Chúng là hai cách biểu diễn cùng một
+nội dung.
 
-\subsubsection*{Extensions quan trọng}
-% Ý chính: basicConstraints (isCA + pathLenConstraint), keyUsage, extendedKeyUsage,
-% Subject Alternative Name (SAN) — trường thực sự dùng để validate domain,
-% CRL Distribution Point, Authority Information Access (OCSP URL)
+\begin{table}[ht]
+    \centering
+    \caption{Các trường chính trong chứng chỉ X.509 v3}
+    \label{tab:x509-fields}
+    \small
+    \begin{tabularx}{\textwidth}{@{} >{\raggedright\arraybackslash}p{0.31\textwidth} X X @{}}
+        \toprule
+        \textbf{Trường} & \textbf{Ý nghĩa} & \textbf{Ghi chú} \\
+        \midrule
+        \texttt{version}
+            & Phiên bản khuôn dạng chứng chỉ.
+            & Web PKI thực tế dùng v3 để hỗ trợ extension. \\
+        \texttt{serialNumber}
+            & Số seri do CA gán trong phạm vi issuer.
+            & Được dùng khi thu hồi qua CRL hoặc OCSP. \\
+        \texttt{issuer}
+            & DN của thực thể ký chứng chỉ.
+            & Thường là CA trung gian hoặc root CA. \\
+        \texttt{validity}
+            & Cặp thời điểm \texttt{notBefore} và \texttt{notAfter}.
+            & Chứng chỉ chỉ hợp lệ trong khoảng này. \\
+        \texttt{subject}
+            & DN của chủ thể được cấp chứng chỉ.
+            & Có thể rỗng nếu danh tính nằm trong SAN. \\
+        \texttt{subjectPublicKeyInfo}
+            & Thuật toán khóa công khai và giá trị khóa.
+            & Ví dụ RSA, ECDSA hoặc EdDSA. \\
+        \texttt{extensions}
+            & Các ràng buộc và thuộc tính mở rộng.
+            & Là cơ chế trung tâm của X.509 v3. \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
 
-% ----------------------------------------------------------
-\section{Certificate Signing Request (CSR)}
+\section{Các trường X.509 v3}
 \label{sec:4.2}
-% Ý chính: entity tự tạo keypair, tự ký CSR bằng private key (proof of possession),
-% gửi CSR kèm thông tin danh tính cho CA xác minh rồi ký
-% Format: PKCS\#10 (RFC 2986); các trường DN + public key + signature
 
-% ----------------------------------------------------------
-\section{Phân loại chứng chỉ}
+Trường \texttt{version} xác định cách diễn giải chứng chỉ. Với
+X.509 v3, trường \texttt{extensions} trở thành bắt buộc về mặt
+thực tiễn vì phần lớn kiểm tra an toàn nằm ở đây. Trường
+\texttt{serialNumber} phải đủ phân biệt trong phạm vi issuer để
+có thể định danh chứng chỉ khi thu hồi. Trường \texttt{issuer}
+cho biết tên của CA ký chứng chỉ; trường \texttt{subject} cho biết
+tên của thực thể nhận chứng chỉ.
+
+Trường \texttt{validity} gồm \texttt{notBefore} và
+\texttt{notAfter}. Bên kiểm tra phải từ chối chứng chỉ nếu thời
+điểm hiện tại nằm ngoài khoảng này. Trường
+\texttt{subjectPublicKeyInfo} chứa khóa công khai của subject cùng
+định danh thuật toán. Với chứng chỉ máy chủ, đây là khóa được dùng
+để xác thực chữ ký hoặc tham gia cơ chế trao đổi khóa tùy giao
+thức phía trên. Chi tiết bắt tay TLS không được trình bày ở đây,
+vì thuộc phạm vi Chương~\ref{chap:deploy}.
+
+\section{Distinguished Name}
 \label{sec:4.3}
 
-\subsubsection*{Theo mức độ xác minh danh tính}
-% Bảng~\ref{tab:cert-types}: DV / OV / EV
-% DV: chỉ verify domain control (DNS/HTTP challenge); phát hành tự động trong phút
-% OV: verify tổ chức qua hồ sơ pháp lý; EV: mức cao nhất, dùng code signing
+Distinguished Name (DN) là tên phân cấp theo mô hình X.500.
+Trong chứng chỉ, DN thường xuất hiện ở \texttt{issuer} và
+\texttt{subject}. Các thuộc tính thường gặp gồm
+\texttt{C} cho quốc gia, \texttt{ST} cho bang hoặc tỉnh,
+\texttt{L} cho địa phương, \texttt{O} cho tổ chức,
+\texttt{OU} cho đơn vị tổ chức, \texttt{CN} cho common name và
+\texttt{emailAddress} cho địa chỉ thư điện tử. DN hữu ích trong
+môi trường tổ chức vì nó mô tả subject bằng các thuộc tính có cấu
+trúc.
 
-\subsubsection*{Theo phạm vi tên miền}
-% Single domain: chỉ khớp một FQDN
-% Wildcard (*.example.com): khớp một cấp subdomain, không khớp sub-subdomain
-% Multi-SAN: nhiều domain hoàn toàn khác nhau trong một cert
+Trong HTTPS, \texttt{CN} không còn là nơi chính để kiểm tra tên
+miền. RFC~6125 yêu cầu ứng dụng ưu tiên subject alternative name
+và không quay lại \texttt{CN} khi SAN thuộc loại tên phù hợp đã có
+mặt~\cite{RFC6125}. Điều này tách rõ tên hiển thị trong DN khỏi
+tập tên mà chứng chỉ thực sự chứng nhận. Với chứng chỉ máy chủ,
+SAN mới là nơi chứa DNS name hoặc IP address được so khớp với tên
+mà client truy cập.
 
-% ----------------------------------------------------------
-\section{Các chuẩn PKCS}
+\section{Extension quan trọng}
 \label{sec:4.4}
-% Bảng tóm tắt họ chuẩn PKCS của RSA Laboratories:
-%   PKCS\#10 — định dạng CSR
-%   PKCS\#12 (PFX) — đóng gói cert + private key (dùng để export/import)
-%   PKCS\#11 (Cryptoki) — interface lập trình với HSM và smart card
-%   PKCS\#7 / CMS — định dạng dữ liệu ký số và mã hóa (dùng trong S/MIME)
 
-% ----------------------------------------------------------
-\section{RFC và chuẩn quan trọng}
+Extension làm cho X.509 v3 phù hợp với nhiều ngữ cảnh sử dụng.
+Mỗi extension có định danh OID, giá trị và cờ critical. Nếu một
+extension critical không được hiểu, bên kiểm tra phải từ chối
+chứng chỉ theo RFC~5280~\cite{RFC5280}. Cơ chế này cho phép CA áp
+đặt điều kiện an toàn mà client không được bỏ qua.
+
+\begin{table}[ht]
+    \centering
+    \caption{Một số extension thường gặp trong X.509 v3}
+    \label{tab:x509-extensions}
+    \small
+    \begin{tabularx}{\textwidth}{@{} >{\raggedright\arraybackslash}p{0.31\textwidth} X X @{}}
+        \toprule
+        \textbf{Extension} & \textbf{Nội dung} & \textbf{Vai trò} \\
+        \midrule
+        \texttt{BasicConstraints}
+            & Cờ \texttt{cA} và tùy chọn \texttt{pathLenConstraint}.
+            & Phân biệt CA với end-entity certificate. \\
+        \texttt{KeyUsage}
+            & Bit như \texttt{digitalSignature}, \texttt{keyEncipherment},
+              \texttt{keyCertSign}.
+            & Giới hạn thao tác mật mã được phép. \\
+        \texttt{ExtendedKeyUsage}
+            & OID mục đích như server authentication, client authentication
+              hoặc code signing.
+            & Thu hẹp ngữ cảnh sử dụng của khóa. \\
+        \texttt{SubjectAltName}
+            & DNS name, IP address, email hoặc URI của subject.
+            & Cơ sở kiểm tra tên miền trong Web PKI. \\
+        \texttt{SubjectKeyIdentifier}
+            & Định danh suy ra từ khóa công khai của subject.
+            & Hỗ trợ tìm và nối chuỗi chứng chỉ. \\
+        \texttt{AuthorityKeyIdentifier}
+            & Định danh khóa của issuer.
+            & Ghép chứng chỉ với CA đã ký nó. \\
+        \texttt{CRLDistributionPoints}
+            & Vị trí tải CRL.
+            & Cho phép client kiểm tra thu hồi bằng CRL. \\
+        \texttt{AuthorityInfoAccess}
+            & Vị trí OCSP responder hoặc chứng chỉ issuer.
+            & Hỗ trợ kiểm tra trạng thái và dựng chuỗi. \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\texttt{BasicConstraints} là extension bắt buộc về mặt an toàn với
+CA certificate. Nếu \texttt{cA} bằng \texttt{TRUE}, chứng chỉ có
+thể được dùng để ký chứng chỉ khác, với điều kiện các trường khác
+như \texttt{KeyUsage} cũng cho phép. \texttt{pathLenConstraint}
+giới hạn số CA trung gian có thể xuất hiện bên dưới CA đó trong
+chuỗi chứng chỉ.
+
+\texttt{KeyUsage} mô tả thao tác mật mã cấp thấp. Ví dụ,
+\texttt{digitalSignature} cho phép dùng khóa để kiểm tra chữ ký số,
+trong khi \texttt{keyCertSign} chỉ phù hợp với CA. Ngược lại,
+\texttt{ExtendedKeyUsage} mô tả mục đích ứng dụng. Một chứng chỉ
+có thể chứa khóa hợp lệ về mặt thuật toán nhưng vẫn bị từ chối nếu
+EKU không chứa mục đích mà ứng dụng cần.
+
+\texttt{SubjectAltName} chứa các tên được chứng nhận cho subject.
+Với chứng chỉ website, SAN thường chứa một hoặc nhiều DNS name.
+\texttt{SubjectKeyIdentifier} và \texttt{AuthorityKeyIdentifier}
+không tự tạo ra niềm tin, nhưng giúp phần mềm chọn đúng issuer khi
+có nhiều chứng chỉ CA cùng tên hoặc cùng tổ chức. Hai extension
+\texttt{CRLDistributionPoints} và \texttt{AuthorityInfoAccess}
+liên kết chứng chỉ với hạ tầng kiểm tra thu hồi qua CRL và
+OCSP~\cite{RFC6960}.
+
+\section{Certificate Signing Request}
 \label{sec:4.5}
-% Ý chính: ecosystem chuẩn hoá xung quanh PKI
-%   RFC 5280 \cite{RFC5280} — X.509 cert \& CRL profile (nền tảng)
-%   RFC 6960 \cite{RFC6960} — OCSP
-%   RFC 8446 \cite{RFC8446} — TLS 1.3
-%   RFC 8555 \cite{RFC8555} — ACME Protocol
-%   CA/Browser Forum Baseline Requirements \cite{CABForum} — quy tắc vận hành CA
+
+Certificate Signing Request (CSR) là yêu cầu ký chứng chỉ do chủ
+thể gửi cho CA. Khuôn dạng CSR phổ biến là PKCS~\#10, được RFC
+2986 mô tả~\cite{RFC2986}. CSR chứa thông tin subject, khóa công
+khai, một tập thuộc tính tùy chọn và chữ ký do chính khóa bí mật
+ứng với khóa công khai trong CSR tạo ra. Chữ ký này chứng minh
+rằng người gửi CSR có quyền kiểm soát khóa bí mật, nhưng nó không
+chứng minh danh tính pháp lý hoặc quyền sở hữu tên miền. Phần đó
+thuộc trách nhiệm xác minh của RA hoặc CA.
+
+Luồng cấp chứng chỉ có bốn bước. Thứ nhất, subject tạo cặp khóa và
+bảo vệ khóa bí mật cục bộ. Thứ hai, subject tạo CSR chứa khóa công
+khai và thông tin định danh mong muốn. Thứ ba, CA kiểm tra quyền
+kiểm soát tên miền, thông tin tổ chức hoặc tiêu chí tương ứng với
+loại chứng chỉ. Thứ tư, CA ký dữ liệu X.509 và trả lại chứng chỉ.
+Khóa bí mật không cần rời khỏi hệ thống của subject trong luồng
+thông thường.
+
+\section{Phân loại chứng chỉ}
+\label{sec:4.6}
+
+CA/Browser Forum Baseline Requirements định nghĩa yêu cầu tối
+thiểu cho chứng chỉ máy chủ TLS được tin cậy công khai, bao gồm
+quy trình xác minh tên miền, thông tin subject và vận hành CA
+\cite{CABForum}. Trong thực tế, chứng chỉ TLS thường được phân
+loại theo mức xác minh danh tính: domain validation (DV),
+organization validation (OV) và extended validation (EV). DV xác
+minh quyền kiểm soát tên miền. OV thêm kiểm tra tổ chức. EV áp
+dụng bộ yêu cầu nhận diện tổ chức chặt hơn theo tài liệu EV riêng
+của CA/Browser Forum~\cite{CABForumEV}.
+
+\begin{table}[ht]
+    \centering
+    \caption{Phân loại chứng chỉ theo mục đích sử dụng}
+    \label{tab:cert-types}
+    \small
+    \begin{tabularx}{\textwidth}{@{} >{\raggedright\arraybackslash}p{0.31\textwidth} X X @{}}
+        \toprule
+        \textbf{Loại} & \textbf{Đặc điểm} & \textbf{Cách dùng} \\
+        \midrule
+        DV
+            & Xác minh quyền kiểm soát tên miền.
+            & Website công khai, tự động hóa cấp phát. \\
+        OV
+            & Xác minh thêm thông tin tổ chức.
+            & Dịch vụ cần hiện thông tin pháp nhân rõ hơn. \\
+        EV
+            & Xác minh tổ chức theo yêu cầu EV.
+            & Môi trường cần quy trình nhận diện chặt hơn. \\
+        Wildcard
+            & Tên dạng \texttt{*.example.com}.
+            & Nhiều subdomain cùng một cấp. \\
+        Multi-domain/SAN
+            & Nhiều tên trong \texttt{SubjectAltName}.
+            & Gom nhiều DNS name vào một chứng chỉ. \\
+        Code signing
+            & EKU cho ký mã hoặc chính sách tương ứng.
+            & Ký phần mềm, script hoặc gói cài đặt. \\
+        S/MIME
+            & Gắn khóa công khai với địa chỉ email.
+            & Ký và mã hóa thư điện tử~\cite{RFC8551}. \\
+        Client certificate
+            & Subject đại diện người dùng, thiết bị hoặc dịch vụ.
+            & Xác thực client trong VPN, mTLS hoặc hệ nội bộ. \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+Wildcard certificate chỉ bao phủ một cấp nhãn theo cách diễn giải
+thông thường của Web PKI. Ví dụ, \texttt{*.example.com} có thể
+khớp \texttt{www.example.com}, nhưng không khớp
+\texttt{a.b.example.com}. Multi-domain certificate dùng SAN để
+chứa nhiều tên cụ thể. Cách này phù hợp khi một dịch vụ có nhiều
+tên miền hoặc khi cần hợp nhất chứng chỉ cho các endpoint liên
+quan.
+
+\section{Các chuẩn PKCS}
+\label{sec:4.7}
+
+PKCS là họ chuẩn ban đầu do RSA Laboratories công bố cho các đối
+tượng mật mã trong triển khai thực tế. Trong phạm vi chứng chỉ số,
+ba chuẩn cần quan tâm là PKCS~\#7/CMS, PKCS~\#10 và PKCS~\#12.
+Báo cáo không liệt kê toàn bộ họ PKCS vì nhiều chuẩn đã lỗi thời
+hoặc nằm ngoài trọng tâm PKI.
+
+PKCS~\#7 định nghĩa cú pháp cho dữ liệu được ký hoặc mã hóa. Hậu
+thân chuẩn hóa trong IETF là Cryptographic Message Syntax (CMS),
+được RFC~5652 mô tả~\cite{RFC5652}. CMS là nền tảng cho nhiều
+định dạng chữ ký và thông điệp bảo mật, trong đó có S/MIME.
+PKCS~\#10 là định dạng CSR như đã trình bày ở
+Mục~\ref{sec:4.5}. PKCS~\#12 định nghĩa định dạng đóng gói khóa
+bí mật, chứng chỉ và chuỗi chứng chỉ vào một tệp, thường có phần
+bảo vệ bằng mật khẩu; RFC~7292 mô tả định dạng này~\cite{RFC7292}.
+Tệp \texttt{.p12} hoặc \texttt{.pfx} thường được dùng khi xuất
+nhập chứng chỉ người dùng hoặc chứng chỉ máy chủ giữa các hệ thống.
+
+\section{RFC và chuẩn quan trọng}
+\label{sec:4.8}
+
+RFC~5280 là chuẩn nền tảng cho hồ sơ Internet X.509, bao gồm cấu
+trúc chứng chỉ, extension, thuật toán dựng đường chứng chỉ và CRL
+\cite{RFC5280}. RFC~2986 định nghĩa PKCS~\#10 cho CSR
+\cite{RFC2986}. RFC~5652 định nghĩa CMS, là khuôn dạng chung cho
+dữ liệu ký số và mã hóa ở tầng thông điệp~\cite{RFC5652}. RFC~7292
+định nghĩa PKCS~\#12 cho gói khóa và chứng chỉ~\cite{RFC7292}.
+
+RFC~6960 định nghĩa OCSP, giao thức hỏi trạng thái thu hồi cho một
+chứng chỉ cụ thể~\cite{RFC6960}. RFC~6962 định nghĩa Certificate
+Transparency phiên bản thử nghiệm, trong đó chứng chỉ TLS được ghi
+vào log công khai dựa trên cây Merkle~\cite{RFC6962}. Các triển
+khai mới hơn có thể tham chiếu RFC~9162 cho Certificate
+Transparency phiên bản 2.0~\cite{RFC9162}. CA/Browser Forum
+Baseline Requirements không thay thế RFC, nhưng đặt yêu cầu vận
+hành cho CA muốn được tin cậy trong hệ sinh thái trình duyệt
+\cite{CABForum}. Vì vậy, Web PKI là kết quả của cả chuẩn kỹ thuật
+và quy tắc quản trị CA.

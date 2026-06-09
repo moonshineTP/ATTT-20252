@@ -1,0 +1,1044 @@
+[chap1 p.2]
+Nội dung
+Nhập môn An toàn thông tin
+I.
+Đảm bảo tính mật
+II.
+Các hệ mật khóa đối xứng (mã hóa đối xứng)
+I.
+Các hệ mật khóa công khai ( mã hóa bất đối xứng )
+II.
+Bài toán xác thực
+III.
+Cơ sở bài toán xác thực
+I.
+Xác thực thông điệp
+II.
+Chữ ký số và các giao thức xác thực
+III.
+Các cơ chế xác thực trong các hệ phân tán
+IV.
+An toàn an ninh hệ thống
+IV.
+Phát hiện và ngăn chặn xâm nhập ( IDS, IPS )
+I.
+Lỗ hổng hệ thống
+II.
+2
+======================================================================
+[chap1 p.4]
+Các chủ đề tiểu luận
+1. Các hệ mật khóa công khai.
+l
+Cơ sở xây dựng hệ mật khóa công khai
+–
+Các hệ mật khóa công khai.
+–
+Các sơ đồ ứng dụng.
+–
+2. Hạ tầng khóa công khai PKI
+l
+Cấu trúc hạ tầng khóa công khai.
+–
+Chứng chỉ số, các chuẩn;
+–
+Triển khai thực tế. Các ứng dụng trong các giao dịch.
+–
+Các hệ thống mã nguồn mở.
+–
+4
+======================================================================
+[chap1 p.5]
+Các chủ đề tiểu luận
+3. Bảo mật cho mạng IP. IPSec. Mạng riêng ảo VPN.
+l
+Ứng dụng.
+4. Bài toán xác thực thông điệp.
+l
+Các cơ chế xác thực
+–
+Hàm băm và hàm mã hóa xác thực.
+–
+Các giao thức xác thực.
+–
+5. Chữ ký số.
+l
+Các cơ chế tạo chữ ký số. Giao thức chữ ký số.
+–
+Các dịch vụ chữ ký số.
+–
+Chữ ký mù.
+–
+5 – Ứng dụng.
+======================================================================
+[chap1 p.8]
+Các chủ đề tiểu luận
+10. Bảo mật cho web services;
+l
+11. Đăng nhập 1 lần với GSS-API;
+l
+12. Xác thực Kerberos;
+l
+13. SSL và TLS;
+l
+14. IPSecurity;
+l
+15. Xác thực X509
+l
+8
+======================================================================
+[chap1 p.9]
+Các chủ đề tiểu luận
+16. Hạ tầng khóa công khai PKI
+l
+17. PGP và bảo mật thư tín điện tử
+l
+18. S/MIME
+l
+19. Secure electronic transaction
+l
+20. Firewall, các kiến trúc;
+l
+21. Proxy, thiết kế và xây dựng proxy;
+l
+9
+======================================================================
+[chap1 p.40]
+Các cơ chế an toàn thông tin
+Kiến trúc ATTT OSI.
+l
+Mật mã
+l
+Chữ ký số
+l
+Kiểm soát truy cập
+l
+Toàn vẹn dữ liệu
+l
+Trao đổi xác thực
+l
+Nhiễu luồng truyền tải
+l
+======================================================================
+[chap2 p.2]
+Nội dung
+Nhập môn An toàn thông tin
+I.
+Đảm bảo tính mật
+II.
+Các hệ mật khóa đối xứng (mã hóa đối xứng)
+I.
+Các hệ mật khóa công khai ( mã hóa bất đối xứng )
+II.
+Bài toán xác thực
+III.
+Cơ sở bài toán xác thực
+I.
+Xác thực thông điệp
+II.
+Chữ ký số và các giao thức xác thực
+III.
+Các cơ chế xác thực trong các hệ phân tán
+IV.
+An toàn an ninh hệ thống
+IV.
+Phát hiện và ngăn chặn xâm nhập ( IDS, IPS )
+I.
+Lỗ hổng hệ thống
+II.
+2
+======================================================================
+[chap2 p.15]
+Mật mã và thám mã
+Phân loại các phương pháp mật mã theo số
+l
+lượng khóa được dùng trong thuật toán:
+Nếu bên gửi và bên nhận cùng dùng chung một khóa:
+–
+hệ thống mã hóa đối xứng.
+Nếu hai khóa của bên gửi và bên nhận khác nhau:
+–
+phương pháp mã hóa bất đối xứng.
+15
+======================================================================
+[chap2 p.69]
+Mật mã khối ( block cipher )
+Mật mã khối và các mật mã cơ sở khác
+l
+Mật mã khối có thể được sử dụng để xây dựng các mật mã cơ
+–
+sở khác (cryptographic primitives).
+Để cho các phương pháp mã hóa này trở thành mật mã an toàn,
+l
+những thuật toán này cần được xây dựng theo phương pháp đúng
+đắn.
+Các mật mã dòng có thể được xây dựng dựa trên mật mã khối.
+–
+Các chế độ OFB-mode và CTR mode là những chế độ theo khối.
+l
+Cho phép chuyển một mật mã khối thành mật mã dòng.
+l
+Mật mã khối có thể sử dụng để xây dựng các hàm băm, và
+–
+ngược lại, những hàm băm có thể là cơ sở để xây dựng những
+mật mã khối.
+Ví dụ: những mật mã khối dựa trênhàm băm:SHACAL, BEAR và
+l
+LION.
+69
+======================================================================
+[chap3 p.2]
+Nội dung
+Nhập môn An toàn thông tin
+I.
+Đảm bảo tính mật
+II.
+Các hệ mật khóa đối xứng (mã hóa đối xứng)
+I.
+Các hệ mật khóa công khai ( mã hóa bất đối xứng )
+II.
+Bài toán xác thực
+III.
+Cơ sở bài toán xác thực
+I.
+Xác thực thông điệp
+II.
+Chữ ký số và các giao thức xác thực
+III.
+Các cơ chế xác thực trong các hệ phân tán
+IV.
+An toàn an ninh hệ thống
+IV.
+Phát hiện và ngăn chặn xâm nhập ( IDS, IPS )
+I.
+Lỗ hổng hệ thống
+II.
+2
+======================================================================
+[chap3 p.4]
+Chương III. Các hệ mật khóa công khai
+Nguyên lý hệ mật khoá công khai
+l
+Thuật toán RSA
+l
+Sơ đồ trao đổi khoá Diffie-Hellman
+l
+Một số hệ mật khóa công khai khác
+l
+4
+======================================================================
+[chap3 p.5]
+Nguyên lý hệ mật khoá công khai
+Đặc điểm
+l
+Mật mã công khai dựa trên cơ sở của các hàm
+–
+toán học.
+Không dựa trên phép thay thế và đổi chỗ như
+–
+trong phương pháp mã hoá đối xứng.
+Mã mật công khai là bất đối xứng.
+–
+Trong cơ chế mã mật khoá công khai sử dụng hai khoá:
+l
+khoá mật và khoá công khai.
+Các hệ quả của việc sử dụng hai khoá bất đối xứng:
+l
+tính toàn vẹn, tính xác thực, phân phối khoá.
+5
+======================================================================
+[chap3 p.6]
+Nguyên lý hệ mật khoá công khai
+Xuất xứ:
+l
+Hệ mã mật khoá công khai được phát triển nhằm
+–
+giải quyết hai vấn đề phức tạp nảy sinh từ
+phương pháp mã hoá đối xứng:
+Vấn đề thứ nhất: bài toán phân phối khoá;
+l
+Vấn đề thứ hai: chữ ký số.
+l
+6
+======================================================================
+[chap3 p.7]
+Nguyên lý hệ mật khoá công khai
+Hệ mật khoá công khai.
+l
+Sơ đồ mã mật khoá công khai sử dụng một khoá
+–
+để mã hoá và một khoá khác có liên quan để giải
+mã. Các thuật toán mã hoá và giải mã có một số
+đặc điểm quan trọng sau:
+Không thể xác định được khoá giải mã nếu chỉ biết
+l
+thuật toán mã hoá và khoá mã hoá.
+Một số hệ mã mật khoá công khai ( như RSA ) còn
+l
+cung cấp khả năng sử dụng bất kỳ một khoá trong cặp
+khoá làm khoá mã hoá thì khoá còn lại sẽ được dùng
+làm khoá giải mã.
+7
+======================================================================
+[chap3 p.8]
+Nguyên lý hệ mật khoá công khai
+Sơ đồ mã hoá công khai:
+–
+A và B có các cặp khóa (K , K ), (K , K ). Các khóa này dùng để mã
+l
+RA PA RB PB
+hoá và giải mã các thông điệp.
+A và B công bố khoá công khai K , K trong cặp khoá, khoá còn lại được
+l
+PA PB
+giữ mật.
+Khi gửi thông điệp cho B, A sẽ mã hoá văn bản bằng khoá công khai K
+l
+PB
+của B.
+Khi nhận được thông điệp, B sẽ giải mã bằng khoá mật K . Bên thứ ba
+l
+RB
+không giải mã được thông điệp vì chỉ có B biết khoá mật K của B.
+RB
+Khóa công khai của B Khóa riêng của B
+Văn bản rõ
+Mã hóa Mã mật Giải mã Văn bản rõ
+A B
+Đảm bảo tính mật
+8
+======================================================================
+[chap3 p.9]
+Nguyên lý hệ mật khoá công khai
+Sơ đồ xác thực:
+–
+Nếu A muốn gửi thông điệp được xác thực cho B, A sẽ
+l
+mã hoá văn bản bằng khoá riêng của A.
+Khi B nhận được thông điệp, B sẽ giải mã bằng khoá
+l
+công khai của A. Không một bên thứ ba có thể giải mã
+được thông điệp vì chỉ có B biết khoá mật của B.
+Khóa riêng của A Khóa công khai của A
+Văn bản rõ
+Mã hóa Mã mật Giải mã Văn bản rõ
+A B
+Đảm bảo tính xác thực
+9
+======================================================================
+[chap3 p.10]
+Nguyên lý hệ mật khoá công khai
+Các yêu cầu đối với hệ mật khóa công khai
+l
+Quá trình sinh cặp khóa K , K là dễ trên phương diện tính toán;
+–
+P R
+Quá trình mã hóa bản tin bằng khóa công khai K ở bên gửi là dễ:
+–
+P
+Y = E (M);
+KP
+Quá trình giải mã ra văn bản rõ khi biết khóa riêng K và bản tin mật Y
+–
+R
+là dễ:
+M = D (Y);
+KR
+Đối với thám mã, nếu chỉ biết K sẽ rất khó trên phương diện tính toán
+–
+P
+để tính ra K ;
+R
+Đối với thám mã, nếu chỉ biết K và bản tin mật Y sẽ rất khó trên
+–
+P
+phương diện tính toán để tính ra bản tin rõ M;
+Nguyên lý đối xứng: quá trình mã hóa – giải mã có thể áp dụng theo
+–
+hai chiều: M = D [E (M)]
+KP KR
+10
+======================================================================
+[chap3 p.11]
+Nguyên lý hệ mật khoá công khai
+Các ứng dụng của hệ mật khóa công khai
+l
+Ứng dụng trong mật mã – mã hóa, giải mã (RSA):
+–
+Bên gửi mã hóa bằng khóa công khai của bên nhận;
+l
+Bên nhận giải mã bằng khóa riêng.
+l
+Ứng dụng trong phân phối khóa(RSA, Diffie-Helman):
+–
+duy trì kênh mật phân phối khóa đối xứng bằng cơ sở
+mã mật công khai;
+Ứng dụng trong chữ ký số (RSA, DSS):
+–
+Bên gửi ký bằng khóa riêng.
+l
+Bên nhận xác thực chữ ký bằng khóa công khai của bên gửi.
+l
+11
+======================================================================
+[chap3 p.12]
+Thuật toán mã hoá công khai RSA
+Cơ sở lý thuyết số
+l
+Sơ đồ thuật toán
+l
+Thám mã RSA
+l
+12
+======================================================================
+[chap3 p.13]
+Sơ đồ thuật toán RSA
+Xuất xứ
+l
+RSA do Ron Rivest, Adi Shamir và Len Adlenman
+–
+phát minh năm 1977;
+Hệ thống mã khoá công khai phổ biến và đa năng:
+–
+Được sử dụng trong các ứng dụng mã hóa/giải mã;
+l
+Chứng thực;
+l
+Phân phối và trao đổi khoá.
+l
+13
+======================================================================
+[chap3 p.14]
+Sơ đồ thuật toán RSA
+Thuật toán RSA:
+l
+Phương pháp mã hóa khối;
+–
+Văn bản rõ và văn bản mật là các số nguyên có giá trị
+–
+từ 0 đến n-1, n – số nguyên lớn;
+Mỗi khối có giá trị nhỏ hơn n.
+–
+Kích thước của khối (số bít) nhỏ hơn hoặc bằng log (n).
+–
+2
+Thực tế, kích thước của khối là k bit với
+–
+2k < n ≤ 2k+1.
+14
+======================================================================
+[chap3 p.15]
+Sơ đồ thuật toán RSA
+Cặp khóa: (e, d)
+–
+Mã hoá
+–
+Bản rõ M < n
+Mã mật C = Me mod n
+Giải mã
+–
+Mã mật C
+Bản rõ M = Cd mod n =
+(Me)d mod n
+15
+======================================================================
+[chap3 p.16]
+Sơ đồ thuật toán RSA
+Bên gửi và bên nhận phải biết số n.
+–
+Bên gửi biết khóa công khai là cặp (e, n).
+–
+Bên nhận có khóa riêng là cặp (d, n).
+–
+Các yêu cầu:
+–
+Có thể tìm được các số e, d, n sao cho:
+l
+Med = M mod n " M < n.
+Thực hiện tính Me và Cd một cách đơn giản " M < n.
+l
+Không thể xác định được d nếu biết e và n
+l
+16
+======================================================================
+[chap3 p.17]
+Sơ đồ thuật toán RSA
+Tạo khoá
+l
+Tìm các số e, d sao cho:
+–
+Med=M mod n
+Hệ quả của định lý Euler: cho p và q là số nguyên tố,
+–
+n và m là hai số nguyên sao cho: n=pq và 0 < m < n,
+k là số nguyên bất kỳ. Đẳng thức sau nghiệm đúng:
+mkf(n)+1=mk(p-1)(q-1)+1ºm mod n
+Như vậy: ed = kf(n)+1, tức là:
+–
+ed º1 mod f(n) hay d ºe-1 mod f(n) có nghĩa là
+–
+gcd(f(n), d) = 1 và gcd(f(n), e) = 1
+17
+======================================================================
+[chap3 p.18]
+Sơ đồ thuật toán RSA
+Sơ đồ tạo khóa RSA
+–
+18
+======================================================================
+[chap3 p.19]
+Sơ đồ thuật toán RSA
+Ví dụ
+–
+p = 7, q = 17
+l
+n = pq = 119; f(n)=(p-1)(q-1)=96
+l
+Chọn e nguyên tố cùng nhau với f(n), nhỏ hơn f(n),
+l
+Chọn e = 5;
+–
+Tìm d: dºe-1 mod f(n)
+l
+d=77 => cặp khóa: e=(5, 119); d=(77, 119)
+–
+19
+======================================================================
+[chap3 p.20]
+Sơ đồ thuật toán RSA
+Mã hoá và giải mã
+l
+Vấn đề trong thuật toán mã hoá và giải mã RSA là việc thực hiện phép
+–
+toán luỹ thừa và phép toán đồng dư với số nguyên lớn.
+Giải quyết dựa trên tính chất của phép toán mođun:
+–
+[(a mod n) x (b mod n)] mod n = (a x b) mod n
+Tính am với m lớn.
+–
+Biểu diễn nhị phân của m =b b …b =å 2i
+l
+k k-1 0 bi≠0
+Do đó:
+l
+æ ö
+çå 2i ÷
+ç ÷
+am = aèbi¹0 ø = Õ a2i
+b ¹0
+i
+( )
+am mod n = Õ a2i mod n = Õ a2i mod n
+20 b ¹0 b ¹0
+i i
+======================================================================
+[chap3 p.21]
+Sơ đồ thuật toán RSA
+Sinh khoá
+l
+Các bước quan trọng trong tạo khóa:
+–
+Xác định 2 số nguyên tố p và q. Để tránh tấn công vét cạn, p và q
+l
+phải lớn.
+Xác định e và d
+l
+Xác định số nguyên tố p, q (sử dụng thuật toán Miller – Rabin)
+-
+1. Chọn một số nguyên lẻ n ngẫu nhiên (sử dụng bộ sinh số
+giả ngẫu nhiên).
+2. Chọn một số nguyên a < n ngẫu nhiên.
+3. Thực hiện thuật toán xác suất để kiểm tra số nguyên tố.
+Nếu n test thành công thì loại bỏ giá trị n và quay lại bước 1.
+4. Nếu n test thành công với số lượng test đủ, chấp nhận n;
+mặt khác, quay lại bước 2.
+- Chọn e và tính d từ e và f(n) (sử dụng thuật toán Euclid)
+21
+======================================================================
+[chap3 p.22]
+Thám mã RSA
+Tấn công vét cạn: thử vét cạn toàn bộ không
+l
+gian khóa riêng.
+Tấn công toán học: thực hiện bài toán phân
+l
+tích số nguyên thành tích hai số nguyên tố.
+Tấn công dựa vào thời gian: dựa vào thời
+l
+gian để thực hiện thuật toán giải mã.
+22
+======================================================================
+[chap3 p.23]
+- tấn công vét cạn
+Thám mã RSA
+Phương pháp: thực hiện vét cạn toàn bộ không gian
+l
+khoá.
+Biện pháp đối phó:
+l
+Sử dụng không gian có khoá kích thước lớn, tức là tăng số bít
+–
+của d và e.
+Không gian khóa có kích thước lớn sẽ làm quá trình sinh khoá,
+–
+mã hoá, giải mã thực hiện chậm đi.
+23
+======================================================================
+[chap3 p.24]
+Thám mã RSA - Tấn công toán học
+Các phương pháp tấn công toán học vào
+l
+RSA:
+Phân tích n thành tích hai số nguyên tố p và q;
+–
+Sau đó cho phép tính f(n)=(p-1)(q-1);
+l
+Từ f(n) có thể tính d=e-1 mod f(n).
+l
+Xác định f(n) trực tiếp không qua p và q;
+–
+Cho phép từ f(n) có thể tính d=e-1 mod f(n).
+l
+Xác định trực tiếp d không qua tính f(n).
+–
+24
+======================================================================
+[chap3 p.25]
+- Tấn công toán học
+Thám mã RSA
+Trường hợp đơn giản nhất là người thám mã biết
+l
+được f(n)
+Phân tích n thành tích của 2 thừa số nguyên tố: Có
+l
+nhiều thuật toán phân tích n thành hai thừa số
+nguyên tố.
+Có ba thuật toán hiệu quả trên các số rất lớn:
+–
+Thuật toán sàng bình phương (quadratic sieve),
+l
+Đường cong elip (elliptic curve) và
+l
+Sàng trường số.
+l
+Các thuật toán được biết đến nhiều trước đây:
+–
+Thuật toán p – 1 của Pollard,
+l
+Thuật toán p + 1 của William,
+l
+Thuật toán chia nhỏ liên tiếp
+l
+Thuật toán chia thử.
+l
+25
+======================================================================
+[chap3 p.26]
+Thám mã RSA - Tấn công toán học
+Những yêu cầu đối với p và q:
+l
+p và q chỉ nên khác nhau về độ dài khoảng vài hàng
+–
+số nhị phân và trong khoảng từ 1075 đến 10100;
+(p-1) và (q-1) phải có những thừa số nguyên tố lớn;
+–
+Gcd(p-1, q-1) phải nhỏ.
+–
+Thực tế cho thấy, nếu e < n và d < n1/4 thì d có thể
+–
+dễ dàng tính được!
+26
+======================================================================
+[chap3 p.27]
+Thám mã RSA - Tấn công dựa thời gian
+Nội dung của phương pháp này dựa vào việc theo dõi thời gian
+l
+thực hiện thuật toán giải mã;
+Có thể áp dụng đối với những hệ mật khóa công khai khác!
+–
+Là dạng tấn công chỉ sử dụng mã mật (ciphertext only attack)
+–
+Biện pháp đối phó:
+l
+Thời gian tính mũ là hằng: Làm cho thời gian tính mũ là như
+–
+nhau trước khi trả về kết quả. Biện pháp này đơn giản nhưng
+làm giảm hiệu năng.
+Thực hiện trễ ngẫu nhiên: Thêm các trễ thời gian ngẫu nhiên
+–
+vào thuật toán mũ hoá.
+Làm mù: Nhân văn bản mật với một số ngẫu nhiên trước khi
+–
+thực hiện mũ hoá. Khi đó thám mã sẽ không biết bit nào của
+mã mật được xử lý và do đó ngăn chặn được quá trình phân
+tích mã mật.
+27
+======================================================================
+[chap3 p.45]
+Hệ mật và thám mã
+Thám mã có thể tấn công vào các thông tin : p
+l
+,a,Y ,Y
+j j
+Và sử dụng thuật toán rời rạc để tính ra X, sau
+l
+đó tính ra K
+Quan trọng nhất là độ phức tạp của thuật toán
+l
+logarit phụ thuộc vào chọn số nguyên tố p
+Tấn công man in the middle
+l
+45
+======================================================================
+[chap4 p.2]
+Nội dung
+Nhập môn An toàn thông tin
+I.
+Đảm bảo tính mật
+II.
+Các hệ mật khóa đối xứng (mã hóa đối xứng)
+I.
+Các hệ mật khóa công khai ( mã hóa bất đối xứng )
+II.
+Bài toán xác thực
+III.
+Cơ sở bài toán xác thực
+I.
+Xác thực thông điệp
+II.
+Chữ ký số và các giao thức xác thực
+III.
+Các cơ chế xác thực trong các hệ phân tán
+IV.
+An toàn an ninh hệ thống
+IV.
+Phát hiện và ngăn chặn xâm nhập ( IDS, IPS )
+I.
+Lỗ hổng hệ thống
+II.
+2
+======================================================================
+[chap4 p.12]
+Quản lý khóa trong sơ đồ mật mã khóa
+công khai
+Các mô hình quản lý khóa
+l
+Bài toán phân phối khóa: tập trung xây dựng kênh
+–
+mật phân phối khóa phiên bí mật.
+Hai hướng sử dụng mật mã khóa công khai:
+–
+Phân phối khóa công khai;
+l
+Sử dụng mã hóa khóa công khai để phân phối khóa
+l
+phiên
+12
+======================================================================
+[chap4 p.13]
+Phân phối khóa công khai
+Các mô hình
+l
+Công bố công khai
+–
+Công bố thư mục công khai
+–
+Trung tâm ủy quyền khóa công khai
+–
+Chứng thư khóa công khai
+–
+13
+======================================================================
+[chap4 p.14]
+Phân phối khóa công khai
+Công bố công khai
+l
+Các bên tham gia trao đổi thông tin tự công bố
+–
+khóa công khai;
+Điểm mạnh: đơn giản.
+–
+Điểm yếu:
+–
+Một người thứ 3 có thể giả mạo khóa công khai;
+l
+Bên C giả mạo bên nhận tin B, gửi khóa công khai của
+–
+mình K cho A;
+PC
+A mã hóa các bản tin gửi cho B bằng khóa K của C;
+–
+PC
+B không đọc được bản tin A gửi
+–
+C có thể đọc được bản tin A gửi B
+–
+14
+======================================================================
+[chap4 p.15]
+Phân phối khóa công khai
+Quản lý thư mục khóa công khai
+l
+Có bên thứ ba C được ủy quyền quản lý khóa công khai;
+–
+Bên thứ ba C tạo cho mỗi bên tham gia trao đổi thông tin một
+–
+thư mục lưu trữ khóa;
+Các bên đăng ký và gửi khóa công khai tới C. Quá trình đăng
+–
+ký có thể thực hiện trên kênh bảo mật.
+Các bên có thể thay thế khóa công khai theo nhu cầu
+–
+Khi đã sử dụng khóa nhiều lần để mã hóa lượng dữ liệu lớn;
+l
+Khi khóa riêng cần phải thay thế
+l
+15
+======================================================================
+[chap4 p.16]
+Phân phối khóa công khai
+Bên C định kỳ công bố toàn bộ thư mục khóa hoặc
+–
+cập nhật;
+Các bên có thể truy cập thư mục khóa qua các kênh
+–
+bảo mật.
+Vấn đề xác thực đối với bên thứ ba C.
+l
+Điểm yếu:
+–
+Nếu thám mã biết được khóa riêng của C
+l
+Toàn bộ các khóa công khai được lưu trữ có thể bị giả mạo.
+–
+Có thể nghe trộm các thông điệp do các bên trao đổi .
+–
+16
+======================================================================
+[chap4 p.17]
+Phân phối khóa công khai
+Ủy quyền khóa
+l
+Trung tâm Kịch bản quản lý
+công khai (1)Yêu cầu
+quản lý
+khóa K || T khóa công khai
+PB 1 khóa PKA
+Bên thứ ba được
+–
+(5)E [K || Yêu cầu || T ]
+KRpka PA 2
+ủy quyền PKA
+tham gia lưu giữ (2)E [K || Yêu cầu || T ] (4)Yêu cầu khóa
+KRpka PB 1
+K || T
+PA 2
+khóa; (3) E [ID ||N ]
+Kpb A 1
+Các bên A, B biết
+–
+khóa công khai
+Bên khởi Bên nhận
+của PKA;
+tạo A B
+(6) E [N ||N ]
+KPA 1 2
+(7) E [ f(N )] Các bước
+KPB 2
+xác thực
+17
+======================================================================
+[chap4 p.18]
+Phân phối khóa công khai
+Chứng chỉ khóa công khai
+l
+Trung tâm cấp phát chứng thư số CA;
+–
+Chỉ cần xác nhận khóa công khai một lần;
+–
+Không cần truy cập CA mỗi khi cần khóa công khai;
+–
+Khóa công khai sẽ do các bên tự quản lý;
+–
+Sơ đồ hoạt động:
+–
+Các bên gửi khóa công khai tới CA để chứng thực;
+l
+Nhận chứng thư số từ CA kèm thời gian hiệu lực;
+l
+Các bên xuất trình chứng thư số trong các giao dịch;
+l
+18
+======================================================================
+[chap4 p.19]
+Phân phối khóa công khai
+Trung tâm
+Kịch bản cấp phát
+(1)Yêu cầu cấp phát cấp phát
+chứng thư số || K chứng chỉ chứng thư số
+PA
+số CA
+(1)Yêu cầu cấp phát
+chứng thư số || K
+PB
+(2)Chứng thư số A
+(2)Chứng thư số B
+(3) Chứng thư số A
+Chứng thư số:
+- Số serial của chứng thư số;
+- Thông tin riêng của người sở hữu;
+- Khóa công khai của người sở hữu;
+- Chứng thực của CA: mã hóa bằng
+Bên A Bên B
+khóa riêng của CA – KR
+CA
+- Thời hạn hiệu lực của chứng thư số
+- Đảm bảo tính toàn vẹn của chứng
+thư số
+- Thuật toán mật mã
+(4) Chứng thư số B
+======================================================================
+[chap4 p.24]
+Kết chương
+Quản lý khóa công khai
+–
+Giải quyết vấn đề giả mạo khóa công khai.
+l
+Bên thứ 3 chứng thực khóa công khai.
+l
+Yêu cầu giao dịch chứng thực mỗi khi có phiên trao đổi
+–
+thông tin: phức tạp, làm tăng giao dịch trong mạng
+Cấp chứng chỉ số xác nhận chủ thể cho các bên tham gia
+–
+trao đổi thông tin.
+Các thông tin xác nhận chủ thể
+l
+ID của chứng chỉ.
+l
+Dấu hiệu đặc trưng xác định duy nhất chủ thể: khóa
+l
+công khai (quan hệ 1-1 với khóa riêng bí mật).
+24 Dấu xác thực của bên cấp chứng chỉ số: mã hóa bằng
+l
+khóa riêng của bên thứ 3 cấp chứng chỉ số
+======================================================================
+[chap4 p.25]
+Kết chương
+Thời hạn hiệu lực của chứng chỉ số.
+l
+Dấu hiệu để xác thực tính toàn vẹn về mặt nội
+l
+dung của chứng chỉ số.
+25
+======================================================================
+[requirements p.2]
+Nội dung
+Nhập môn An toàn thông tin
+I.
+Đảm bảo tính mật
+II.
+Các hệ mật khóa đối xứng (mã hóa đối xứng)
+I.
+Các hệ mật khóa công khai ( mã hóa bất đối xứng )
+II.
+Bài toán xác thực
+III.
+Cơ sở bài toán xác thực
+I.
+Xác thực thông điệp
+II.
+Chữ ký số và các giao thức xác thực
+III.
+Các cơ chế xác thực trong các hệ phân tán
+IV.
+An toàn an ninh hệ thống
+IV.
+Phát hiện và ngăn chặn xâm nhập ( IDS, IPS )
+I.
+Lỗ hổng hệ thống
+II.
+2
+======================================================================
+[requirements p.4]
+Các chủ đề tiểu luận
+1. Các hệ mật khóa công khai.
+l
+Cơ sở xây dựng hệ mật khóa công khai
+–
+Các hệ mật khóa công khai.
+–
+Các sơ đồ ứng dụng.
+–
+2. Hạ tầng khóa công khai PKI
+l
+Cấu trúc hạ tầng khóa công khai.
+–
+Chứng chỉ số, các chuẩn;
+–
+Triển khai thực tế. Các ứng dụng trong các giao dịch.
+–
+Các hệ thống mã nguồn mở.
+–
+4
+======================================================================
+[requirements p.5]
+Các chủ đề tiểu luận
+3. Bảo mật cho mạng IP. IPSec. Mạng riêng ảo VPN.
+l
+Ứng dụng.
+4. Bài toán xác thực thông điệp.
+l
+Các cơ chế xác thực
+–
+Hàm băm và hàm mã hóa xác thực.
+–
+Các giao thức xác thực.
+–
+5. Chữ ký số.
+l
+Các cơ chế tạo chữ ký số. Giao thức chữ ký số.
+–
+Các dịch vụ chữ ký số.
+–
+Chữ ký mù.
+–
+5 – Ứng dụng.
+======================================================================
+[requirements p.8]
+Các chủ đề tiểu luận
+10. Bảo mật cho web services;
+l
+11. Đăng nhập 1 lần với các giao thức
+l
+OpenID, OAuth;
+12. Xác thực Kerberos;
+l
+13. SSL và TLS và các ứng dụng
+l
+14. IPSecurity, giao thức và VPN
+l
+15. Xác thực X509.
+l
+8
+======================================================================
+[requirements p.9]
+Các chủ đề tiểu luận
+16. Hạ tầng khóa công khai PKI
+l
+17. PGP, bảo mật thư tín điện tử, S/MIME, bảo mật dịch
+l
+vụ Internet.
+18. Secure electronic transaction
+l
+19. Firewall, các kiến trúc firewall.
+l
+20. Proxy, cấu trúc và hoạt động của proxy;
+l
+21. Rà quét lỗ hổng bảo mật cho Windows, Unix-Linux
+l
+22. Hệ thống phát hiện xâm nhập dựa trên dấu hiệu;
+l
+23. Hệ thống phát hiện xâm nhập dựa trên bất thường;
+l
+9

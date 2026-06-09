@@ -1,70 +1,346 @@
 % ============================================================
 %  Chương V – Triển khai và ứng dụng thực tế
-%  ~1200 từ · 3.5 trang
 % ============================================================
 \chapter{Triển khai và ứng dụng thực tế}
 \label{chap:deploy}
 
-% Ý chính: PKI không tồn tại trong lý thuyết — đây là hạ tầng vô hình
-% mà mọi giao dịch số đang phụ thuộc vào từng giây.
+PKI đi vào hệ thống thực tế bằng một mẫu chung. Một thực thể cần
+chứng minh danh tính hoặc quyền phát hành. Thực thể đó dùng chứng
+chỉ để gắn danh tính với khóa công khai. Bên nhận kiểm tra chuỗi
+chứng chỉ, mục đích sử dụng khóa và trạng thái hiệu lực trước khi
+tin vào chữ ký hoặc khóa phiên.
+
+Chương này không lặp lại cấu trúc X.509 đã trình bày ở
+Chương~\ref{chap:x509}. Trọng tâm là vai trò vận hành của PKI trong
+HTTPS, ký số tài liệu, S/MIME, VPN, ký mã và dịch vụ công điện tử.
+
+\begin{table}[ht]
+    \centering
+    \caption{So sánh một số ứng dụng PKI}
+    \label{tab:pki-applications}
+    \scriptsize
+    \begin{tabularx}{\textwidth}{@{} >{\raggedright\arraybackslash}p{0.18\textwidth}
+        >{\raggedright\arraybackslash}p{0.18\textwidth}
+        >{\raggedright\arraybackslash}p{0.18\textwidth}
+        X X @{}}
+        \toprule
+        \textbf{Ứng dụng} & \textbf{Đối tượng xác thực}
+            & \textbf{Loại chứng chỉ} & \textbf{Kiểm tra chính}
+            & \textbf{Rủi ro vận hành} \\
+        \midrule
+        HTTPS/TLS
+            & Máy chủ dịch vụ
+            & TLS server certificate
+            & Chuỗi CA, SAN, thời hạn, KU/EKU, thu hồi nếu có
+            & Sai hostname, thiếu intermediate CA, khóa máy chủ bị lộ. \\
+        Ký số tài liệu
+            & Người ký hoặc tổ chức
+            & Chứng chỉ ký số cá nhân, tổ chức hoặc dịch vụ ký từ xa
+            & Chữ ký tài liệu, chuỗi CA, thời điểm ký, trạng thái thu hồi
+            & Không có timestamp tin cậy, khóa ký bị dùng ngoài kiểm soát. \\
+        S/MIME
+            & Người gửi và người nhận email
+            & Chứng chỉ gắn với địa chỉ email
+            & Chữ ký email, chứng chỉ người gửi, chứng chỉ người nhận khi mã hóa
+            & Khó quản lý chứng chỉ người dùng, mất khóa giải mã. \\
+        VPN/IPSec
+            & Gateway, client hoặc site ngang hàng
+            & Chứng chỉ thiết bị hoặc người dùng
+            & CERT, CERTREQ, AUTH trong IKEv2, chuỗi CA nội bộ
+            & CA nội bộ yếu, cấp chứng chỉ sai danh tính, thu hồi chậm. \\
+        Code signing
+            & Nhà phát hành phần mềm
+            & Code signing certificate
+            & Chữ ký mã, certificate chain, timestamp, trạng thái thu hồi
+            & Private key bị lộ, pipeline build bị chiếm quyền. \\
+        eGovernment
+            & Công dân, tổ chức, cơ quan, dịch vụ ký số
+            & Chứng chỉ công cộng hoặc chứng chỉ ký số từ xa
+            & Chữ ký văn bản, chứng chỉ người ký, timestamp, OCSP/CRL
+            & Liên thông hệ thống, vòng đời chứng chỉ, trải nghiệm người dùng. \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[
+        node distance=1.1cm and 1.0cm,
+        box/.style={draw, rounded corners, align=center, minimum width=2.5cm,
+            minimum height=0.8cm, font=\small},
+        arrow/.style={-{Latex[length=2mm]}, thick}
+    ]
+        \node[box] (root) {Root CA\\trong trust store};
+        \node[box, below=of root] (inter) {Intermediate CA};
+        \node[box, below=of inter] (leaf) {Chứng chỉ leaf\\của dịch vụ};
+        \node[box, right=1.8cm of inter] (client) {Bên kiểm tra};
+
+        \draw[arrow] (root) -- node[right, font=\scriptsize] {ký} (inter);
+        \draw[arrow] (inter) -- node[right, font=\scriptsize] {ký} (leaf);
+        \draw[arrow] (client) -- node[above, font=\scriptsize] {dựng và kiểm tra chuỗi} (inter);
+        \draw[arrow] (client) |- node[pos=0.75, below, font=\scriptsize]
+            {kiểm tra tên, mục đích, thời hạn, thu hồi} (leaf);
+    \end{tikzpicture}
+    \caption{Mẫu kiểm tra PKI trong ứng dụng thực tế}
+    \label{fig:pki-validation-flow}
+\end{figure}
 
 % ----------------------------------------------------------
 \section{HTTPS / TLS}
 \label{sec:5.1}
 
-\subsubsection*{Lịch sử SSL đến TLS 1.3}
-% Ý chính: SSL 2.0 (1995, broken) → SSL 3.0 (POODLE) → TLS 1.0/1.1 (deprecated)
-% → TLS 1.2 (2008, vẫn phổ biến) → TLS 1.3 (2018 \cite{RFC8446}, cải tiến lớn)
+\paragraph{Bài toán thực tế.}
+Client cần biết mình đang nói chuyện với đúng máy chủ. Nếu chỉ có
+mã hóa kênh truyền, kẻ trung gian vẫn có thể đưa khóa công khai giả.
+Trong Web PKI, chứng chỉ máy chủ TLS giải quyết bài toán gắn khóa
+công khai với DNS name mà người dùng truy cập.
 
-\subsubsection*{TLS Handshake và xác minh chứng chỉ}
-% Ý chính: ClientHello → ServerHello + Certificate → CertificateVerify → Finished
-% 4 bước browser validation: chain lên root, validity period, revocation, SAN match domain
+\paragraph{Cách PKI giải quyết.}
+Trong TLS 1.3, máy chủ thường gửi thông điệp \texttt{Certificate}
+chứa chứng chỉ leaf và các chứng chỉ trung gian cần thiết. Máy chủ
+sau đó dùng khóa bí mật tương ứng để tạo \texttt{CertificateVerify},
+qua đó chứng minh quyền kiểm soát khóa trong chứng chỉ
+\cite{RFC8446}. Root CA không được gửi như một bằng chứng mới. Nó
+phải có sẵn trong trust store của hệ điều hành hoặc trình duyệt.
 
-\subsubsection*{Cải tiến trong TLS 1.3}
-% Ý chính: 1-RTT (giảm latency), PFS bắt buộc (only ECDHE/DHE),
-% loại bỏ hoàn toàn RSA key exchange, RC4, 3DES, SHA-1 trong handshake
+Certificate chain nối từ leaf đến intermediate CA, rồi đến root CA
+được tin cậy. Leaf certificate chứng nhận tên miền dịch vụ.
+Intermediate CA giảm rủi ro cho root CA vì root có thể được giữ
+offline. Root CA là điểm neo tin cậy mà client dùng để kết thúc quá
+trình dựng chuỗi.
+
+\paragraph{Luồng kiểm tra.}
+Client kiểm tra chữ ký trên từng mắt xích của chuỗi. Nó từ chối
+chứng chỉ nếu thời điểm hiện tại nằm ngoài khoảng hiệu lực. Tên truy
+cập phải khớp với DNS name hoặc IP address trong SAN, theo nguyên
+tắc đã nêu ở Mục~\ref{sec:4.3}. Client cũng kiểm tra
+\texttt{KeyUsage} và \texttt{ExtendedKeyUsage} để bảo đảm chứng chỉ
+phù hợp với xác thực máy chủ.
+
+Kiểm tra thu hồi có thể dùng CRL, OCSP hoặc OCSP stapling. OCSP được
+RFC~6960 định nghĩa cho truy vấn trạng thái của một chứng chỉ cụ thể
+\cite{RFC6960}. OCSP stapling cho phép máy chủ gửi kèm phản hồi OCSP
+trong TLS, thay vì để client tự hỏi responder của CA
+\cite{RFC6066}. Certificate Transparency bổ sung khả năng giám sát
+cấp phát chứng chỉ TLS bằng log công khai. RFC~9162 mô tả CT như một
+cơ chế ghi nhận chứng chỉ và precertificate trong log có thể kiểm
+toán \cite{RFC9162}.
+
+ACME tự động hóa quá trình yêu cầu, xác minh quyền kiểm soát tên
+miền, cấp, gia hạn và thu hồi chứng chỉ. RFC~8555 định nghĩa giao
+thức này, thường được biết đến qua hệ sinh thái Let's Encrypt
+\cite{RFC8555}. ACME không thay thế kiểm tra PKI ở phía client. Nó
+làm giảm lỗi vận hành ở phía cấp và gia hạn chứng chỉ.
+
+\paragraph{Lỗi và rủi ro triển khai.}
+Lỗi phổ biến là thiếu intermediate CA trong cấu hình máy chủ. Khi đó
+một số client không dựng được chuỗi, dù leaf certificate hợp lệ. Lỗi
+khác là chứng chỉ không chứa đúng SAN, hết hạn, dùng sai EKU, hoặc
+private key bị sao chép khỏi máy chủ. Trong môi trường nhiều dịch vụ,
+tự động hóa gia hạn phải đi kèm giám sát. Một chứng chỉ hết hạn có
+thể làm ngừng dịch vụ dù hệ thống ứng dụng vẫn hoạt động.
 
 % ----------------------------------------------------------
-\section{Chữ ký số văn bản điện tử}
+\section{Chữ ký số văn bản}
 \label{sec:5.2}
 
-\subsubsection*{Nguyên lý ký số văn bản}
-% Ý chính: Hash(document) + Sign(private key) → chữ ký số đính kèm tài liệu
-% Phân biệt ký số (cryptographic) khỏi chữ ký điện tử (scanned image)
+\paragraph{Bài toán thực tế.}
+Văn bản điện tử cần cơ chế kiểm tra người ký và phát hiện sửa đổi sau
+khi ký. Việc chèn hình ảnh chữ ký không cung cấp bảo đảm mật mã. Nó
+không chứng minh người ký kiểm soát khóa bí mật, và cũng không ràng
+buộc toàn vẹn tài liệu.
 
-\subsubsection*{Khung pháp lý tại Việt Nam}
-% Ý chính: Luật Giao dịch điện tử 2023, Nghị định 130/2018
-% Ứng dụng: hóa đơn điện tử (Nghị định 123/2020), khai báo hải quan, văn bản hành chính
+\paragraph{Cách PKI giải quyết.}
+Luồng ký số bắt đầu bằng việc tính giá trị băm của tài liệu hoặc cấu
+trúc dữ liệu cần ký. Phần mềm ký dùng private key để ký giá trị đó.
+Chữ ký, chứng chỉ người ký và có thể cả chuỗi chứng chỉ được gắn vào
+tài liệu hoặc gói chữ ký. Người nhận dùng public key trong chứng chỉ
+để kiểm tra chữ ký, rồi kiểm tra chuỗi CA và trạng thái chứng chỉ.
 
-\subsubsection*{CA nhà nước Việt Nam}
-% Ý chính: NEAC (Root CA quốc gia dưới Bộ TT\&TT)
-% Các CA cấp 2: VNPT-CA, Viettel-CA, BKAV-CA, FPT-CA
+Chữ ký số, chứng chỉ và timestamp có vai trò khác nhau. Chữ ký số
+ràng buộc tài liệu với private key. Chứng chỉ ràng buộc public key
+với danh tính người ký hoặc tổ chức. Timestamp ghi nhận rằng chữ ký
+đã tồn tại tại một thời điểm do Time Stamping Authority xác nhận.
+RFC~3161 định nghĩa Time-Stamp Protocol cho hạ tầng X.509
+\cite{RFC3161}.
+
+\paragraph{Luồng kiểm tra.}
+Bên nhận kiểm tra chữ ký trên tài liệu trước. Sau đó họ kiểm tra
+chứng chỉ người ký, bao gồm chain, thời hạn, mục đích sử dụng khóa và
+trạng thái thu hồi. Nếu tài liệu có timestamp đáng tin cậy, bên nhận
+có thể đánh giá chữ ký tại thời điểm ký. Điều này giúp kiểm chứng tài
+liệu sau khi chứng chỉ người ký đã hết hạn, miễn là chứng chỉ còn hợp
+lệ tại thời điểm được đóng dấu.
+
+Với tài liệu PDF, chữ ký số thường được chuẩn hóa theo các profile
+riêng của hệ sinh thái tài liệu. Báo cáo này chỉ dùng khái niệm ở mức
+PKI: tài liệu được ký, chứng chỉ được đính kèm, và timestamp giúp bảo
+vệ giá trị xác minh theo thời gian. Phần chi tiết định dạng PDF không
+phải trọng tâm của chương.
+
+\paragraph{Lỗi và rủi ro triển khai.}
+Rủi ro chính là bảo vệ private key. Nếu khóa ký nằm trên máy người
+dùng mà không có thiết bị bảo vệ hoặc chính sách truy cập phù hợp,
+chữ ký có thể bị tạo ngoài ý chí người ký. Timestamp cũng cần nguồn
+tin cậy. Nếu tài liệu chỉ có thời gian hệ thống cục bộ, verifier khó
+phân biệt chữ ký hợp lệ trước khi hết hạn với chữ ký được tạo muộn
+sau đó.
 
 % ----------------------------------------------------------
-\section{S/MIME -- Email bảo mật}
+\section{S/MIME}
 \label{sec:5.3}
-% Ý chính: ký số và mã hóa email theo chuẩn \cite{RFC8551}
-% Hybrid encryption: mã hoá body bằng AES (session key), mã hoá session key bằng RSA
-% Tích hợp trong Outlook, Thunderbird; cert cần từ CA được trust store tin
+
+\paragraph{Bài toán thực tế.}
+Email mặc định không cung cấp xác thực mạnh cho nội dung từng thư.
+Người nhận cần biết thư có thật do người gửi tạo ra không. Khi cần
+bí mật nội dung, người gửi cũng cần mã hóa thư cho đúng người nhận.
+
+\paragraph{Cách PKI giải quyết.}
+S/MIME dùng chứng chỉ X.509 gắn với địa chỉ email. RFC~8551 định
+nghĩa S/MIME 4.0 cho ký và mã hóa dữ liệu MIME \cite{RFC8551}. Khi
+ký email, người gửi dùng private key của mình để tạo chữ ký. Người
+nhận dùng chứng chỉ của người gửi để kiểm tra chữ ký và chuỗi CA.
+
+Khi mã hóa email, người gửi cần chứng chỉ của từng người nhận. Nội
+dung thư thường được mã hóa bằng khóa phiên. Khóa phiên đó được bảo
+vệ bằng public key của người nhận. Chỉ người có private key tương ứng
+mới giải mã được nội dung.
+
+\paragraph{Luồng kiểm tra.}
+Với thư ký số, client email kiểm tra chữ ký trên nội dung, sau đó
+kiểm tra chứng chỉ người gửi. Với thư mã hóa, người nhận dùng private
+key của mình để mở khóa phiên, rồi giải mã nội dung. Nếu thư vừa ký
+vừa mã hóa, verifier cần xử lý cả hai lớp. Thứ tự xử lý phụ thuộc vào
+định dạng thông điệp cụ thể.
+
+S/MIME khác PGP ở mô hình tin cậy. S/MIME dựa vào CA và chứng chỉ
+X.509. PGP thường gắn với Web of Trust hoặc cơ chế tự quản lý khóa.
+Điều này làm S/MIME phù hợp hơn với tổ chức có PKI tập trung, nhưng
+phụ thuộc vào cấp phát và quản trị chứng chỉ người dùng.
+
+\paragraph{Lỗi và rủi ro triển khai.}
+Vấn đề thực tế lớn nhất là vòng đời chứng chỉ người dùng. Người dùng
+có thể đổi máy, mất private key, hoặc dùng nhiều client email khác
+nhau. Nếu private key mã hóa bị mất, thư cũ có thể không đọc lại
+được. Nếu tổ chức cấp chứng chỉ cho nhiều địa chỉ hoặc đổi địa chỉ
+email, chính sách ánh xạ danh tính cần rõ ràng.
 
 % ----------------------------------------------------------
 \section{VPN và IPSec}
 \label{sec:5.4}
-% Ý chính: IKEv2 dùng cert X.509 để xác thực VPN gateway và client
-% Ưu điểm so với PSK: không còn shared secret để lộ; mỗi user có cert riêng dễ revoke
-% OpenVPN với full PKI: Root CA → Client cert + Server cert
+
+\paragraph{Bài toán thực tế.}
+VPN cần xác thực hai đầu kết nối trước khi thiết lập kênh bảo vệ.
+Trong mô hình site-to-site, hai gateway cần nhận ra nhau. Trong mô
+hình remote access, gateway cần xác thực client hoặc người dùng. Nếu
+chỉ dùng một pre-shared key chung, việc mở rộng và thu hồi quyền truy
+cập trở nên khó kiểm soát.
+
+\paragraph{Cách PKI giải quyết.}
+IKEv2 thiết lập Security Association cho IPSec. RFC~7296 mô tả việc
+các peer có thể dùng payload \texttt{CERT}, \texttt{CERTREQ} và
+\texttt{AUTH} trong trao đổi \texttt{IKE\_AUTH} \cite{RFC7296}. Chứng
+chỉ cung cấp public key và danh tính. Payload \texttt{AUTH} chứng
+minh peer sở hữu private key tương ứng.
+
+Tổ chức thường dùng CA nội bộ cho VPN. CA cấp chứng chỉ cho gateway,
+thiết bị hoặc người dùng. Gateway tin root CA nội bộ và kiểm tra
+chứng chỉ client theo chính sách truy cập. Hai gateway site-to-site
+có thể xác thực lẫn nhau bằng chứng chỉ do cùng một CA hoặc các CA
+được liên thông cấp.
+
+\paragraph{Luồng kiểm tra.}
+Peer gửi danh tính, chứng chỉ và bằng chứng xác thực. Bên nhận dựng
+chuỗi tới CA được tin cậy, kiểm tra thời hạn và trạng thái thu hồi,
+rồi kiểm tra rằng danh tính trong chứng chỉ phù hợp với chính sách
+VPN. Với mutual authentication, cả hai phía đều thực hiện quy trình
+này. Sau khi xác thực thành công, IKEv2 tạo các Child SA để bảo vệ
+lưu lượng ESP hoặc AH.
+
+\paragraph{Lỗi và rủi ro triển khai.}
+Certificate-based VPN mở rộng tốt hơn pre-shared key vì mỗi thiết bị
+hoặc người dùng có thể có chứng chỉ riêng. Khi một client mất quyền,
+CA có thể thu hồi chứng chỉ đó mà không đổi bí mật của toàn hệ thống.
+Đổi lại, tổ chức phải vận hành PKI nghiêm túc. Lỗi cấu hình CA, bỏ
+qua thu hồi, cấp chứng chỉ sai identity hoặc lưu private key gateway
+không an toàn đều làm giảm lợi ích của mô hình này.
 
 % ----------------------------------------------------------
 \section{Code Signing}
 \label{sec:5.5}
-% Ý chính: bảo vệ chuỗi phân phối phần mềm — đảm bảo binary không bị tamper
-% Windows Authenticode (Portable Executable), macOS Gatekeeper/Notarization, Android APK
-% EV Code Signing: được CA xác minh kỹ hơn → bỏ qua SmartScreen ngay lập tức
+
+\paragraph{Bài toán thực tế.}
+Người dùng và hệ điều hành cần biết phần mềm đến từ nhà phát hành nào
+và có bị sửa sau khi ký không. Kênh tải xuống không đủ để bảo đảm hai
+điều này. Một file có thể bị thay đổi trên mirror, trong quá trình
+phân phối, hoặc trong pipeline phát hành.
+
+\paragraph{Cách PKI giải quyết.}
+Code signing gắn chữ ký số vào phần mềm, script, driver hoặc gói cài
+đặt. Microsoft mô tả chữ ký số trên file như một cách nhận diện nhà
+phân phối và bảo đảm nội dung không đổi sau khi chữ ký được tạo
+\cite{MicrosoftCryptoTools}. Apple cũng mô tả code signing như cơ chế
+xác minh tính toàn vẹn ứng dụng và danh tính nhà phát triển
+\cite{AppleCodeSigning}.
+
+Chứng chỉ ký mã khác chứng chỉ TLS ở mục đích sử dụng. Nó không dùng
+để chứng minh DNS name của máy chủ. Nó dùng cho publisher hoặc tổ
+chức phát hành phần mềm. Sự khác biệt này thường được thể hiện bằng
+EKU, chính sách chứng chỉ và quy tắc của nền tảng kiểm tra.
+
+\paragraph{Luồng kiểm tra.}
+Khi cài hoặc chạy phần mềm, hệ thống kiểm tra chữ ký trên file. Nếu
+chữ ký hợp lệ, hệ thống dựng chuỗi chứng chỉ của publisher tới một
+root được tin cậy. Nó cũng có thể kiểm tra timestamp và trạng thái
+thu hồi. Timestamp giúp phân biệt phần mềm đã được ký khi chứng chỉ
+còn hợp lệ với phần mềm được ký sau khi chứng chỉ hết hạn hoặc bị thu
+hồi.
+
+\paragraph{Lỗi và rủi ro triển khai.}
+Rủi ro nghiêm trọng nhất là private key ký mã bị lộ. Khi đó kẻ tấn
+công có thể ký mã độc dưới danh tính hợp lệ cho tới khi chứng chỉ bị
+thu hồi và các nền tảng cập nhật trạng thái. Một rủi ro khác là build
+pipeline bị compromise. Trong trường hợp đó, phần mềm độc hại có thể
+được ký bằng khóa thật của tổ chức. Vì vậy, code signing cần kiểm soát
+khóa, kiểm soát pipeline và quy trình thu hồi rõ ràng.
 
 % ----------------------------------------------------------
-\section{PKI trong eGovernment Việt Nam}
+\section{eGovernment Việt Nam}
 \label{sec:5.6}
-% Ý chính: ứng dụng PKI ở quy mô quốc gia
-% Cổng Dịch vụ công quốc gia (DVCQG), một cửa điện tử, eTax, e-Invoice
-% Kiến trúc: NEAC Root CA → CA Bộ/Tỉnh → CA Doanh nghiệp/Cá nhân
-% Thực trạng: tốc độ triển khai đang tăng nhanh nhưng vẫn còn thách thức interoperability
+
+\paragraph{Bài toán thực tế.}
+Dịch vụ công điện tử cần xác thực công dân, tổ chức, cán bộ xử lý và
+văn bản điện tử. Hệ thống cũng cần kiểm tra văn bản đã ký sau khi nó
+được gửi qua nhiều cổng dịch vụ hoặc lưu trữ lâu dài. Bài toán chính
+không chỉ là tạo chữ ký, mà là quản lý niềm tin ở quy mô quốc gia.
+
+\paragraph{Cách PKI giải quyết.}
+Trang thông tin chính thức của Trung tâm Chứng thực điện tử quốc gia
+(NEAC) thể hiện các chức năng liên quan đến CA công cộng, ký số tài
+liệu, ký số từ xa và kiểm tra văn bản ký số \cite{NEAC}. Ở mức vai
+trò hệ thống, CA cấp chứng chỉ cho cá nhân, tổ chức hoặc dịch vụ.
+Người dùng dùng chứng chỉ để ký hồ sơ, văn bản hoặc giao dịch. Dịch
+vụ công kiểm tra chữ ký và chuỗi chứng chỉ trước khi chấp nhận dữ
+liệu.
+
+Ký số từ xa chuyển phần kiểm soát khóa sang dịch vụ được vận hành
+chuyên biệt. Người dùng xác thực với dịch vụ ký, yêu cầu ký tài liệu,
+rồi nhận chữ ký gắn với chứng chỉ của mình. Mô hình này giảm gánh
+nặng cài đặt thiết bị ký ở phía người dùng, nhưng đặt yêu cầu cao hơn
+lên xác thực người dùng, nhật ký ký và bảo vệ hệ thống ký.
+
+\paragraph{Luồng kiểm tra.}
+Một cổng dịch vụ công hoặc hệ thống văn thư nhận tài liệu đã ký. Nó
+kiểm tra chữ ký trên tài liệu, chứng chỉ người ký, chain đến CA được
+tin cậy, thời điểm ký và trạng thái thu hồi. Trang NEAC cũng thể hiện
+chức năng kiểm tra văn bản PDF/XML, kèm thông tin hiệu lực chứng chỉ,
+chữ ký, timestamp, OCSP và CRL \cite{NEAC}. Những trường này phản ánh
+các thành phần mà verifier cần khi đánh giá văn bản ký số.
+
+\paragraph{Lỗi và rủi ro triển khai.}
+Rủi ro chính là tính liên thông. Các hệ thống khác nhau phải hiểu
+đúng định dạng chữ ký, chính sách chứng chỉ, timestamp và trạng thái
+thu hồi. Nếu verifier chỉ kiểm tra chữ ký mà bỏ qua chain hoặc thu
+hồi, hệ thống có thể chấp nhận chữ ký từ chứng chỉ không còn hợp lệ.
+Nếu quy trình ký từ xa xác thực người dùng yếu, chữ ký hợp lệ về mặt
+mật mã vẫn có thể không phản ánh đúng ý chí của chủ thể.

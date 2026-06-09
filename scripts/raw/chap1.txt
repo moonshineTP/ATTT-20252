@@ -1,0 +1,1004 @@
+--- Page 1 ---
+Nhập môn An toàn thông tin
+PGS. Nguyễn Linh Giang
+Bộ môn Truyền thông và
+Mạng máy tính
+
+--- Page 2 ---
+Nội dung
+Nhập môn An toàn thông tin
+I.
+Đảm bảo tính mật
+II.
+Các hệ mật khóa đối xứng (mã hóa đối xứng)
+I.
+Các hệ mật khóa công khai ( mã hóa bất đối xứng )
+II.
+Bài toán xác thực
+III.
+Cơ sở bài toán xác thực
+I.
+Xác thực thông điệp
+II.
+Chữ ký số và các giao thức xác thực
+III.
+Các cơ chế xác thực trong các hệ phân tán
+IV.
+An toàn an ninh hệ thống
+IV.
+Phát hiện và ngăn chặn xâm nhập ( IDS, IPS )
+I.
+Lỗ hổng hệ thống
+II.
+2
+
+--- Page 3 ---
+Nội dung
+Tài liệu môn học:
+l
+W. Stallings “Networks and Internetwork security”
+–
+W. Stallings “Cryptography and network security”
+–
+Introduction to Cryptography – PGP
+–
+D. Stinson – Cryptography: Theory and Practice
+–
+3
+
+--- Page 4 ---
+Các chủ đề tiểu luận
+1. Các hệ mật khóa công khai.
+l
+Cơ sở xây dựng hệ mật khóa công khai
+–
+Các hệ mật khóa công khai.
+–
+Các sơ đồ ứng dụng.
+–
+2. Hạ tầng khóa công khai PKI
+l
+Cấu trúc hạ tầng khóa công khai.
+–
+Chứng chỉ số, các chuẩn;
+–
+Triển khai thực tế. Các ứng dụng trong các giao dịch.
+–
+Các hệ thống mã nguồn mở.
+–
+4
+
+--- Page 5 ---
+Các chủ đề tiểu luận
+3. Bảo mật cho mạng IP. IPSec. Mạng riêng ảo VPN.
+l
+Ứng dụng.
+4. Bài toán xác thực thông điệp.
+l
+Các cơ chế xác thực
+–
+Hàm băm và hàm mã hóa xác thực.
+–
+Các giao thức xác thực.
+–
+5. Chữ ký số.
+l
+Các cơ chế tạo chữ ký số. Giao thức chữ ký số.
+–
+Các dịch vụ chữ ký số.
+–
+Chữ ký mù.
+–
+5 – Ứng dụng.
+
+--- Page 6 ---
+Các chủ đề tiểu luận
+6. Phát hiện xâm nhập mạng.
+l
+Các cơ chế phát hiện xâm nhập mạng.
+–
+Phát hiện theo dấu hiệu
+–
+Phát hiện theo bất thường
+–
+Phân tích các đặc trưng thống kê của mạng.
+–
+Ứng dụng.
+–
+7. Bảo mật cho mạng không dây. Phân tích các đặc trưng
+l
+thống kê của các dạng tấn công từ chối dịch vụ. Xác thực
+và bảo mật trong mạng không dây. Phát hiện bất thường
+trong mạng không dây.
+6
+
+--- Page 7 ---
+Các chủ đề tiểu luận
+8. Bảo mật hệ thống, bảo mật mạng. Các
+l
+chính sách, các chuẩn. Phân tích đối với
+Windows và Unix-Linux. Các chính sách an
+ninh mạng cho mạng Cisco.
+9. Bảo vệ dữ liệu đa phương tiện trong quá
+l
+trình phân phối qua hệ thống mạng mở. Vấn
+đề bảo mật, bảo vệ bản quyền và kiểm soát sử
+dụng dữ liệu đa phương tiện.
+7
+
+--- Page 8 ---
+Các chủ đề tiểu luận
+10. Bảo mật cho web services;
+l
+11. Đăng nhập 1 lần với GSS-API;
+l
+12. Xác thực Kerberos;
+l
+13. SSL và TLS;
+l
+14. IPSecurity;
+l
+15. Xác thực X509
+l
+8
+
+--- Page 9 ---
+Các chủ đề tiểu luận
+16. Hạ tầng khóa công khai PKI
+l
+17. PGP và bảo mật thư tín điện tử
+l
+18. S/MIME
+l
+19. Secure electronic transaction
+l
+20. Firewall, các kiến trúc;
+l
+21. Proxy, thiết kế và xây dựng proxy;
+l
+9
+
+--- Page 10 ---
+Các chủ đề tiểu luận
+22. Các hệ thống phát hiện xâm nhập dựa trên dấu hiệu;
+l
+23. Các hệ thống phát hiện xâm nhập dựa trên bất thường;
+l
+24. Bảo mật mạng LAN không dây;
+l
+25. Các dạng tấn công vào mạng sensor.
+l
+26. Các dạng tấn công từ chối dịch vụ;
+l
+27. Tấn công SQL Injection, phát hiện và tìm kiếm lỗi SQL
+l
+Injection;
+28. Phát hiện tấn công quét cổng;
+l
+29. Các phương pháp, quy trình phát hiện lỗ hổng hệ thống.
+l
+30. Các mô hình tiền điện tử trong giao dịch điện tử.
+l
+10
+
+--- Page 11 ---
+Đánh giá
+Giữa kỳ và quá trình: 30%
+l
+Điểm danh: 1/3.
+–
+Thi hết môn: 70%
+l
+Liên hệ giáo viên:
+l
+giangnl@soict.hust.edu.vn; số Bộ môn: 024-
+l
+38682596; mobile: 0984933165
+11
+
+--- Page 12 ---
+Chương I. Nhập môn
+Nhập môn
+1.
+Các dịch vụ, cơ chế an toàn an ninh thông tin và các
+2.
+dạng tấn công vào hệ thống mạng
+Các dạng tấn công
+3.
+Các dịch vụ an toàn an ninh
+4.
+Các mô hình an toàn an ninh mạng
+5.
+12
+
+--- Page 13 ---
+Nhập môn
+Bối cảnh bảo mật thông tin:
+l
+Trước khi xuất hiện máy tính: Bảo vệ thông tin, tài
+–
+liệu:
+Các cơ chế bảo vệ;
+l
+Khoá kho hồ sơ lưu trữ văn bản.
+l
+Khi xuất hiện máy tính - bảo vệ thông tin điện tử:
+–
+Sao chép thông tin dễ dàng
+l
+Cần thiết có các công cụ tự động để bảo mật các tệp, các
+l
+dạng thông tin chứa trong máy tính.
+Đặc biệt khi hệ thống được chia sẻ tài nguyên trên mạng.
+l
+Vấn đề Computer Security.
+13
+
+--- Page 14 ---
+Nhập môn
+Khi xuất hiện các hệ phân tán và sử dụng mạng để
+–
+truyền dữ liệu và trao đổi thông tin: Bảo vệ thông
+tin, dữ liệu truyền trên mạng
+Truyền dữ liệu giữa người sử dụng và máy tính,
+l
+Giữa máy tính và máy tính.
+l
+Nhu cầu bảo vệ các dữ liệu trong khi truyền ® Network
+l
+Security.
+Không có ranh giới rõ rệt giữa Computer Security
+–
+và Network Security.
+Chương trình tập trung vào: an toàn thông tin liên
+–
+mạng: internetwork security.
+14
+
+--- Page 15 ---
+Nhập môn
+Một số ví dụ về vấn đề
+–
+bảo vệ an toàn thông tin:
+A và B trao đổi thông tin
+Truyền file:
+l riêng tư
+A B
+– A truyền file cho B;
+C chặn
+– Trong file chứa giữ thông
+những thông tin bí tin trao
+đổi giữa
+mật; A và B
+– C không được phép
+đọc file nhưng có thể
+C
+theo dõi được quá
+trình truyền file và sao
+chép file trong quá
+trình truyền.
+15
+
+--- Page 16 ---
+Nhập môn
+Trao đổi thông điệp:
+l
+– Quản trị mạng D gửi thông điệp
+đến máy tính chịu sự quản trị E;
+Danh
+– Thông điệp chứa những thông sách D gửi danh sáh NSD cho E
+NSD
+D E
+tin về danh sách những người
+sử dụng mới. Danh
+F chặn giữ sách
+Danh sách NSD
+– Người sử dụng F bắt thông danh sách NSD đã sửa đổi
+NSD và
+điệp;
+sửa đổi
+danh sách F gửi
+– F thêm các user mới vào nội
+danh
+dung thông điệp, rồi gửi tiếp sách sửa
+đổi đến
+cho E;
+F cho E
+– E nhận thông điệp, không biết
+là đã bị F thay đổi, vẫn tưởng là
+do D gửi tới và thay đổi danh
+sách user của mình.
+16
+
+--- Page 17 ---
+Nhập môn
+Giả mạo:
+l
+– Kịch bản giống trường hợp
+D không thông tin E
+trước;
+D E
+– F tạo một thông điệp của
+riêng mình, chứa những Danh sách giả
+mạo
+thông tin riêng có lợi cho F và
+gửi cho E.
+F giả mạo
+– E nhận được thông tin từ F,
+D, gửi
+cho rằng thông tin đó do D danh sách
+F
+mới đến E
+gửi và cập nhật những thông
+tin giả mạo vào CSDL
+17
+
+--- Page 18 ---
+Nhập môn
+Sự phức tạp trong bài toán Bảo mật liên mạng:
+–
+Không tồn tại phương pháp thích hợp cho mọi trường hợp.
+l
+Các cơ chế bảo mật luôn đi đôi với các biện pháp đối phó.
+l
+Lựa chọn những giải pháp thích hợp với từng ngữ cảnh sử
+l
+dụng.
+18
+
+--- Page 19 ---
+Computer security
+An toàn hệ thống tính toán:
+l
+Mục tiêu: bảo vệ hệ thống và đạt các mục tiêu: đảm
+–
+bảo tính bí mật, tính toàn vẹn và tính sẵn sàng của
+các tài nguyên hệ thống thông tin (phần cứng, phần
+mềm, các firmware, thông tin/dữ liệu, hạ tầng truyền
+thông)
+
+--- Page 20 ---
+Introduction to Computer security
+3 mục tiêu cơ bản của ATTT:
+l
+Confidentiality: Preserving authorized restrictions
+–
+on information access and disclosure;
+Integrity: Guarding against improper information
+–
+modification or destruction;
+Availability: Assures that systems work promptly
+–
+and service is not denied to authorized users
+
+--- Page 21 ---
+Introduction to Computer security
+The security requirement
+l
+triad:
+These three concepts form
+–
+what is often referred to as
+the CIA triad
+The three concepts embody
+–
+the fundamental security
+objectives for both data and
+for information and
+computing services.
+
+--- Page 22 ---
+Dịch vụ và cơ chế an toàn an ninh
+Mục tiêu An toàn thông tin:
+l
+Đánh giá được những nhu cầu về an toàn của tổ chức một cách
+–
+hiệu quả;
+Xác định và lựa chọn những sản phẩm và chính sách an ninh,
+–
+cần có:
+Những phương pháp có tính hệ thống làm cơ sở để xác định
+–
+những yêu cầu an toàn an ninh mạng;
+Đặc tả được những cách tiếp cận thỏa mãn những yêu cầu đó.
+–
+Một trong những phương hướng là khảo sát ba khía cạnh của
+–
+an toàn an ninh thông tin.
+22
+
+--- Page 23 ---
+Kiến trúc an toàn thông tin OSI
+ITU-T3 Recommendation X.800, Security Architecture for OSI
+l
+Kiến trúc ATTT OSI tập trung vào các vấn đề:
+l
+Tấn công vào ATTT: mọi hành vi làm giảm mức độ an toàn của
+–
+hệ thống thông tin, dữ liệu của tổ chức.
+Cơ chế ATTT: Quá trình được xây dựng để phát hiện, ngăn
+–
+chặn và phục hồi hệ thống sau khi chịu tấn công;
+Dịch vụ ATTT: tiến trình hoặc dịch vụ truyền thông làm tăng
+–
+cường mức độ an toàn của hệ thống, dữ liệu trao đổi, lưu trữ, tổ
+chức.
+Các dịch vụ nhằm đối phó với tấn công và sử dụng một hoặc nhiều cơ chế
+l
+ATTT.
+
+--- Page 24 ---
+Kiến trúc an toàn thông tin OSI
+Mối đe dọa (Threats)
+l
+Các hành vi làm ảnh hưởng hoạt động hệ thống
+–
+Tấn công (Attacks)
+l
+Tấn công trực tiếp, làm giảm độ an toàn của hệ thống
+–
+
+--- Page 25 ---
+Kiến trúc OSI về An toàn thông tin
+Ba khía cạnh an toàn an ninh thông tin:
+l
+Tấn công vào an ninh thông tin
+–
+Mọi tác động làm giảm mức độ an toàn an ninh thông tin
+l
+của hệ thống;
+Các cơ chế an toàn an ninh
+–
+Các cơ chế cho phép:
+l
+Phát hiện,
+–
+Ngăn chặn hoặc
+–
+Khôi phục hệ thống sau khi bị tấn công;
+–
+25
+
+--- Page 26 ---
+Dịch vụ và cơ chế an toàn an ninh
+Các dạng tấn công
+Các dịch vụ an toàn an ninh thông tin:
+–
+Các dịch vụ làm tăng cường mức độ an toàn của hệ
+l
+thống xử lý thông tin và những thông tin được truyền đi.
+Các dịch vụ có nhiệm vụ
+l
+Chống lại những tấn công thông tin và
+–
+Sử dụng một hoặc nhiều cơ chế an toàn an ninh để cung
+–
+cấp dịch vụ.
+26
+
+--- Page 27 ---
+Dịch vụ và cơ chế an toàn an ninh
+Các dạng tấn công
+Các dạng tấn công.
+l
+Truy nhập thông tin bất hợp pháp;
+–
+Sửa đổi thông tin bất hợp pháp;
+–
+v.v và v.v ...
+–
+27
+
+--- Page 28 ---
+Các dạng tấn công vào hệ thống
+Các dạng tấn công vào hệ thống
+l
+máy tính và mạng:
+Nguồn thông tin Nơi nhận tin
+Luồng thông tin Luồng thông tin bị
+thông thường gián đoạn
+Gián đoạn truyền tin ( interruption ):
+–
+Các thông tin quý báu có thể bị phá
+l
+huỷ, không sử dụng được.
+Dạng tấn công vào tính sẵn sàng
+l
+của thông tin ( availability ).
+Ví dụ: phá huỷ đĩa cứng, cắt đường
+l
+28 dây truyền tải, phá hỏng hệ thống
+quản lý file.
+
+--- Page 29 ---
+Các dạng tấn công vào hệ thống
+Chặn giữ thông tin (
+–
+interception ):
+Người không được uỷ
+l
+quyền cố gắng truy cập
+Luồng thông tin bị
+chặn giữ
+tới thông tin.
+Dạng tấn công vào tính
+l
+riêng tư của thông tin (
+confidentiality ).
+Ví dụ: sao chép trái
+l
+phép thông tin.
+29
+
+--- Page 30 ---
+Các dạng tấn công vào hệ thống
+Sửa đổi thông tin (
+–
+modification ):
+Không những truy cập
+l
+Luồng thông tin
+trái phép thông tin mà
+bị sửa đổi
+còn sửa đổi thông tin
+gốc.
+Dạng tấn công vào tính
+l
+toàn vẹn thông tin.
+Ví dụ: truy cập trái phép
+l
+vào hệ thống, sửa đổi
+thông tin, thay đổi nội
+dung thông điệp được
+truyền tải.
+30
+
+--- Page 31 ---
+Các dạng tấn công vào hệ thống
+Làm giả thông tin (
+–
+fabrication ).
+Người không được uỷ
+l
+quyền đưa những thông tin Luồng thông tin
+bị giả mạo
+giả mạo vào hệ thống.
+Dạng tấn công vào tính xác
+l
+thực thông tin ( authencity
+).
+Ví dụ: đưa những thông
+l
+điệp giả mạo vào hệ thống,
+thêm những bản ghi mới
+vào file.
+31
+
+--- Page 32 ---
+Các dạng tấn công vào hệ thống
+Tấn công thụ động
+Dạng tấn công thụ
+l
+Tấn công thụ động
+động.
+Tấn công thụ động
+–
+Chặn giữ thông tin mật
+tương tự hình thức nghe
+trộm, theo dõi quá trình
+truyền tin.
+Phát hiện nội dung Phân tích luồng
+thông điệp truyền tải
+Mục đích của đối
+–
+phương là thu được
+những thông tin được
+truyền tải.
+32
+
+--- Page 33 ---
+Các dạng tấn công vào hệ thống
+Tấn công thụ động
+Các dạng tấn công thụ động:
+–
+Phát hiện nội dung thông điệp ( release of message
+l
+contents ).
+Phương pháp chống: Ngăn chặn đối phương thu và tìm hiểu
+–
+được nội dung của thông tin truyền tải.
+Phân tích lưu lượng ( traffic analysis ).
+l
+Mục đích của bên truyền tải thông tin: che dấu nội dung của
+–
+tin khỏi đối tượng thứ ba Þ cơ chế mật mã nội dung được sử
+dụng rộng rãi.
+Vấn đề đặt ra: bên thứ ba có thể xác định được vị trí của các
+–
+máy tham gia vào quá trình truyền tin, xác định được tần suất
+và kích thước bản tin, từ đó đoán được nội dung của bản tin.
+33
+
+--- Page 34 ---
+Các dạng tấn công vào hệ thống
+Tấn công thụ động
+Dạng tấn công thụ động rất khó bị phát hiện vì
+–
+không làm thay đổi dữ liệu.
+Với dạng tấn công thụ động, nhấn mạnh vấn đề
+–
+ngăn chặn hơn là vấn đề phát hiện.
+34
+
+--- Page 35 ---
+Các dạng tấn công vào hệ thống
+Tấn công chủ động
+Dạng tấn công chủ
+l
+động.
+Tấn công chủ động
+Dạng tấn công chủ
+–
+động bao gồm: sửa
+các dòng dữ liệu, đưa
+Gián đoạn truyền Giả mạo thông tin
+những dữ liệu giả, giảtin (tính sẵn sàng) (tính xác thực)
+danh, phát lại, thay
+Sửa đổi nội dung
+đổi thông điệp, phủ (tính toàn vẹn)
+nhận dịch vụ.
+35
+
+--- Page 36 ---
+Các dạng tấn công vào hệ thống
+Tấn công chủ động
+Giả danh ( masquerade ): khi đối phương giả mạo một
+l
+đối tượng được uỷ quyền.
+Phát lại ( replay ): dạng tấn công khi đối phương chặn
+l
+bắt các đơn vị dữ liệu và phát lại chúng tạo nên các hiệu
+ứng không được uỷ quyền;
+36
+
+--- Page 37 ---
+Các dạng tấn công vào hệ thống
+Tấn công chủ động
+Thay đổi thông điệp ( modification of message ): một
+l
+phần của thông điệp hợp pháp bị sửa đổi, bị làm chậm
+lại hoặc bị sắp xếp lại và tạo ra những hiệu ứng không
+được uỷ quyền.
+Phủ nhận dịch vụ ( denial of service): dạng tấn công đưa
+l
+đến việc cấm hoặc ngăn chặn sử dụng các dịch vụ, các
+khả năng truyền thông.
+37
+
+--- Page 38 ---
+Các dạng tấn công vào hệ thống
+Tấn công chủ động
+Dạng tấn công chủ động:
+–
+Rất khó có thể ngăn chặn tuyệt đối.
+l
+Để ngăn chặn, yêu cầu phải bảo vệ vật lý mọi đường
+l
+truyền thông tại mọi thời điểm.
+Mục tiêu an toàn:
+–
+Phát hiện tấn công một cách nhanh nhất
+l
+Phục hồi lại thông tin trong các trường hợp dữ liệu bị phá
+l
+huỷ hoặc bị làm trễ.
+38
+
+--- Page 39 ---
+Dịch vụ và cơ chế an toàn an ninh
+Các cơ chế an toàn an ninh
+l
+Không tồn tại một cơ chế duy nhất có thể cung cấp
+–
+tất cả các dịch vụ an toàn an ninh và thực hiện hết
+mọi chức năng đề ra.
+Một phần tử được hầu hết mọi cơ chế bảo mật sử
+–
+dụng: các kỹ thuật mật mã. Các phương thức
+truyền tải và lưu trữ thông tin dựa trên mật mã là
+cơ chế phổ biến để cung cấp sự an toàn thông tin.
+39
+
+--- Page 40 ---
+Các cơ chế an toàn thông tin
+Kiến trúc ATTT OSI.
+l
+Mật mã
+l
+Chữ ký số
+l
+Kiểm soát truy cập
+l
+Toàn vẹn dữ liệu
+l
+Trao đổi xác thực
+l
+Nhiễu luồng truyền tải
+l
+
+--- Page 41 ---
+Các cơ chế an toàn thông tin
+Kiểm soát định tuyến
+l
+Công chứng số
+l
+Đánh giá ATTT
+l
+Phát hiện sự cố
+l
+Phục hồi sự cố ATTT
+l
+Ghi vết ATTT
+l
+
+--- Page 42 ---
+Dịch vụ và cơ chế an toàn an ninh
+Các dịch vụ an toàn an ninh.
+l
+Những vấn đề nảy sinh khi sử dụng dữ liệu điện tử:
+–
+Không có sự khác biệt giữa các bản sao chép số với
+l
+những bản gốc;
+Thay đổi nội dung của bản tin vật lý sẽ để lại dấu vết,
+l
+nhưng thay đổi nội dung của bản tin điện tử không để
+lại dấu vết;
+Tính xác thực:
+l
+Chứng thực văn bản vật lý phụ thuộc vào các thuộc
+–
+tính vật lý của văn bản;
+Chứng thực văn bản phải dựa vào nội dung của chính
+–
+văn bản đó.
+42
+
+--- Page 43 ---
+Dịch vụ và cơ chế an toàn an ninh
+Danh sách các chức năng toàn vẹn thông tin
+Identification Endorsement
+Authorization Access ( Egress )
+Liscen and/or Certification Validation
+Signature Time of Occurrence
+Witnessing ( notarization ) Authenticity-software and/or file
+Concurrence Vote
+Liability Ownership
+Receipt Registration
+Certification of Origination Approval/Disapproval
+and/or receipt
+43
+Privacy ( secrecy )
+
+--- Page 44 ---
+Dịch vụ và cơ chế an toàn an ninh
+Phân loại các dịch vụ an toàn an ninh:
+–
+Bảo mật riêng tư ( confidentiality ): đảm bảo thông tin trong
+l
+hệ thống máy tính cũng như thông tin chuyển tải trên mạng chỉ
+được truy cập bởi những người được uỷ quyền. Các dạng truy
+cập bao gồm: đọc, in, hiển thị.
+Xác thực ( authentication ): đảm bảo về nguồn gốc của thông
+l
+điệp hoặc văn bản điện tử.
+Toàn vẹn thông tin ( integrity ): đảm bảo rằng chỉ có những
+l
+người được uỷ quyền mới có thể thay đổi tài nguyên của hệ
+thống máy tính và truyền tải thông tin. Mọi thay đổi bao gồm
+ghi, xoá , sửa, tạo mới hoặc xem lại các thông điệp.
+44
+
+--- Page 45 ---
+Dịch vụ và cơ chế an toàn an ninh
+Chống phủ định ( nonrepudiation ): yêu cầu người gửi
+l
+cũng như người nhận thông điệp không thể phủ nhận
+được giao dịch.
+Kiểm soát truy cập ( access control ): yêu cầu mọi sự
+l
+truy cập tới tài nguyên thông tin đều được kiểm soát chặt
+chẽ từ hệ thống.
+Tính sẵn sàng ( availability ): yêu cầu hệ thống tính
+l
+toán sẵn sàng đáp ứng dịch vụ đối với những bên được
+uỷ quyền mỗi khi được yêu cầu.
+45
+
+--- Page 46 ---
+Dịch vụ ATTT
+Quan hệ giữa cơ chế ATTT và dịch vụ ATTT
+l
+
+--- Page 47 ---
+Mô hình An toàn thông tin
+Mô hình an toàn truyền tải và mô hình an
+l
+toàn hệ thống
+47
+
+--- Page 48 ---
+Mô hình An toàn thông tin
+Mô hình an toàn truyền tải
+l
+Bài toán an toàn an ninh thông tin mạng
+–
+nảy sinh khi:
+Cần thiết phải bảo vệ quá trình truyền tin khỏi
+l
+các hành động truy cập trái phép;
+Đảm bảo tính riêng tư và tính toàn vẹn;
+l
+Đảm bảo tính xác thực; ..vv.
+l
+Mô hình truyền thống của quá trình truyền
+–
+tin an toàn
+48
+
+--- Page 49 ---
+Mô hình An toàn thông tin
+Nhà cung cấp được ủy
+quyền
+Bên ủy quyền Bên ủy quyền
+Thông điệp Thông điệp
+Kênh truyền tin
+Thông tin
+Thông tin
+mật
+mật
+Quá trình trao đổi thông Quá trình truyền tin
+tin được bảo mật Đối phương được bảo mật
+49
+
+--- Page 50 ---
+Mô hình An toàn thông tin
+Tất cả các kỹ thuật đảm bảo an toàn hệ thống truyền tin
+–
+đều có hai thành phần:
+Quá trình truyền tải có bảo mật thông tin được gửi.
+l
+Ví dụ: mật mã thông điệp sẽ làm cho kẻ tấn công không thể đọc
+–
+được thông điệp.
+Thêm vào thông điệp những thông tin được tổng hợp từ nội dung
+–
+thông điệp. Các thông tin này có tác dụng xác định người gửi.
+Một số thông tin mật sẽ được chia sẻ giữa hai bên truyền tin.
+l
+Các thông tin này được coi là bí mật với đối phương.
+–
+Ví dụ: khóa mật mã được dùng kết hợp với quá trình truyền để mã
+–
+hóa thông điệp khi gửi và giải mã thông điệp khi nhận.
+50
+
+--- Page 51 ---
+Mô hình An toàn thông tin
+Bên thứ ba được ủy quyền: trong nhiều trường
+–
+hợp, cần thiết cho quá trình truyền tin mật:
+Có trách nhiệm phân phối những thông tin mật giữa hai
+l
+bên truyền tin;
+Giữ cho các thông tin trao đổi với các bên được bí mật
+l
+đối với người tấn công.
+Có trách nhiệm phân xử giữa hai phía truyền tin về tính
+l
+xác thực của thông điệp được truyền.
+51
+
+--- Page 52 ---
+Mô hình An toàn thông tin
+Mô hình an toàn hệ thống
+l
+Ngăn chặn xâm nhập của các tác nhân tấn công;
+–
+Phát hiện xâm nhập hệ thống
+–
+Dò quét các lỗ hổng an ninh hệ thống;
+–
+Các tiến trình ngoại lai:
+–
+Các tiến trình truy cập tới thông tin: làm phá hủy, sửa
+l
+đổi thông tin không được phép.
+Các tiến trình dịch vụ: phát hiên các lỗi trong các dịch vụ
+l
+của hệ thống để ngăn chặn việc sử dụng của những
+người không được ủy quyền.
+52
+
+--- Page 53 ---
+Các mô hình an toàn mạng và
+hệ thống
+Cổng
+Đối phương
+Kênh truy cập bảo vệ
+Các tài nguyên
+Con người
+hệ thống
+Phần mềm
+Mô hình an ninh hệ thống
+53
+
+--- Page 54 ---
+Kết chương
+Kiến trúc ATTT OSI
+l
+Tấn công vào hệ thống thông tin và dữ liệu
+–
+Các cơ chế ATTT
+–
+Các dịch vụ ATTT (dịch vụ bao gồm nhiều cơ chế
+–
+ATTT, đáp ứng theo yêu cầu);
+Các vấn đề ATTT: mối quan hệ qua lại CIA
+l
+Vấn đề bảo mật: bảo mật dữ liệu và đảm bảo tính
+–
+riêng tư dữ liệu
+Vấn đề toàn vẹn: toàn vẹn dữ liệu và toàn vẹn
+–
+54 hoạt động hệ thống
+Tính sẵn sàng; khả năng đáp ứng dịch vụ
+–
+
+--- Page 55 ---
+Kết chương 1
+Tấn công: phân loại dựa trên tác động vào
+l
+hệ thống
+Tấn công thụ động
+–
+Tấn công chủ động
+–
+Các cơ chế ATTT
+l
+Đối phó tấn công thụ động:
+–
+Bảo mật
+l
+Nhiễu luồng truyền tải (chống các tấn công định vị)
+l
+Đối phó tấn công chủ động
+–
+55 Phát hiện sớm, chính xác, cảnh báo sớm
+l
+Phục hồi hệ thống nhanh nhất.
+l
+
+--- Page 56 ---
+Kết chương 1
+DỊch vụ ATTT
+l
+Dịch vụ bảo mật
+–
+DỊch vụ xác thực
+–
+Dịch vụ toàn vẹn
+–
+Dịch vụ Chống phủ nhận
+–
+Dịch vụ kiểm soát truy cập
+–
+Dịch vụ Đảm bảo tính sẵn sàng
+–
+Mô hình ATTT
+l
+An toàn truyền tải dữ liệu
+–
+56
+An toàn hệ thống đầu cuối
+–
