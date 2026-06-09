@@ -4,109 +4,40 @@
 \chapter{Thách thức và xu hướng}
 \label{chap:challenges}
 
-PKI vẫn là nền tảng để ràng buộc public key với danh tính.
-Khi số lượng certificate tăng, rủi ro chính chuyển sang kiểm soát
-vòng đời, niềm tin và khóa riêng.
+Dù các thuật toán mật mã liên tục tiến hóa, vai trò cốt lõi của PKI trong việc đóng đinh khóa công khai vào danh tính vẫn không thể thay thế. Tuy nhiên, khi chuyển từ quy mô hàng nghìn người dùng lên hàng tỷ thiết bị IoT và vi dịch vụ, nút thắt bảo mật không còn nằm ở toán học, mà dịch chuyển hoàn toàn sang quy trình vận hành: kiểm soát vòng đời, quản lý rủi ro từ CA, và tự động hóa.
 
 % ----------------------------------------------------------
 \section{Thách thức hiện tại}
 \label{sec:7.1}
 
-Thách thức đầu tiên là quản lý vòng đời chứng chỉ. Một certificate có thể
-được cấp đúng nhưng gây lỗi khi hết hạn, không được gia hạn, hoặc bị bỏ quên
-trong một trust store cũ. Ở quy mô lớn, tổ chức phải kiểm kê certificate, chủ
-sở hữu, CA phát hành, thời hạn và mục đích sử dụng. Thiếu kiểm kê làm xoay
-vòng khóa và thay thế certificate trở thành thao tác thủ công dễ sai.
+Sự đứt gãy hệ thống tồi tệ nhất thường không đến từ hacker, mà đến từ một chứng chỉ bị lãng quên cho tới khi hết hạn. Ở quy mô lớn, việc thiếu một hệ thống kiểm kê (inventory) minh bạch khiến việc xoay vòng khóa (key rotation) trở thành cơn ác mộng thủ công. Tổ chức thường không biết chính xác mình đang sở hữu bao nhiêu chứng chỉ, do ai cấp và nằm ở đâu trong hạ tầng.
 
-Thu hồi chứng chỉ cũng có giới hạn thực tế. CRL được định nghĩa trong profile
-X.509, nhưng có thể lớn và có độ trễ phân phối \cite{RFC5280}. OCSP cho phép
-kiểm tra trạng thái trực tuyến, nhưng lại phụ thuộc vào responder và chính
-sách xử lý khi dịch vụ trạng thái không sẵn sàng \cite{RFC6960}. Vì vậy, thu
-hồi không phải cơ chế tức thời tuyệt đối.
+Bên cạnh đó, cơ chế thu hồi (revocation) chưa bao giờ hoàn hảo. Danh sách thu hồi CRL~\cite{RFC5280} thường xuyên phình to và có độ trễ cập nhật lớn, trong khi giao thức OCSP~\cite{RFC6960} lại tạo ra điểm nghẽn cổ chai (bottleneck) và đặt ra câu hỏi khó: client nên làm gì khi máy chủ OCSP sập (soft-fail hay hard-fail)? 
 
-Niềm tin vào CA là rủi ro tập trung. Nếu CA cấp sai hoặc bị xâm phạm, trình
-duyệt và hệ điều hành phải dựa vào root store, chính sách CA và cơ chế distrust
-để giới hạn thiệt hại. CA/B Forum Baseline Requirements đặt yêu cầu cho CA
-publicly-trusted \cite{CABForum}.
+Cao hơn nữa, bản thân mô hình phân cấp CA là một điểm yếu chí mạng (single point of failure). Khi một CA công cộng bị xâm nhập hoặc cấp phát sai nguyên tắc, hậu quả sẽ lan rộng trên toàn cầu trước khi các trình duyệt kịp phản ứng bằng cách cập nhật trust store. CA/B Forum đã phải thiết lập Baseline Requirements~\cite{CABForum} nhằm siết chặt quy trình, nhưng nó chỉ là rào chắn pháp lý chứ không loại bỏ được hoàn toàn rủi ro kỹ thuật.
 
 % ----------------------------------------------------------
 \section{Tự động hóa và giám sát}
 \label{sec:7.2}
 
-Xu hướng chính là giảm thao tác thủ công. ACME chuẩn hóa cách client tạo
-order, chứng minh quyền kiểm soát identifier, gửi CSR và nhận certificate
-\cite{RFC8555}. Certificate lifecycle management mở rộng ý tưởng này sang
-kiểm kê, cấp phát, gia hạn, thu hồi và audit. Short-lived certificate cũng
-giảm khoảng thời gian rủi ro khi khóa hoặc certificate bị lộ.
+Để giải quyết bài toán quy mô, thế giới đang chuyển dịch mạnh mẽ sang tự động hóa và rút ngắn thời gian sống của chứng chỉ. Giao thức ACME~\cite{RFC8555} đã chứng minh rằng thao tác xác minh tên miền và cấp phát chứng chỉ có thể diễn ra hoàn toàn không cần bàn tay con người. Kết hợp với xu hướng chứng chỉ ngắn hạn (short-lived certificate), tổ chức có thể giới hạn tối đa cửa sổ rủi ro (window of vulnerability) nếu khóa bị đánh cắp.
 
-Tự động hóa cần đi kèm policy. Nếu hệ thống cấp certificate không kiểm soát
-được ai có quyền yêu cầu, tên nào được cấp, hoặc profile nào được dùng, lỗi
-thủ công chỉ chuyển thành lỗi tự động. Vì vậy, inventory, phân quyền và audit
-là điều kiện vận hành, không phải phần phụ.
+Tuy nhiên, tự động hóa mù quáng là thảm họa. Nếu thiếu hệ thống phân quyền (RBAC) và chính sách (policy) khắt khe, việc tự động hóa chỉ đơn giản là khuếch đại tốc độ cấp phát sai lầm.
 
-Bảng~\ref{tab:pki-trends} tóm tắt vai trò của một số hướng xử lý hiện nay.
-
-\begin{table}
-    \centering
-    \small
-    \caption{Một số hướng xử lý thách thức PKI}
-    \label{tab:pki-trends}
-    \begin{tabularx}{\textwidth}{@{} >{\raggedright\arraybackslash}p{0.22\textwidth}
-        >{\raggedright\arraybackslash}p{0.30\textwidth}
-        >{\raggedright\arraybackslash}X @{} }
-        \toprule
-        \textbf{Hướng} & \textbf{Giảm rủi ro} & \textbf{Giới hạn} \\
-        \midrule
-        ACME và CLM
-            & Giảm lỗi cấp phát và gia hạn thủ công
-            & Cần policy, phân quyền và inventory. \\
-        Short-lived certificate
-            & Giảm thời gian hiệu lực khi có sự cố
-            & Phụ thuộc tự động hóa gia hạn ổn định. \\
-        Certificate Transparency
-            & Tăng khả năng phát hiện certificate cấp sai
-            & Không thay thế validation hoặc revocation. \\
-        Crypto-agility
-            & Cho phép thay thuật toán và profile
-            & Cần hỗ trợ từ CA, HSM, TLS stack và client. \\
-        \bottomrule
-    \end{tabularx}
-\end{table}
-
-Certificate Transparency bổ sung lớp giám sát cho Web PKI. RFC~9162 mô tả CT
-bằng các log append-only dựa trên Merkle Tree, giúp certificate đã cấp có thể
-được audit công khai \cite{RFC9162}. CT làm tăng minh bạch và hỗ trợ phát
-hiện mis-issuance. Nó không tự xác thực domain, không thu hồi certificate và
-không thay thế chính sách CA.
+Trên Internet công cộng, Web PKI được gia cố thêm lớp phòng ngự Certificate Transparency (CT)~\cite{RFC9162}. Bằng cách yêu cầu mọi chứng chỉ phát hành phải được ghi vào các log công khai (append-only) dựa trên cấu trúc Merkle Tree, CT loại bỏ hoàn toàn khả năng CA âm thầm cấp phát chứng chỉ giả mạo cho các tên miền nhạy cảm mà chủ sở hữu không hay biết.
 
 % ----------------------------------------------------------
 \section{PKI trong hệ thống hiện đại}
 \label{sec:7.3}
 
-PKI ngày càng gắn với machine identity. Service, container, workload và thiết
-bị IoT đều cần danh tính mật mã để kết nối an toàn. Khác với người dùng,
-những thực thể này có số lượng lớn, vòng đời ngắn và thường được tạo tự động.
-Điều đó làm certificate inventory và policy trở thành phần của hạ tầng vận
-hành.
+Định nghĩa "chủ thể" (subject) trong PKI đang dịch chuyển từ con người sang máy móc (machine identity). Hàng triệu container, vi dịch vụ (microservice) và thiết bị IoT liên tục được tạo ra và tiêu hủy trong vài giờ. Chúng đòi hỏi danh tính mật mã tức thời để giao tiếp an toàn.
 
-Trong kiến trúc zero trust và microservice, mTLS dùng certificate để xác thực
-hai chiều giữa các service. Cách làm này giảm phụ thuộc vào vị trí mạng,
-nhưng tăng yêu cầu đối với CA nội bộ, phân phối trust anchor và xoay vòng
-private key. Internal PKI vì vậy cần tích hợp với quản trị danh tính, secret
-management và audit thay vì chỉ phát hành certificate rời rạc.
+Đặc biệt trong trào lưu kiến trúc Zero Trust, ranh giới mạng nội bộ không còn được coi là an toàn. Mutual TLS (mTLS) trở thành tiêu chuẩn bắt buộc: mọi dịch vụ phải xuất trình chứng chỉ hợp lệ khi nói chuyện với nhau, bất kể chúng nằm ở đâu. Sự thay đổi này ép buộc các tổ chức phải xây dựng Internal PKI có khả năng cấp phát tốc độ cao, tích hợp trực tiếp vào hệ thống Secret Management thay vì duy trì các CA thủ công như thập kỷ trước.
 
 % ----------------------------------------------------------
-\section{Post-quantum}
+\section{Sẵn sàng cho kỷ nguyên hậu lượng tử (Post-quantum)}
 \label{sec:7.4}
 
-Máy lượng tử đủ mạnh sẽ đe dọa RSA, Diffie-Hellman, ECDSA và ECDH vì các hệ
-này dựa trên bài toán phân tích số hoặc logarit rời rạc. NIST đã công bố các
-chuẩn hậu lượng tử chính năm 2024, gồm KEM và thuật toán chữ ký số
-\cite{NIST-PQC2024}. Tác động tới PKI không chỉ là thay thuật toán. Certificate
-và chữ ký có thể lớn hơn, chain validation phức tạp hơn, còn CA, HSM, TLS
-stack và trust store phải cùng hỗ trợ profile mới.
+Hiểm họa máy tính lượng tử đang đe dọa trực tiếp nền móng của RSA và thuật toán đường cong elliptic (ECC). Dù NIST đã chốt danh sách các thuật toán hậu lượng tử (PQC) vào năm 2024~\cite{NIST-PQC2024}, bài toán tích hợp chúng vào PKI lại vô cùng gian nan. Các thuật toán mới thường có kích thước khóa và chữ ký khổng lồ, đòi hỏi phải đập đi xây lại hàng loạt tiêu chuẩn từ cấu trúc X.509, phần cứng HSM cho đến các giao thức bắt tay TLS.
 
-Vì chưa nên dự đoán chắc mốc thời gian cho khả năng phá vỡ lượng tử, hướng
-thực tế là crypto-agility. Một hệ PKI cần thay được thuật toán, profile và
-policy mà không làm gián đoạn cấp phát, xác minh và thu hồi certificate. Đây
-là lý do PKI phải tiến hóa ở tầng vận hành, không chỉ ở lựa chọn thuật toán.
+Thay vì chờ đợi "ngày phán xét" (Y2Q), ngành bảo mật đang chuyển dịch sang khái niệm \textit{Crypto-Agility} (Tính linh hoạt mật mã). Một hạ tầng PKI hiện đại phải được thiết kế sao cho việc thay thế thuật toán cốt lõi diễn ra trơn tru như việc thay lốp xe đua trên trạm dừng, không làm gián đoạn chuỗi cung ứng chứng chỉ đang vận hành.
