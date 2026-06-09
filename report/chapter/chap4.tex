@@ -75,22 +75,14 @@ nội dung.
 \section{Các trường X.509 v3}
 \label{sec:4.2}
 
-Trường \texttt{version} xác định cách diễn giải chứng chỉ. Với
-X.509 v3, trường \texttt{extensions} trở thành bắt buộc về mặt
-thực tiễn vì phần lớn kiểm tra an toàn nằm ở đây. Trường
-\texttt{serialNumber} phải đủ phân biệt trong phạm vi issuer để
-có thể định danh chứng chỉ khi thu hồi. Trường \texttt{issuer}
-cho biết tên của CA ký chứng chỉ; trường \texttt{subject} cho biết
-tên của thực thể nhận chứng chỉ.
-
-Trường \texttt{validity} gồm \texttt{notBefore} và
-\texttt{notAfter}. Bên kiểm tra phải từ chối chứng chỉ nếu thời
-điểm hiện tại nằm ngoài khoảng này. Trường
-\texttt{subjectPublicKeyInfo} chứa khóa công khai của subject cùng
-định danh thuật toán. Với chứng chỉ máy chủ, đây là khóa được dùng
-để xác thực chữ ký hoặc tham gia cơ chế trao đổi khóa tùy giao
-thức phía trên. Chi tiết bắt tay TLS không được trình bày ở đây,
-vì thuộc phạm vi Chương~\ref{chap:deploy}.
+Dù có nhiều phiên bản, X.509 v3 xoay quanh một số trường dữ liệu cốt lõi chi phối vòng đời và độ an toàn của chứng chỉ:
+\begin{itemize}
+    \item \textbf{Định danh và Phiên bản:} \texttt{version} quyết định cách giải mã dữ liệu, trong khi \texttt{serialNumber} giúp CA quản lý và thu hồi chứng chỉ.
+    \item \textbf{Thực thể liên quan:} \texttt{issuer} lưu tên CA phát hành, còn \texttt{subject} định danh thực thể sở hữu chứng chỉ.
+    \item \textbf{Hiệu lực (\texttt{validity}):} Giới hạn bằng hai mốc \texttt{notBefore} và \texttt{notAfter}. Bên kiểm tra sẽ từ chối giao dịch nếu thời gian thực tế nằm ngoài khoảng này.
+    \item \textbf{Khóa công khai (\texttt{subjectPublicKeyInfo}):} Chứa giá trị khóa và định danh thuật toán (như RSA, ECDSA). Tùy vào giao thức phía trên, khóa này được dùng để xác thực chữ ký hoặc thiết lập kênh trao đổi bảo mật.
+    \item \textbf{Phần mở rộng (\texttt{extensions}):} Nơi chứa phần lớn các quy tắc kiểm tra an toàn trong thực tiễn.
+\end{itemize}
 
 \section{Distinguished Name}
 \label{sec:4.3}
@@ -162,28 +154,12 @@ chứng chỉ theo RFC~5280~\cite{RFC5280}. Cơ chế này cho phép CA áp
     \end{tabularx}
 \end{table}
 
-\texttt{BasicConstraints} là extension bắt buộc về mặt an toàn với
-CA certificate. Nếu \texttt{cA} bằng \texttt{TRUE}, chứng chỉ có
-thể được dùng để ký chứng chỉ khác, với điều kiện các trường khác
-như \texttt{KeyUsage} cũng cho phép. \texttt{pathLenConstraint}
-giới hạn số CA trung gian có thể xuất hiện bên dưới CA đó trong
-chuỗi chứng chỉ.
-
-\texttt{KeyUsage} mô tả thao tác mật mã cấp thấp. Ví dụ,
-\texttt{digitalSignature} cho phép dùng khóa để kiểm tra chữ ký số,
-trong khi \texttt{keyCertSign} chỉ phù hợp với CA. Ngược lại,
-\texttt{ExtendedKeyUsage} mô tả mục đích ứng dụng. Một chứng chỉ
-có thể chứa khóa hợp lệ về mặt thuật toán nhưng vẫn bị từ chối nếu
-EKU không chứa mục đích mà ứng dụng cần.
-
-\texttt{SubjectAltName} chứa các tên được chứng nhận cho subject.
-Với chứng chỉ website, SAN thường chứa một hoặc nhiều DNS name.
-\texttt{SubjectKeyIdentifier} và \texttt{AuthorityKeyIdentifier}
-không tự tạo ra niềm tin, nhưng giúp phần mềm chọn đúng issuer khi
-có nhiều chứng chỉ CA cùng tên hoặc cùng tổ chức. Hai extension
-\texttt{CRLDistributionPoints} và \texttt{AuthorityInfoAccess}
-liên kết chứng chỉ với hạ tầng kiểm tra thu hồi qua CRL và
-OCSP~\cite{RFC6960}.
+Các extension này chia thành ba nhóm chức năng chính:
+\begin{itemize}
+    \item \textbf{Phân quyền và Mục đích:} \texttt{BasicConstraints} đóng vai trò then chốt để phân biệt chứng chỉ CA và chứng chỉ end-entity. Cùng với \texttt{KeyUsage} (giới hạn thao tác mật mã cấp thấp như ký số) và \texttt{ExtendedKeyUsage} (giới hạn ngữ cảnh ứng dụng như server authentication), chúng ngăn chặn việc lạm dụng khóa sai mục đích.
+    \item \textbf{Định danh chủ thể:} Khác với thông tin chung trong DN, \texttt{SubjectAltName} (SAN) trực tiếp mang các DNS name hoặc IP address cần bảo vệ. Đây là cơ sở chính để trình duyệt đối chiếu với địa chỉ website.
+    \item \textbf{Hỗ trợ xác thực chuỗi:} \texttt{SubjectKeyIdentifier} và \texttt{AuthorityKeyIdentifier} giúp client chọn đúng CA khi có nhiều chứng chỉ trùng tên. Đồng thời, \texttt{CRLDistributionPoints} và \texttt{AuthorityInfoAccess} chỉ dẫn phần mềm nơi lấy thông tin thu hồi qua CRL hoặc OCSP~\cite{RFC6960}.
+\end{itemize}
 
 \section{Certificate Signing Request}
 \label{sec:4.5}
@@ -273,23 +249,13 @@ Dù họ PKCS có rất nhiều thành phần, hạ tầng PKI hiện đại ch�
     \item \textbf{PKCS~\#12:} Định dạng tệp kho lưu trữ mật mã~\cite{RFC7292}. Một tệp \texttt{.p12} hoặc \texttt{.pfx} có thể chứa đồng thời khóa bí mật, chứng chỉ cá nhân và toàn bộ chuỗi chứng chỉ CA, thường được mã hóa bảo vệ bằng mật khẩu để di chuyển giữa các hệ thống.
 \end{itemize}
 
-\section{RFC và chuẩn quan trọng}
+\section{Các chuẩn hóa và quy tắc vận hành}
 \label{sec:4.8}
 
-RFC~5280 là chuẩn nền tảng cho hồ sơ Internet X.509, bao gồm cấu
-trúc chứng chỉ, extension, thuật toán dựng đường chứng chỉ và CRL
-\cite{RFC5280}. RFC~2986 định nghĩa PKCS~\#10 cho CSR
-\cite{RFC2986}. RFC~5652 định nghĩa CMS, là khuôn dạng chung cho
-dữ liệu ký số và mã hóa ở tầng thông điệp~\cite{RFC5652}. RFC~7292
-định nghĩa PKCS~\#12 cho gói khóa và chứng chỉ~\cite{RFC7292}.
+Web PKI không hoạt động dựa trên một tài liệu đơn lẻ mà là kết quả hợp nhất từ các chuẩn kỹ thuật IETF và quy tắc quản trị thực tiễn:
 
-RFC~6960 định nghĩa OCSP, giao thức hỏi trạng thái thu hồi cho một
-chứng chỉ cụ thể~\cite{RFC6960}. RFC~6962 định nghĩa Certificate
-Transparency phiên bản thử nghiệm, trong đó chứng chỉ TLS được ghi
-vào log công khai dựa trên cây Merkle~\cite{RFC6962}. Các triển
-khai mới hơn có thể tham chiếu RFC~9162 cho Certificate
-Transparency phiên bản 2.0~\cite{RFC9162}. CA/Browser Forum
-Baseline Requirements không thay thế RFC, nhưng đặt yêu cầu vận
-hành cho CA muốn được tin cậy trong hệ sinh thái trình duyệt
-\cite{CABForum}. Vì vậy, Web PKI là kết quả của cả chuẩn kỹ thuật
-và quy tắc quản trị CA.
+\begin{itemize}
+    \item \textbf{Cấu trúc cốt lõi:} RFC~5280 là xương sống của hồ sơ Internet X.509, quy định từ định dạng chứng chỉ đến thuật toán xác thực đường dẫn~\cite{RFC5280}. Nhóm chuẩn PKCS bao bọc các thao tác yêu cầu cấp phát (RFC~2986) và vận chuyển an toàn (RFC~5652, RFC~7292).
+    \item \textbf{Kiểm tra trạng thái minh bạch:} RFC~6960 chuẩn hóa giao thức OCSP để truy vấn trạng thái thu hồi theo thời gian thực~\cite{RFC6960}. Bên cạnh đó, RFC~6962 và RFC~9162 định hình cơ chế Certificate Transparency, buộc chứng chỉ TLS phải được ghi log công khai vào cây Merkle để chống phát hành sai trái~\cite{RFC6962, RFC9162}.
+    \item \textbf{Quy tắc vận hành:} CA/Browser Forum Baseline Requirements áp đặt tiêu chuẩn nghiệp vụ và an toàn hệ thống cho các CA~\cite{CABForum}. Một CA có thể tuân thủ hoàn hảo RFC về mặt kỹ thuật, nhưng nếu vi phạm bộ quy tắc này, root certificate của họ sẽ bị các hãng trình duyệt gỡ bỏ.
+\end{itemize}
