@@ -4,7 +4,7 @@
 \chapter{Triển khai và ứng dụng thực tế}
 \label{chap:deploy}
 
-Bỏ qua các chi tiết cấu trúc tĩnh của X.509, chương này tập trung vào khía cạnh vận hành động: cách PKI nhúng vào các giao thức bảo mật thực tế. Dù là duyệt web qua HTTPS, gửi email mã hóa, hay ký kết văn bản điện tử, hạt nhân của niềm tin luôn nằm ở việc kiểm tra chuỗi chứng chỉ, trạng thái thu hồi và ràng buộc mục đích sử dụng.
+Sau khi giới thiệu các chi tiết cấu trúc tĩnh của X.509, chương này tập trung vào khía cạnh vận hành động: cách PKI nhúng vào các giao thức bảo mật thực tế. Dù là duyệt web qua HTTPS, gửi email mã hóa, hay ký kết văn bản điện tử, hạt nhân của niềm tin luôn nằm ở việc kiểm tra chuỗi chứng chỉ, trạng thái thu hồi và ràng buộc mục đích sử dụng.
 
 \begin{table}[ht]
     \centering
@@ -40,11 +40,6 @@ Bỏ qua các chi tiết cấu trúc tĩnh của X.509, chương này tập trun
             & Chứng chỉ thiết bị hoặc người dùng
             & CERT, CERTREQ, AUTH trong IKEv2, chuỗi CA nội bộ
             & CA nội bộ yếu, cấp chứng chỉ sai danh tính, thu hồi chậm. \\
-        Code signing
-            & Nhà phát hành phần mềm
-            & Code signing certificate
-            & Chữ ký mã, certificate chain, timestamp, trạng thái thu hồi
-            & Private key bị lộ, pipeline build bị chiếm quyền. \\
         eGovernment
             & Công dân, tổ chức, cơ quan, dịch vụ ký số
             & Chứng chỉ công cộng hoặc chứng chỉ ký số từ xa
@@ -118,18 +113,8 @@ Khi tích hợp PKI, giao thức IKEv2 tận dụng chứng chỉ để thực h
 Mô hình này sở hữu tính mở rộng vượt trội nhờ khả năng cô lập rủi ro: quản trị viên có thể vô hiệu hóa nhanh chóng một chứng chỉ nhân viên khi họ nghỉ việc. Đổi lại, tổ chức phải vận hành PKI nội bộ nghiêm ngặt. Việc cấp sai chứng chỉ, chậm trễ cập nhật danh sách thu hồi hay lưu trữ khóa kém an toàn tại gateway đều trực tiếp làm sụp đổ ranh giới bảo mật mạng.
 
 % ----------------------------------------------------------
-\section{Code Signing}
-\label{sec:5.5}
-
-Hệ điều hành cần công cụ để đánh giá một phần mềm đến từ đâu và có bị thay đổi không, bởi kênh truyền tải thông thường không chống lại việc can thiệp trên server phản chiếu (mirror) hay đánh tráo gói tin. Code signing khắc phục lỗ hổng này bằng cách ép buộc nhà phát hành phải ký trực tiếp lên phần mềm, driver hoặc script~\cite{MicrosoftCryptoTools, AppleCodeSigning}.
-
-Dù chia sẻ nền tảng mật mã với TLS, chứng chỉ ký mã bị khống chế bởi trường ExtendedKeyUsage hoàn toàn khác rẽ nhánh từ mục đích ban đầu. Khi thực thi phần mềm, hệ thống quét chữ ký, dựng chuỗi tới trust store và hiển thị tên nhà cung cấp. Tương tự chữ ký tài liệu, mã nguồn luôn cần đính kèm timestamp để duy trì giá trị hợp lệ của phần mềm ngay cả khi chứng chỉ phát hành hết hạn vào nhiều năm sau.
-
-Sự toàn vẹn của mô hình này phụ thuộc tuyệt đối vào việc bảo vệ khóa. Nếu private key bị lộ hoặc đường ống phân phối CI/CD bị xâm nhập, hacker có thể phát tán mã độc dưới vỏ bọc một phần mềm hoàn toàn hợp pháp. Khi sự cố xảy ra, các CA bắt buộc phải thực thi thu hồi khẩn cấp, gây đứt gãy tức thời đối với mọi phần mềm hợp lệ khác dùng chung khóa ký đó.
-
-% ----------------------------------------------------------
 \section{eGovernment Việt Nam}
-\label{sec:5.6}
+\label{sec:5.5}
 
 Ở quy mô quốc gia, eGovernment đối mặt với bài toán liên thông: làm sao xác thực hàng triệu công dân, doanh nghiệp và văn bản hành chính một cách đồng nhất. Trang thông tin của Trung tâm Chứng thực điện tử quốc gia (NEAC) quy định rõ hệ thống này xoay quanh chứng chỉ công cộng, hạ tầng chữ ký số và các cơ chế kiểm tra văn bản thống nhất~\cite{NEAC}.
 

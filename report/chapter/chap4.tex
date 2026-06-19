@@ -33,8 +33,8 @@ X.509 được mã hóa theo DER trong tầng nhị phân. DER là một dạng
 mã hóa xác định của ASN.1, nên cùng một cấu trúc dữ liệu có đúng
 một biểu diễn byte hợp lệ. PEM là lớp bao gói văn bản: dữ liệu DER
 được mã hóa Base64 và đặt giữa các dòng
-\texttt{-----BEGIN CERTIFICATE-----} và
-\texttt{-----END CERTIFICATE-----}. Vì vậy, DER và PEM không phải
+\texttt{BEGIN CERTIFICATE} và
+\texttt{END CERTIFICATE}. Vì vậy, DER và PEM không phải
 hai loại chứng chỉ khác nhau. Chúng là hai cách biểu diễn cùng một
 nội dung.
 
@@ -43,7 +43,7 @@ nội dung.
     \caption{Các trường chính trong chứng chỉ X.509 v3}
     \label{tab:x509-fields}
     \small
-    \begin{tabularx}{\textwidth}{@{} >{\raggedright\arraybackslash}p{0.31\textwidth} X X @{}}
+    \begin{tabularx}{\textwidth}{@{} p{0.28\textwidth}p{0.38\textwidth}p{0.28\textwidth} @{}}
         \toprule
         \textbf{Trường} & \textbf{Ý nghĩa} & \textbf{Ghi chú} \\
         \midrule
@@ -120,7 +120,7 @@ chứng chỉ theo RFC~5280~\cite{RFC5280}. Cơ chế này cho phép CA áp
     \caption{Một số extension thường gặp trong X.509 v3}
     \label{tab:x509-extensions}
     \small
-    \begin{tabularx}{\textwidth}{@{} >{\raggedright\arraybackslash}p{0.31\textwidth} X X @{}}
+    \begin{tabularx}{\textwidth}{@{} p{0.3\textwidth}p{0.35\textwidth}p{0.3\textwidth} @{}}
         \toprule
         \textbf{Extension} & \textbf{Nội dung} & \textbf{Vai trò} \\
         \midrule
@@ -158,7 +158,7 @@ Các extension này chia thành ba nhóm chức năng chính:
 \begin{itemize}
     \item \textbf{Phân quyền và Mục đích:} \texttt{BasicConstraints} đóng vai trò then chốt để phân biệt chứng chỉ CA và chứng chỉ end-entity. Cùng với \texttt{KeyUsage} (giới hạn thao tác mật mã cấp thấp như ký số) và \texttt{ExtendedKeyUsage} (giới hạn ngữ cảnh ứng dụng như server authentication), chúng ngăn chặn việc lạm dụng khóa sai mục đích.
     \item \textbf{Định danh chủ thể:} Khác với thông tin chung trong DN, \texttt{SubjectAltName} (SAN) trực tiếp mang các DNS name hoặc IP address cần bảo vệ. Đây là cơ sở chính để trình duyệt đối chiếu với địa chỉ website.
-    \item \textbf{Hỗ trợ xác thực chuỗi:} \texttt{SubjectKeyIdentifier} và \texttt{AuthorityKeyIdentifier} giúp client chọn đúng CA khi có nhiều chứng chỉ trùng tên. Đồng thời, \texttt{CRLDistributionPoints} và \texttt{AuthorityInfoAccess} chỉ dẫn phần mềm nơi lấy thông tin thu hồi qua CRL hoặc OCSP~\cite{RFC6960}.
+    \item \textbf{Hỗ trợ xác thực chuỗi:} \texttt{SubjectKeyIdentifier} và \texttt{AuthorityKeyIdentifier} giúp client chọn đúng CA khi có nhiều chứng chỉ trùng tên. \texttt{CRLDistributionPoints} và \texttt{AuthorityInfoAccess} chỉ dẫn phần mềm nơi lấy thông tin thu hồi qua CRL hoặc OCSP~\cite{RFC6960}.
 \end{itemize}
 
 \section{Certificate Signing Request}
@@ -197,7 +197,7 @@ CA/Browser Forum Baseline Requirements quy định mức tiêu chuẩn tối thi
     \caption{Phân loại chứng chỉ theo mục đích sử dụng}
     \label{tab:cert-types}
     \small
-    \begin{tabularx}{\textwidth}{@{} >{\raggedright\arraybackslash}p{0.31\textwidth} X X @{}}
+    \begin{tabularx}{\textwidth}{@{}p{0.22\textwidth}p{0.4\textwidth}p{0.33\textwidth}@{}}
         \toprule
         \textbf{Loại} & \textbf{Đặc điểm} & \textbf{Cách dùng} \\
         \midrule

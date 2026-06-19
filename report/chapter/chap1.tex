@@ -12,7 +12,7 @@
 \section{Vấn đề đặt ra}
 \label{sec:1.1}
 
-Mật mã khóa công khai (public-key cryptography) đã mang lại một bước tiến quan trọng trong lĩnh vực an toàn thông tin khi cho phép các thực thể trao đổi dữ liệu bí mật và thực hiện chữ ký số mà không cần phải chia sẻ khóa bí mật từ trước. Nhờ đó, các hệ thống có thể hoạt động trên môi trường mạng mở như Internet mà vẫn đảm bảo được tính bảo mật và toàn vẹn của dữ liệu.
+Mật mã khóa công khai (\textit{Public-key cryptography}) đã mang lại một bước tiến quan trọng trong lĩnh vực an toàn thông tin khi cho phép các thực thể trao đổi dữ liệu bí mật và thực hiện chữ ký số mà không cần phải chia sẻ khóa bí mật từ trước. Nhờ đó, các hệ thống có thể hoạt động trên môi trường mạng mở như Internet mà vẫn đảm bảo được tính bảo mật và toàn vẹn của dữ liệu.
 
 Tuy nhiên, một vấn đề cốt lõi vẫn chưa được giải quyết bởi bản thân mật mã khóa công khai, đó là: làm thế nào để xác định rằng một khóa công khai thực sự thuộc về đúng thực thể mà nó tuyên bố đại diện. Nói cách khác, hệ thống vẫn thiếu một cơ chế để ràng buộc giữa danh tính (identity) và khóa công khai (public key).
 
@@ -28,12 +28,14 @@ Báo cáo này tập trung nghiên cứu về Hạ tầng khóa công khai (Publ
 
 Cách tiếp cận của báo cáo được tổ chức theo hướng mỗi chương trả lời một câu hỏi cụ thể, giúp người đọc từng bước xây dựng hiểu biết một cách logic và có hệ thống.
 
-Chương~\ref{chap:crypto} trả lời câu hỏi “Tại sao cần PKI?” thông qua việc trình bày các nền tảng của mật mã đối xứng và bất đối xứng, cũng như các hạn chế còn tồn tại của chúng.
+Chương~\ref{chap:crypto} nêu lên lý thuyết mật mã, trả lời cho câu hỏi “Tại sao cần PKI?” thông qua việc trình bày các nền tảng của mật mã đối xứng và bất đối xứng, cũng như các hạn chế còn tồn tại của chúng.
 
 Chương~\ref{chap:pki-arch} tập trung vào câu hỏi “PKI gồm những thành phần nào?”, trong đó mô tả kiến trúc hệ thống và các thực thể như Certification Authority (CA), Registration Authority (RA) và các cơ chế quản lý chứng chỉ.
 
-Chương~\ref{chap:x509} trả lời câu hỏi “Chứng chỉ số được định nghĩa như thế nào?”, trình bày cấu trúc và vai trò của chứng chỉ số X.509 trong việc ràng buộc giữa danh tính và khóa công khai.
+Chương~\ref{chap:x509} đi vào làm rõ “Chứng chỉ số được định nghĩa như thế nào?”, trình bày cấu trúc và vai trò của chứng chỉ số X.509 trong việc ràng buộc giữa danh tính và khóa công khai.
 
-Chương~\ref{chap:deploy} làm rõ “PKI được sử dụng ở đâu trong thực tế?”, với các ví dụ tiêu biểu như HTTPS, chữ ký số và các hệ thống bảo mật khác.
+Chương~\ref{chap:deploy} giới thiệu thế giới ứng dụng của PKI, với các ví dụ tiêu biểu như HTTPS, chữ ký số và các hệ thống bảo mật khác.
 
-Chương~\ref{chap:opensource} khảo sát các công cụ và nền tảng mã nguồn mở cho phép triển khai PKI trong thực tế, trong khi Chương~\ref{chap:challenges} thảo luận về các thách thức hiện tại cũng như xu hướng phát triển trong tương lai của PKI.
+Chương~\ref{chap:opensource} khảo sát các công cụ và nền tảng mã nguồn mở cho phép tự thân triển khai PKI.
+
+Cuối cùng, chương~\ref{chap:challenges} thảo luận về các thách thức hiện tại cũng như xu hướng phát triển trong tương lai của PKI.

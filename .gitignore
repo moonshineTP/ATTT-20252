@@ -1,8 +1,5 @@
-script
-skill
 material
 report/main.*
 !report/main.tex
 !report/main.pdf
-!report/references.bib
 .venv/Lib

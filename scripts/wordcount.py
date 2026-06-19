@@ -77,7 +77,7 @@ def main():
 
     print("-" * 55)
     print(f"{'TOTAL':<45} {total:>8,}")
-    target_words = 5000
+    target_words = 10000
     pct = total / target_words * 100
     print(f"\nTarget: {target_words:,} words  →  {pct:.0f}% completed")
     if total < target_words:
