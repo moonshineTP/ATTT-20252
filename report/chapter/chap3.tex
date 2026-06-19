@@ -69,6 +69,15 @@ Sự khác biệt giữa các mô hình chủ yếu nằm ở cách tiếp cận
     \end{tabular}
 \end{table}
 
+Hình~\ref{fig:pki-hierarchy} tóm tắt mô hình phân cấp phổ biến nhất trên Web PKI: niềm tin được kế thừa từ Root CA xuống Intermediate CA và chứng chỉ leaf.
+
+\begin{figure}[htbp]
+    \centering
+    \reportfig[0.88]{fig_pki_hierarchy.png}
+    \caption{Mô hình phân cấp Hierarchical PKI và chuỗi tin cậy}
+    \label{fig:pki-hierarchy}
+\end{figure}
+
 
 % ----------------------------------------------------------
 \section{Định nghĩa và mục tiêu PKI}
@@ -86,10 +95,10 @@ Mục tiêu lớn nhất của PKI là giải quyết bài toán cốt lõi về
 % Ý chính: PKI thiết lập trust trong public key; sau đó public key đó được dùng cho các mục tiêu an toàn thông tin
 Sau khi PKI đã thiết lập sự tin cậy trong khóa công khai của một thực thể (thông qua việc cấp chứng chỉ số), thực thể đó có thể sử dụng cặp khóa của mình để đạt được các mục tiêu an toàn thông tin cụ thể, như được minh họa trong Hình~\ref{fig:digital-signature-process}. Sơ đồ này cho thấy quy trình tạo và xác thực chữ ký số, giúp đảm bảo tính toàn vẹn (Integrity) và tính xác thực (Authentication) của thông điệp được truyền đi.
 
-\begin{figure}[h]
+\begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{assets/digital_signature.png} 
-    \caption{Quy trình tạo và xác thực chữ ký số sử dụng cặp khóa công khai và bí mật.}
+    \reportfig{fig_digital_signature.png}
+    \caption{Quy trình tạo và xác thực chữ ký số (hash + khóa bất đối xứng)}
     \label{fig:digital-signature-process}
 \end{figure}
 
@@ -143,6 +152,15 @@ Giao thức kiểm tra trạng thái chứng chỉ trực tuyến (OCSP) \cite{R
     \end{tabular}
 \end{table}
 
+Hình~\ref{fig:pki-components} mô tả luồng tương tác giữa các thành phần chính trong một triển khai PKI điển hình.
+
+\begin{figure}[htbp]
+    \centering
+    \reportfig[0.88]{fig_pki_components.png}
+    \caption{Các thành phần PKI và luồng cấp phát, lưu trữ, kiểm tra chứng chỉ}
+    \label{fig:pki-components}
+\end{figure}
+
 
 % ----------------------------------------------------------
 \section{Chu kỳ sống của chứng chỉ}
@@ -162,10 +180,9 @@ Hoạt động của PKI phụ thuộc vào việc quản lý chặt chẽ vòng
 
 Với sự bùng nổ của quy mô dịch vụ đám mây và microservices, việc cấu hình thủ công không còn khả thi. Tự động hóa vòng đời chứng chỉ (Certificate Lifecycle Automation) thông qua các giao thức như ACME (được Let's Encrypt sử dụng phổ biến), SCEP, hoặc EST ngày càng đóng vai trò quan trọng yếu giúp đảm bảo hệ thống không bị gián đoạn dịch vụ do chứng chỉ hết hạn.
 
-\begin{figure}[h]
+\begin{figure}[htbp]
     \centering
-    % Placeholder cho hình ảnh kiến trúc / chu kỳ sống. Bạn có thể chèn file hình vào cấu trúc thư mục LaTeX của mình.
-    \includegraphics[width=0.6\textwidth]{assets/cert_lifecycle.png}
-    \caption{Sơ đồ chu kỳ sống của chứng chỉ số trong hệ thống PKI}
+    \reportfig[0.95]{fig_cert_lifecycle.png}
+    \caption{Chu kỳ sống của chứng chỉ số trong hệ thống PKI}
     \label{fig:cert-lifecycle}
 \end{figure}
