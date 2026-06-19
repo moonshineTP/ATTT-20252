@@ -44,7 +44,7 @@ Hình~\ref{fig:ct-overview} mô tả ý tưởng CT: CA ghi chứng chỉ vào l
 Đặc biệt trong trào lưu kiến trúc Zero Trust, ranh giới mạng nội bộ không còn được coi là an toàn. Mutual TLS (mTLS) trở thành tiêu chuẩn bắt buộc: mọi dịch vụ phải xuất trình chứng chỉ hợp lệ khi nói chuyện với nhau, bất kể chúng nằm ở đâu. Sự thay đổi này ép buộc các tổ chức phải xây dựng Internal PKI có khả năng cấp phát tốc độ cao, tích hợp trực tiếp vào hệ thống Secret Management thay vì duy trì các CA thủ công như thập kỷ trước.
 
 % ----------------------------------------------------------
-\section{Sẵn sàng cho kỷ nguyên hậu lượng tử (Post-quantum)}
+\section{Sẵn sàng cho kỷ nguyên hậu lượng tử}
 \label{sec:7.4}
 
 Hiểm họa máy tính lượng tử đang đe dọa trực tiếp nền móng của RSA và thuật toán đường cong elliptic (ECC). Dù NIST đã chốt danh sách các thuật toán hậu lượng tử (PQC) vào năm 2024~\cite{NIST-PQC2024}, bài toán tích hợp chúng vào PKI lại vô cùng gian nan. Các thuật toán mới thường có kích thước khóa và chữ ký khổng lồ, đòi hỏi phải đập đi xây lại hàng loạt tiêu chuẩn từ cấu trúc X.509, phần cứng HSM cho đến các giao thức bắt tay TLS.

@@ -26,7 +26,7 @@ Trong hệ mật mã bất đối xứng, khóa công khai (Public Key) được
 % Ý chính: public key được công bố rộng rãi, ai cũng có thể truy cập
 % Ví dụ: DNSSEC public key được lưu trong DNS, có thể truy vấn bằng dig
 % Vấn đề authentication: làm sao biết public key đó thực sự thuộc về entity nào?
-Đây là phương pháp cơ bản nhất, trong đó khóa công khai được chia sẻ công khai trên một nền tảng dễ tiếp cận. Một ví dụ tiêu biểu là DNSSEC, nơi khóa công khai được lưu trữ trực tiếp trong các bản ghi DNS và bất kỳ ai cũng có thể truy vấn thông qua các công cụ như \texttt{dig}. Tuy nhiên, điểm yếu lớn nhất của phương pháp này nằm ở khả năng xác thực (Authentication). Khi nhận được một khóa công khai, người dùng không có cơ chế đáng tin cậy nào để kiểm chứng xem khóa đó có thực sự thuộc về thực thể mà nó tự nhận hay không, dẫn đến rủi ro cao về các cuộc tấn công trung gian (Man-in-the-Middle).
+Đây là phương pháp cơ bản nhất, trong đó khóa công khai được chia sẻ công khai trên một nền tảng dễ tiếp cận. Một ví dụ tiêu biểu là DNSSEC, nơi khóa công khai được lưu trữ trực tiếp trong các bản ghi DNS và bất kỳ ai cũng có thể truy vấn thông qua các công cụ như \texttt{dig}. Tuy nhiên, điểm yếu lớn nhất của phương pháp này nằm ở khả năng xác thực (Authentication), vì không có cơ chế đáng tin cậy nào để kiểm chứng xem khóa đó có thực sự thuộc về thực thể mà nó tự nhận hay không, dẫn đến tấn công Man-in-the-Middle.
 
 \subsection{Host-based Trust}
 % Ý chính: SSH known\_hosts — mỗi host tự quản lý danh sách public key tin cậy
@@ -54,7 +54,7 @@ Sự khác biệt giữa các mô hình chủ yếu nằm ở cách tiếp cận
     \centering
     \caption{So sánh các mô hình tin cậy (Trust Models)}
     \label{tab:trust-models}
-    \begin{tabular}{|p{3cm}|p{6cm}|p{6cm}|}
+    \begin{tabular}{|p{3cm}|p{7cm}|p{5cm}|}
         \hline
         \textbf{Tiêu chí} & \textbf{Hierarchical PKI (Centralized)} & \textbf{Web of Trust (Decentralized)} \\
         \hline

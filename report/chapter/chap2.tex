@@ -2,11 +2,13 @@
 %  Chương II – Nền tảng mật mã khóa công khai
 %  ~600 từ · 2 trang
 % ============================================================
-\chapter{Cơ sở Mật mã học và Sự tiến hóa của Hệ thống Khóa}
+\chapter{Cơ sở Mật mã học và Hệ thống Khóa}
 \label{chap:crypto}
 
 % Lời dẫn chương: Mở đầu bằng một bức tranh tổng thể
-Trong kỷ nguyên số, an toàn thông tin được xây dựng trên những nền tảng toán học phức tạp của Mật mã học (Cryptography). Tuy nhiên, lịch sử phát triển của ngành mật mã không phải là một đường thẳng, mà là một quá trình tiến hóa liên tục để giải quyết những nghịch lý phát sinh từ chính các giải pháp trước đó. Sự tiến hóa này bắt nguồn từ mật mã đối xứng với tốc độ vượt trội nhưng vướng mắc ở khâu phân phối khóa; dẫn đến sự ra đời của mật mã bất đối xứng nhằm giải quyết bài toán trao đổi khóa nhưng lại tạo ra lỗ hổng về xác thực danh tính. Cuối cùng, Hạ tầng Khóa công khai (PKI) xuất hiện như một mảnh ghép hoàn thiện, kết nối sức mạnh toán học với cơ chế quản lý niềm tin trong thế giới thực. Chương này sẽ trình bày chi tiết chuỗi logic nền tảng đó.
+Nền móng của an toàn thông tin được xây dựng trên những viên gạch toán học phức tạp của Mật mã học (Cryptography).
+Tuy nhiên, lịch sử phát triển của ngành mật mã không phải là một đường thẳng, mà là một quá trình tiến hóa liên tục để giải quyết những nghịch lý phát sinh từ chính các giải pháp trước đó. Sự tiến hóa này bắt nguồn từ mật mã đối xứng với tốc độ vượt trội nhưng vướng mắc ở khâu phân phối khóa; dẫn đến sự ra đời của mật mã bất đối xứng nhằm giải quyết bài toán trao đổi khóa nhưng lại tạo ra lỗ hổng về xác thực danh tính.
+Hạ tầng Khóa công khai (PKI) xuất hiện như một mảnh ghép hoàn thiện, kết nối sức mạnh toán học với cơ chế quản lý niềm tin trong thế giới thực. Chương này sẽ trình bày chi tiết chuỗi logic nền tảng đó.
 
 % ----------------------------------------------------------
 \section{Mật mã đối xứng và hạn chế}
@@ -27,11 +29,11 @@ Trong đó, $P$ là bản rõ (Plaintext), $C$ là bản mã (Ciphertext), hàm 
 
 \subsubsection*{Bài toán phân phối khóa (The Key Distribution Problem)}
 
-Mặc dù sở hữu hiệu năng xuất sắc, mật mã đối xứng lại mang trong mình một tử huyệt mang tính hệ thống khi triển khai trên quy mô lớn: \textbf{Bài toán phân phối khóa}.
+Mặc dù sở hữu hiệu năng xuất sắc, mật mã đối xứng gặp khó khăn cấu trúc trong triển khai trên quy mô lớn: \textbf{Bài toán phân phối khóa}.
 
-Nghịch lý của hệ thống đối xứng nằm ở một vòng luẩn quẩn (Catch-22): Để hai bên Alice và Bob có thể giao tiếp an toàn qua mạng Internet, họ cần phải chia sẻ trước với nhau một chiếc khóa $K$. Tuy nhiên, để gửi chiếc khóa $K$ này cho nhau một cách an toàn mà không bị kẻ thứ ba nghe lén, họ lại cần một kênh liên lạc đã được bảo mật từ trước. Nếu họ đã có sẵn một kênh bảo mật, thì họ đâu cần thiết lập hệ thống mật mã làm gì nữa? Trong quá khứ, giải pháp duy nhất là trao đổi khóa qua một kênh ngoại tuyến (out-of-band channel) như gặp mặt trực tiếp hoặc gửi qua người đưa thư (courier), điều này là hoàn toàn bất khả thi trong kỷ nguyên thương mại điện tử toàn cầu.
+Nghịch lý của hệ thống đối xứng nằm ở một vòng luẩn quẩn (Catch-22): Để hai bên Alice và Bob có thể giao tiếp an toàn qua mạng Internet, họ cần phải chia sẻ trước với nhau một chiếc khóa $K$. Tuy nhiên, để gửi chiếc khóa $K$ này cho nhau một cách an toàn mà không bị kẻ thứ ba nghe lén, họ lại cần một kênh liên lạc đã được bảo mật từ trước. Nếu họ đã có sẵn một kênh bảo mật, thì họ đâu cần thiết lập hệ thống mật mã làm gì nữa? Trong quá khứ, giải pháp duy nhất là trao đổi khóa qua một kênh ngoại tuyến (out-of-band channel) như gặp mặt trực tiếp hoặc gửi qua người đưa thư (courier), điều này là bất khả thi trong kỷ nguyên kết nối toàn cầu.
 
-Hơn thế nữa, bài toán phân phối khóa tạo ra một rào cản khủng khiếp về mặt mở rộng quy mô (Scalability). Trong một mạng lưới có $n$ thực thể (node), nếu mỗi cặp thực thể đều muốn liên lạc bảo mật với nhau, hệ thống sẽ yêu cầu số lượng khóa phải quản lý tăng theo cấp số nhân. Công thức tính tổng số cặp khóa riêng biệt trong mạng là:
+Bài toán phân phối khóa tạo ra một rào cản khủng khiếp về mặt mở rộng quy mô (Scalability). Trong một mạng lưới có $n$ thực thể (node), nếu mỗi cặp thực thể đều muốn liên lạc bảo mật với nhau, hệ thống sẽ yêu cầu số lượng khóa phải quản lý tăng theo cấp số nhân. Công thức tính tổng số cặp khóa riêng biệt trong mạng là:
 $$ \text{Tổng số khóa} = \frac{n(n-1)}{2} = O(n^2) $$
 
 Hãy thử làm một phép tính thực tế:
@@ -44,28 +46,16 @@ Việc lưu trữ, phân phối, cập nhật và thu hồi hàng tỷ chiếc k
 
 \subsubsection*{Giải pháp KDC (Key Distribution Center) và những giới hạn chí mạng}
 
-Để khắc phục bài toán $O(n^2)$ và sự cồng kềnh trong việc quản lý khóa, các nhà khoa học máy tính đã đề xuất mô hình \textbf{Trung tâm Phân phối Khóa (Key Distribution Center - KDC)}.
+Để khắc phục bài toán $O(n^2)$, mô hình \textbf{Trung tâm Phân phối Khóa (KDC)} được đề xuất. Thay vì chia sẻ khóa với mọi thực thể, mỗi người dùng chỉ cần thiết lập một khóa chủ duy nhất với KDC (đóng vai trò Bên thứ ba đáng tin cậy). KDC sẽ sinh ra và phân phối Khóa phiên (Session Key) cho từng phiên giao tiếp, giúp thu hẹp số lượng khóa hệ thống cần quản lý xuống còn $O(n)$.
 
-Thay vì mỗi người dùng phải ghi nhớ hàng vạn chiếc khóa để nói chuyện với hàng vạn người khác, KDC đóng vai trò là một Bên thứ ba đáng tin cậy (Trusted Third Party). Cơ chế hoạt động của hệ thống được tinh giản như sau:
-\begin{enumerate}
-    \item Mỗi người dùng trên mạng chỉ cần chia sẻ \textbf{một chiếc khóa chủ (Master Key) duy nhất} với KDC. Lúc này số lượng khóa hệ thống phải quản lý giảm từ $O(n^2)$ xuống chỉ còn $O(n)$.
-    \item Khi Alice muốn liên lạc với Bob, Alice không liên hệ trực tiếp với Bob mà gửi yêu cầu lên KDC.
-    \item KDC sẽ sinh ra một chiếc \textbf{Khóa phiên ngẫu nhiên (Session Key)}. KDC mã hóa chiếc khóa phiên này bằng khóa chủ của Alice rồi gửi cho Alice; đồng thời mã hóa chiếc khóa phiên đó bằng khóa chủ của Bob rồi gửi cho Bob.
-    \item Alice và Bob giải mã để lấy Khóa phiên, và sử dụng nó để nhắn tin trực tiếp với nhau. Khi phiên liên lạc kết thúc, chiếc khóa phiên này sẽ bị hủy bỏ.
-\end{enumerate}
-
-Giao thức nổi tiếng nhất triển khai mô hình KDC này chính là \textbf{Kerberos} \cite{Steiner1988}, được sử dụng rộng rãi trong môi trường mạng nội bộ của doanh nghiệp (như Windows Active Directory). Nó giải quyết xuất sắc bài toán mở rộng quy mô.
-
-Tuy nhiên, KDC không phải là viên đạn bạc. Nó mang trong mình những \textbf{giới hạn chí mạng} khiến nó không thể trở thành chuẩn mực cho môi trường Internet mở:
+Tuy nhiên, KDC mang trong mình hai \textbf{giới hạn chí mạng} khiến nó không thể trở thành chuẩn mực cho môi trường Internet mở:
 
 \begin{itemize}
-    \item \textbf{Điểm lỗi tập trung (Single Point of Failure - SPOF):} KDC là trái tim của toàn bộ mạng lưới. Nếu máy chủ KDC bị sập (do lỗi phần cứng, mất điện, hoặc bị tấn công DDoS), không một ai trong hệ thống có thể thiết lập được phiên liên lạc mới. Toàn bộ mạng lưới sẽ bị tê liệt hoàn toàn.
-    \item \textbf{Nút thắt cổ chai hiệu năng (Performance Bottleneck):} Mọi yêu cầu liên lạc mới của hàng triệu người dùng đều phải dội ngược về KDC để xin cấp Session Key. Điều này đòi hỏi KDC phải có năng lực xử lý khổng lồ, rất dễ gây ra tắc nghẽn mạng (Network congestion).
-    \item \textbf{Thảm họa bảo mật (God-mode vulnerability):} KDC là "chiếc rương" chứa mọi khóa chủ của tất cả người dùng. Nếu một nhóm hacker (hoặc nội gián) xâm nhập thành công vào máy chủ KDC, chúng có khả năng nghe lén, giải mã, hoặc giả mạo bất kỳ thông điệp nào của bất kỳ ai trong hệ thống. Cả mạng lưới sẽ sụp đổ về mặt an toàn thông tin.
-    \item \textbf{Vấn đề về ranh giới niềm tin (Trust Boundary):} KDC yêu cầu mọi thành viên phải tin tưởng tuyệt đối vào cơ quan quản lý KDC. Điều này hoạt động tốt trong một công ty (nhân viên tin tưởng phòng IT). Nhưng trên môi trường Internet mở, nơi Alice ở Việt Nam muốn mua hàng của Bob ở Mỹ, không tồn tại một tổ chức KDC chung nào mà cả hai quốc gia và cả hai cá nhân đều sẵn sàng giao phó toàn bộ khóa bí mật của mình.
+    \item \textbf{Điểm lỗi tập trung (SPOF) và Rủi ro bảo mật:} KDC là trung tâm điều phối mọi luồng liên lạc và nắm giữ toàn bộ khóa chủ. Nếu KDC bị sập, toàn bộ mạng lưới tê liệt. Nghiêm trọng hơn, nếu KDC bị xâm nhập, kẻ tấn công có khả năng nghe lén và giả mạo mọi giao tiếp trong hệ thống.
+    \item \textbf{Vấn đề ranh giới niềm tin (Trust Boundary):} KDC yêu cầu sự tin tưởng tuyệt đối vào một cơ quan trung tâm. Mô hình này hoạt động hiệu quả trong mạng nội bộ (như Kerberos), nhưng hoàn toàn bế tắc trên Internet mở, nơi không tồn tại một bên thứ ba nào đủ uy tín để các cá nhân và tổ chức toàn cầu đồng loạt giao phó bí mật.
 \end{itemize}
 
-Sự bế tắc của KDC trong việc thiết lập niềm tin trên diện rộng đã đặt ra một yêu cầu bức thiết cho ngành Mật mã học: Cần phải có một hệ thống cho phép hai người hoàn toàn xa lạ giao tiếp bảo mật với nhau mà không cần phải chia sẻ trước bất kỳ bí mật nào, cũng không cần phải trao quyền sinh sát cho một trung tâm KDC tập trung. Và đó chính là lúc Mật mã khóa bất đối xứng (Asymmetric Cryptography) bước ra ánh sáng.
+Sự bế tắc của KDC trong việc thiết lập niềm tin qua biên giới đòi hỏi một cơ chế cho phép hai bên xa lạ giao tiếp bảo mật mà không cần chia sẻ trước khóa bí mật chung. Đó chính là động lực để \textbf{Mật mã khóa bất đối xứng} bước ra ánh sáng.
 
 % ----------------------------------------------------------
 \section{Mật mã khóa công khai}
@@ -136,7 +126,6 @@ Mục tiêu ở đây không phải là giấu kín dữ liệu, mà là chứng
     $$X = \mathrm{D}[PU_a, Y]$$
 \end{itemize}
 
-\paragraph*{Nền tảng toán học: Hàm một chiều có cửa sập (Trapdoor One-way Function)}
 Để các kịch bản trên có thể hoạt động an toàn trong thực tế, hệ thống đòi hỏi một cơ chế toán học cực kỳ khắt khe. Việc công khai $PU$ và thuật toán mã hóa cho cả thế giới biết đặt ra thách thức: Làm sao để ngăn chặn hacker tính ngược lại để tìm ra $PR$ hoặc bản rõ ban đầu? Câu trả lời nằm ở khái niệm \textbf{Hàm một chiều có cửa sập}.
 
 Khái niệm này bao gồm hai tính chất then chốt:
@@ -149,7 +138,7 @@ Tóm lại, sự sinh tồn của mật mã bất đối xứng phụ thuộc v�
 
 \subsubsection*{Thuật toán RSA}
 
-Thuật toán RSA, được đặt theo tên của ba nhà phát minh Rivest, Shamir và Adleman, là một trong những hệ mật mã khóa công khai phổ biến và nền tảng nhất. Tính an toàn của RSA dựa trên độ khó của \textbf{bài toán phân tích thừa số nguyên tố lớn (Integer Factorization Problem)} \cite{Rivest1978}. Về mặt toán học, việc nhân hai số nguyên tố khổng lồ để tạo ra một hợp số thì diễn ra rất nhanh, nhưng việc làm ngược lại — phân tích hợp số đó ra hai thừa số ban đầu — là một bài toán bất khả thi (infeasible) đối với khả năng điện toán của máy tính hiện tại.
+Thuật toán RSA, được đặt theo tên của ba nhà phát minh Rivest, Shamir và Adleman, là một trong những hệ mật mã khóa công khai phổ biến và nền tảng nhất. Tính an toàn của RSA dựa trên độ khó của \textbf{bài toán phân tích thừa số nguyên tố lớn (Integer Factorization Problem)} \cite{Rivest1978}. Về mặt toán học, việc nhân hai số nguyên tố khổng lồ để tạo ra một hợp số thì diễn ra rất nhanh, nhưng việc làm ngược lại — phân tích hợp số đó ra hai thừa số ban đầu — là một bài toán không khả thi tính toán (intractable) đối với khả năng của máy tính hiện tại.
 
 \paragraph*{Quy trình hoạt động của RSA}
 Hệ thống RSA được vận hành qua 3 giai đoạn cốt lõi:
@@ -190,6 +179,7 @@ Hệ thống RSA được vận hành qua 3 giai đoạn cốt lõi:
     \label{fig:rsa_algorithm}
 \end{figure}
 % ---------------------------------------
+
 \paragraph*{Tính bảo mật của RSA}
 
 Độ an toàn của hệ mật mã RSA phải đối mặt với 4 hướng tấn công chủ đạo từ giới phân tích mật mã (cryptanalysis):
@@ -237,9 +227,6 @@ Diffie-Hellman (DH) là một trong những hệ thống mật mã khóa công k
 % Ý chính 2: Nền tảng toán học bảo vệ thuật toán
 Về mặt toán học, độ an toàn của thuật toán Diffie-Hellman phụ thuộc hoàn toàn vào độ khó của \textbf{Bài toán Logarit rời rạc (Discrete Logarithm Problem)}. Thuật toán sử dụng số nguyên tố $p$ rất lớn và một căn nguyên thủy (primitive root) $a$ của nó. Trong không gian số học modulo $p$, việc tính toán xuôi $a^i \bmod p$ là một thao tác cực kỳ nhanh chóng. Tuy nhiên, thao tác tính toán ngược — tức là tìm lại số mũ bí mật $i$ khi chỉ biết kết quả $b$, cơ số $a$ và số modulo $p$ ($i = \log_a b \pmod p$) — là một bài toán bất khả thi về mặt thời gian (infeasible) đối với các hệ thống máy tính hiện tại.
 
-% Ý chính 3: Điểm yếu và cách khắc phục trong thực tế
-\textbf{Lỗ hổng bảo mật:} Mặc dù giao thức DH nguyên thủy vô hiệu hóa hoàn toàn khả năng giải mã của kẻ nghe lén thụ động (Passive Eavesdropping), nó lại tồn tại một điểm yếu chí mạng: Không có cơ chế xác thực danh tính. Do đó, thuật toán này cực kỳ dễ bị khai thác bởi đòn tấn công \textbf{Man-in-the-Middle (MitM)}. Để khắc phục trong các ứng dụng thực tế (như giao thức TLS/SSL), Diffie-Hellman bắt buộc phải được sử dụng kết hợp với Chữ ký số (Digital Signatures) và Chứng chỉ số (Digital Certificates) để đảm bảo tính xác thực của các bên tham gia.
-
 \paragraph*{Các bước thực hiện thuật toán Diffie-Hellman}
 
 Giả sử hai người dùng A (Alice) và B (Bob) muốn thiết lập một khóa bí mật chung qua một kênh truyền không an toàn. Thuật toán được thực hiện qua 3 bước cốt lõi:
@@ -281,39 +268,12 @@ Giả sử hai người dùng A (Alice) và B (Bob) muốn thiết lập một k
     \label{fig:dh_exchange}
 \end{figure}
 % -----------------------------------------
-\paragraph*{Chứng minh tính đồng nhất của khóa $K$}
-Dựa vào các tính chất cơ bản của số học modulo, hai biểu thức tính toán độc lập trên thực chất đều hội tụ về một kết quả duy nhất:
-$$K = (Y_B)^{X_A} \bmod q = (\alpha^{X_B} \bmod q)^{X_A} \bmod q = \alpha^{X_B \cdot X_A} \bmod q$$
-$$K = (Y_A)^{X_B} \bmod q = (\alpha^{X_A} \bmod q)^{X_B} \bmod q = \alpha^{X_A \cdot X_B} \bmod q$$
-Do phép nhân số mũ có tính chất giao hoán ($X_A \cdot X_B = X_B \cdot X_A$), cả Alice và Bob đều tổng hợp ra được một chiếc khóa $K$ giống hệt nhau mà không cần phải gửi trực tiếp $K$ qua mạng.
 
 \paragraph*{Phân tích độ an toàn trước kẻ tấn công}
 Giả sử có một kẻ nghe lén (Eavesdropper) kiểm soát toàn bộ kênh truyền, kẻ này sẽ thu thập được đầy đủ 4 thông số công khai: $q, \alpha, Y_A$ và $Y_B$. Tuy nhiên, để tìm ra được khóa chung $K$, kẻ tấn công bắt buộc phải trích xuất được số mũ bí mật $X_A$ hoặc $X_B$. Quá trình này đòi hỏi kẻ tấn công phải giải phương trình:
 $$X_B = \mathrm{dlog}_{\alpha, q}(Y_B)$$
 Trong đó $\mathrm{dlog}$ là phép tính logarit rời rạc. Nếu tham số $q$ được chọn đủ lớn (theo tiêu chuẩn hiện tại là từ 2048-bit trở lên), sức mạnh điện toán hiện tại của nhân loại là không thể giải quyết bài toán tính ngược này trong thời gian khả thi (computationally infeasible).
-\paragraph*{Điểm yếu chí mạng: Tấn công Man-in-the-Middle (MitM)}
 
-Mặc dù giao thức Diffie-Hellman an toàn tuyệt đối trước những kẻ nghe lén thụ động, nó lại hoàn toàn bất lực trước đòn tấn công chủ động can thiệp vào đường truyền, điển hình là \textbf{Tấn công Kẻ đứng giữa (Man-in-the-Middle - MitM)}. Lỗ hổng cốt lõi xuất phát từ việc thuật toán không có cơ chế xác thực danh tính (Authentication) của các bên tham gia.
-
-\textbf{Kịch bản tấn công MitM:} \\
-Giả sử kẻ tấn công (Darth) kiểm soát được đường truyền giữa Alice và Bob. Quá trình đánh chặn diễn ra như sau:
-\begin{enumerate}
-    \item \textbf{Khởi tạo khóa giả mạo:} Darth tự tạo ra hai bộ khóa bí mật ngẫu nhiên $X_{D1}$ và $X_{D2}$, từ đó tính ra hai giá trị công khai giả mạo tương ứng là $Y_{D1}$ và $Y_{D2}$.
-    \item \textbf{Đánh chặn và tráo đổi:}
-    \begin{itemize}
-        \item Khi Alice gửi $Y_A$ cho Bob, Darth đánh chặn $Y_A$, tự động gửi $Y_{D1}$ cho Bob. Lúc này Darth tính được khóa chung thứ nhất: $K2 = (Y_A)^{X_{D2}} \bmod q$.
-        \item Khi Bob gửi $Y_B$ cho Alice, Darth tiếp tục đánh chặn $Y_B$, gửi $Y_{D2}$ cho Alice. Darth tính được khóa chung thứ hai: $K1 = (Y_B)^{X_{D1}} \bmod q$.
-    \end{itemize}
-    \item \textbf{Ảo giác hệ thống:}
-    \begin{itemize}
-        \item Bob nhận $Y_{D1}$ (tưởng của Alice) và tính ra khóa $K1$. Thực chất Bob đang chia sẻ khóa $K1$ với Darth.
-        \item Alice nhận $Y_{D2}$ (tưởng của Bob) và tính ra khóa $K2$. Thực chất Alice đang chia sẻ khóa $K2$ với Darth.
-    \end{itemize}
-    \item \textbf{Thao túng dữ liệu:} Mọi luồng liên lạc trong tương lai đều bị Darth kiểm soát. Nếu Alice gửi thông điệp $M$ mã hóa bằng $K2$, Darth có thể dùng $K2$ để giải mã, đọc trộm hoặc chỉnh sửa thành $M'$, sau đó mã hóa lại bằng $K1$ và gửi cho Bob. Cả Alice và Bob đều không thể phát hiện ra sự can thiệp này.
-\end{enumerate}
-
-\textbf{Giải pháp khắc phục:} \\
-Để giao thức Diffie-Hellman có thể hoạt động an toàn trên thực tế (ví dụ: trong giao thức SSL/TLS), nó bắt buộc phải được kết hợp với các cơ chế định danh như \textbf{Chữ ký số (Digital Signatures)} và \textbf{Chứng chỉ số khóa công khai (Public-key Certificates)} để đảm bảo các gói tin $Y_A$ và $Y_B$ không bị đánh tráo giữa chừng.
 \subsubsection*{Sơ đồ chữ ký số (Digital Signatures)}
 
 Trong các hệ thống xác thực sử dụng khóa đối xứng (Symmetric Authentication), việc trao đổi thông điệp giữa hai bên Alice và Bob luôn tiềm ẩn những nguy cơ tranh chấp pháp lý mà các kỹ thuật mã hóa thông thường không thể giải quyết triệt để. Để hiểu rõ tại sao chúng ta cần đến Chữ ký số, hãy xem xét hai kịch bản rủi ro sau đây:
@@ -331,6 +291,7 @@ Alice gửi một yêu cầu đặt lệnh mua cổ phiếu cho Bob. Tuy nhiên,
     \label{fig:digital_signature_model}
 \end{figure}
 % ---------------------------------------
+
 \paragraph*{Yêu cầu đối với một Chữ ký số tiêu chuẩn}
 Từ những rủi ro trên, chúng ta rút ra kết luận rằng trong các tình huống mà sự tin tưởng giữa người gửi và người nhận không phải là tuyệt đối, chúng ta cần một cơ chế mạnh mẽ hơn xác thực thông thường. Một sơ đồ chữ ký số (Digital Signature) đúng nghĩa phải thỏa mãn các đặc tính sau:
 
@@ -341,26 +302,8 @@ Từ những rủi ro trên, chúng ta rút ra kết luận rằng trong các t�
 \end{itemize}
 
 Như vậy, về mặt chức năng, chữ ký số bao hàm cả chức năng xác thực thông thường nhưng được nâng cấp thêm khả năng \textbf{Chống chối cãi (Non-repudiation)}, biến nó thành một công cụ pháp lý quan trọng trong giao dịch điện tử.
-\paragraph*{Các hình thức tấn công và mức độ giả mạo chữ ký số}
-Dựa trên nghiên cứu của Goldwasser, Micali và Rivest \cite{GOLD88}, các hình thức tấn công vào hệ thống chữ ký số được phân loại theo mức độ nghiêm trọng tăng dần, dựa trên lượng thông tin mà kẻ tấn công ($C$) có thể thu thập được từ người dùng hợp pháp ($A$):
-\begin{itemize}
-    \item \textbf{Tấn công chỉ dựa trên khóa (Key-only attack):} $C$ chỉ biết được khóa công khai của $A$. Đây là mức độ cơ bản nhất.
-    \item \textbf{Tấn công thông điệp đã biết (Known message attack):} $C$ có danh sách một số thông điệp và chữ ký tương ứng của chúng đã được tạo ra trước đó bởi $A$.
-    \item \textbf{Tấn công chọn thông điệp chung (Generic chosen message attack):} $C$ chọn một danh sách các thông điệp trước khi thực hiện tấn công (độc lập với khóa công khai của $A$) và yêu cầu $A$ ký vào các thông điệp này.
-    \item \textbf{Tấn công chọn thông điệp định hướng (Directed chosen message attack):} Tương tự như tấn công chung, nhưng danh sách thông điệp được $C$ chọn sau khi đã biết khóa công khai của $A$.
-    \item \textbf{Tấn công chọn thông điệp thích ứng (Adaptive chosen message attack):} Đây là hình thức nguy hiểm nhất. $C$ sử dụng $A$ như một "oracle" để yêu cầu ký các thông điệp mới dựa trên kết quả của những cặp thông điệp-chữ ký đã thu thập được trước đó.
-\end{itemize}
 
-Song song với các kiểu tấn công, sự thành công của kẻ tấn công trong việc phá vỡ hệ thống (Breaking a signature scheme) cũng được chia thành các cấp độ từ "sụp đổ hoàn toàn" đến "gây nhiễu":
-
-\begin{itemize}
-    \item \textbf{Phá vỡ hoàn toàn (Total break):} Kẻ tấn công tìm ra được khóa bí mật cá nhân của $A$. Đây là thất bại nghiêm trọng nhất, làm sụp đổ toàn bộ hệ thống.
-    \item \textbf{Giả mạo phổ quát (Universal forgery):} $C$ tìm ra một thuật toán ký hiệu quả có khả năng tạo ra chữ ký hợp lệ cho bất kỳ thông điệp ngẫu nhiên nào, tương đương với việc sở hữu khóa bí mật.
-    \item \textbf{Giả mạo có chọn lọc (Selective forgery):} $C$ tạo ra được chữ ký hợp lệ cho một thông điệp cụ thể mà $C$ đã nhắm mục tiêu từ trước.
-    \item \textbf{Giả mạo tồn tại (Existential forgery):} $C$ tạo ra được ít nhất một cặp thông điệp-chữ ký hợp lệ. Tuy nhiên, $C$ không kiểm soát được nội dung của thông điệp này (thông điệp có thể là một chuỗi vô nghĩa), nên đôi khi nó chỉ dừng lại ở mức độ gây nhiễu cho hệ thống.
-\end{itemize}
 \paragraph*{Yêu cầu kỹ thuật đối với một hệ thống Chữ ký số an toàn}
-
 Dựa trên việc phân tích các hình thức tấn công và nguy cơ giả mạo (Attacks and Forgeries), chúng ta có thể thiết lập một bộ quy tắc khắt khe để đảm bảo tính sinh tồn của một sơ đồ chữ ký số trong thực tế. Các yêu cầu này không chỉ nhắm vào tính bảo mật mà còn chú trọng đến hiệu năng vận hành:
 
 \begin{itemize}
@@ -376,6 +319,7 @@ Dựa trên việc phân tích các hình thức tấn công và nguy cơ giả 
     \item \textbf{Khả năng lưu trữ (Storage Practicality):} Bản sao của chữ ký số phải có kích thước tối ưu để có thể lưu trữ lâu dài nhằm phục vụ mục đích đối soát hoặc giải quyết tranh chấp pháp lý sau này.
 \end{itemize}
 Để thỏa mãn đồng thời các yêu cầu khắt khe này, các hệ thống hiện đại thường sử dụng một \textbf{hàm băm an toàn (Secure Hash Function)} kết hợp với các thuật toán mã hóa bất đối xứng. Hàm băm đảm bảo tính phụ thuộc nội dung và hiệu năng tính toán, trong khi mật mã bất đối xứng đảm bảo tính duy nhất và khả năng xác thực bởi bên thứ ba. Tuy nhiên, việc thiết kế chi tiết các giao thức này (như cách chèn thêm padding) cần được thực hiện cực kỳ cẩn trọng để tránh các lỗ hổng tinh vi như tấn công thời gian hay tấn công bản mã lựa chọn.
+
 % ----------------------------------------------------------
 \section{Tại sao mật mã bất đối xứng chưa đủ?}
 \label{sec:2.3}
@@ -395,7 +339,7 @@ Quá trình tấn công Kẻ đứng giữa (Man-in-the-Middle) diễn ra âm th
     \caption{Kịch bản tấn công MITM trên quá trình trao đổi khóa công khai thuần túy}
     \label{tab:mitm}
     \renewcommand{\arraystretch}{1.5}
-    \begin{tabular}{|p{0.3\linewidth}|p{0.35\linewidth}|p{0.3\linewidth}|}
+    \begin{tabular}{|p{0.25\linewidth}|p{0.4\linewidth}|p{0.3\linewidth}|}
         \hline
         \rowcolor{gray!20}
         \textbf{Alice} & \textbf{Mallory (Kẻ tấn công)} & \textbf{Bob} \\ \hline

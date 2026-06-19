@@ -100,16 +100,6 @@ Quá trình cấp phát được ràng buộc bởi hệ thống Role, quy đị
 Triết lý TTL siêu ngắn mang lại ưu thế tuyệt đối về mặt vận hành: nó gần như triệt tiêu nhu cầu duy trì hệ thống thu hồi (CRL/OCSP) vốn rất nặng nề. Kẻ tấn công nếu đánh cắp được khóa phiên cũng chỉ có thể lợi dụng trong thời gian rất ngắn trước khi chứng chỉ tự bốc hơi. Mặc dù vậy, Vault PKI chỉ được các hệ thống nội bộ tin cậy; nó không thể dùng để cấp chứng chỉ TLS công cộng hướng tới thiết bị của người dùng cuối.
 
 % ----------------------------------------------------------
-\section{OAuth/OIDC và PKI}
-\label{sec:6.7}
-
-Dù OAuth 2.0 (ủy quyền) và OpenID Connect (định danh) không phải là hạ tầng PKI, chúng sử dụng các thành tố mật mã rất tương đồng. OIDC đóng gói các thông tin xác thực vào JSON Web Token (JWT), và tính toàn vẹn của token này được bảo đảm bằng chữ ký số (JWS)~\cite{OIDCCore, RFC7519, RFC7515}.
-
-Thay vì dùng chứng chỉ X.509 truyền thống, IdP công bố khóa công khai dưới dạng tập hợp JSON Web Key Set (JWKS) tại một endpoint cố định~\cite{RFC7517}. Dịch vụ tài nguyên sẽ kéo bộ khóa này về, đối chiếu trường \texttt{kid} (Key ID) để tìm đúng khóa và kiểm chứng chữ ký trên token. 
-
-Điểm giao thoa sâu sắc nhất giữa hệ thống định danh này và PKI là Mutual TLS (mTLS) trong OAuth. Theo RFC~8705, access token có thể được neo chặt (bound) vào một chứng chỉ client X.509. Khi đó, tài nguyên bị khóa kép: client không chỉ phải nộp token hợp lệ, mà còn phải thiết lập kênh mTLS bằng đúng chứng chỉ đã đăng ký, ngăn chặn triệt để rủi ro bị kẻ gian đánh cắp và lạm dụng token~\cite{RFC8705}.
-
-% ----------------------------------------------------------
 \section{Dogtag và FreeIPA}
 \label{sec:6.8}
 
@@ -121,106 +111,23 @@ Sự kết hợp này phát huy tối đa sức mạnh khi Dogtag được nhún
 \section{So sánh hệ sinh thái}
 \label{sec:6.9}
 
-\begin{center}
-\scriptsize
-\setlength{\tabcolsep}{2pt}
-\begin{longtable}{@{} >{\raggedright\arraybackslash}p{0.10\textwidth}
-    >{\raggedright\arraybackslash}p{0.10\textwidth}
-    >{\raggedright\arraybackslash}p{0.11\textwidth}
-    >{\raggedright\arraybackslash}p{0.10\textwidth}
-    >{\raggedright\arraybackslash}p{0.09\textwidth}
-    >{\raggedright\arraybackslash}p{0.10\textwidth}
-    >{\raggedright\arraybackslash}p{0.09\textwidth}
-    >{\raggedright\arraybackslash}p{0.09\textwidth}
-    >{\raggedright\arraybackslash}p{0.09\textwidth}
-    >{\raggedright\arraybackslash}p{0.10\textwidth} @{} }
+\begin{table}[htbp]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.4}
     \caption{So sánh một số công cụ và hệ thống PKI mã nguồn mở}
-    \label{tab:opensource-pki-tools} \\
-    \toprule
-    \textbf{Công cụ} & \textbf{Nhóm} & \textbf{Vai trò chính}
-        & \textbf{Môi trường} & \textbf{CA} & \textbf{API}
-        & \textbf{Thu hồi} & \textbf{Định danh}
-        & \textbf{Độ phức tạp} & \textbf{Giới hạn chính} \\
-    \midrule
-    \endfirsthead
-    \toprule
-    \textbf{Công cụ} & \textbf{Nhóm} & \textbf{Vai trò chính}
-        & \textbf{Môi trường} & \textbf{CA} & \textbf{API}
-        & \textbf{Thu hồi} & \textbf{Định danh}
-        & \textbf{Độ phức tạp} & \textbf{Giới hạn chính} \\
-    \midrule
-    \endhead
-    OpenSSL
-        & Toolkit
-        & Thao tác khóa, CSR, chứng chỉ
-        & Local, script
-        & Rất cơ bản
-        & CLI
-        & Qua CRL khi cấu hình
-        & Không
-        & Thấp
-        & Không có RA workflow hoặc audit tập trung. \\
-    XCA
-        & Local management
-        & Quản lý CA và certificate store cục bộ
-        & Lab, học tập
-        & CA cục bộ
-        & Thấp
-        & Có CRL
-        & Không
-        & Thấp đến vừa
-        & Không phải enterprise CA hoặc API-first system. \\
-    EJBCA
-        & CA platform
-        & Quản trị CA có profile và lifecycle
-        & CA nội bộ, CA có policy
-        & Đầy đủ
-        & REST, ACME
-        & OCSP, CRL
-        & RA, OAuth cho REST
-        & Cao
-        & Cần cấu hình profile, quyền và vận hành khóa. \\
-    Let’s Encrypt/Certbot
-        & Public ACME
-        & Tự động hóa TLS public
-        & Web PKI công cộng
-        & CA công cộng
-        & ACME, plugin
-        & ACME revocation
-        & Domain validation
-        & Vừa
-        & Phụ thuộc domain control và rate limit. \\
-    Vault PKI
-        & Internal PKI
-        & Cấp chứng chỉ nội bộ ngắn hạn
-        & Service nội bộ, mTLS
-        & CA nội bộ
-        & HTTP API, role
-        & CRL, TTL ngắn
-        & Vault auth/policy
-        & Vừa
-        & Không thay public CA hoặc CA enterprise. \\
-    OAuth/OIDC stack
-        & Identity/auth
-        & Xác minh token và identity
-        & IdP, API
-        & Không phải CA
-        & JWKS, token validation
-        & Không quản lý chứng chỉ
-        & Rất mạnh
-        & Vừa đến cao
-        & Quản lý token, không quản lý PKI. \\
-    Dogtag/FreeIPA
-        & Enterprise identity + PKI
-        & CA và certificate trong identity domain
-        & Linux enterprise
-        & Đầy đủ trong Dogtag
-        & Web, CLI
-        & CRL, OCSP
-        & LDAP, Kerberos
-        & Cao
-        & Phức tạp và gắn với hệ sinh thái Linux. \\
-    \bottomrule
-\end{longtable}
-\end{center}
+    \label{tab:opensource-pki-tools}
+    \begin{tabular}{@{} >{\raggedright\arraybackslash}p{0.14\textwidth} >{\raggedright\arraybackslash}p{0.16\textwidth} >{\raggedright\arraybackslash}p{0.20\textwidth} >{\raggedright\arraybackslash}p{0.20\textwidth} >{\raggedright\arraybackslash}p{0.20\textwidth} @{}}
+        \toprule
+        \textbf{Công cụ} & \textbf{Phân loại} & \textbf{Mục tiêu cốt lõi} & \textbf{Đặc điểm vận hành} & \textbf{Hạn chế} \\
+        \midrule
+        \textbf{OpenSSL} & Thư viện / Toolkit & Thao tác khóa, ký CSR, parse chứng chỉ & Giao diện CLI, cấu hình CA cơ bản & Không quản lý tập trung, thiếu API/RA. \\
+        \textbf{XCA} & Quản trị cục bộ & Quản lý CA cục bộ bằng giao diện đồ họa & Lưu trữ bằng CSDL cục bộ (SQLite) & Không có API, không tự động hóa cấp phát. \\
+        \textbf{EJBCA} & Enterprise CA & Quản trị toàn bộ vòng đời PKI nội bộ & REST/ACME API, hỗ trợ OCSP/CRL và HSM & Cấu hình chính sách và vận hành phức tạp. \\
+        \textbf{Let's Encrypt / Certbot} & Public ACME CA & Cấp và gia hạn tự động chứng chỉ Web TLS & Xác minh DNS/HTTP, tự động hóa cronjob & Bị áp rate limit, chỉ cấp chứng chỉ DV. \\
+        \textbf{Vault PKI} & Internal PKI & Cấp chứng chỉ ngắn hạn cho Microservices & Thuần API, không cần CRL nhờ TTL ngắn & Chỉ dùng nội bộ, không thay Public CA. \\
+        \textbf{Dogtag / FreeIPA} & Enterprise Identity & Tích hợp CA với hệ thống định danh & Tích hợp chặt chẽ với LDAP/Kerberos & Phụ thuộc mạnh vào hệ sinh thái Linux. \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
