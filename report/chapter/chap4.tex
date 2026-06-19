@@ -29,6 +29,15 @@ Phần giá trị chữ ký chứa chữ ký trên \texttt{tbsCertificate}.
 Cấu trúc này cho phép bên kiểm tra tái tạo dữ liệu đã ký và xác
 minh bằng khóa công khai của issuer.
 
+Hình~\ref{fig:x509-structure} tóm tắt ba phần ASN.1 cốt lõi và các trường quan trọng trong \texttt{tbsCertificate}.
+
+\begin{figure}[htbp]
+    \centering
+    \reportfig{fig_x509.png}
+    \caption{Cấu trúc logic của chứng chỉ X.509 v3}
+    \label{fig:x509-structure}
+\end{figure}
+
 X.509 được mã hóa theo DER trong tầng nhị phân. DER là một dạng
 mã hóa xác định của ASN.1, nên cùng một cấu trúc dữ liệu có đúng
 một biểu diễn byte hợp lệ. PEM là lớp bao gói văn bản: dữ liệu DER

@@ -21,6 +21,24 @@ Trong môi trường mạng không tin cậy, kẻ tấn công có thể khai th
 Một ví dụ thực tế có thể thấy trong quá trình truy cập website. Nếu không có cơ chế xác thực đáng tin cậy, người dùng có thể bị chuyển hướng đến một website giả mạo có giao diện giống hệt website thật. Website giả này cung cấp một khóa công khai do kẻ tấn công kiểm soát, khiến người dùng vô tình thiết lập kết nối “an toàn” với chính kẻ tấn công.
 
 Do đó, một yêu cầu quan trọng được đặt ra là cần có một cơ chế đáng tin cậy để xác minh rằng một khóa công khai thực sự thuộc về đúng thực thể tương ứng. Cơ chế này phải hoạt động hiệu quả ngay cả trong môi trường mạng mở, nơi không thể tin tưởng các kênh truyền thông. Hạ tầng khóa công khai (Public Key Infrastructure – PKI) được đề xuất nhằm giải quyết chính vấn đề này, bằng cách cung cấp một hệ thống quản lý và xác thực khóa công khai dựa trên các bên thứ ba tin cậy.
+
+Hình~\ref{fig:mitm-attack} minh họa kịch bản tấn công trung gian khi hai bên chỉ trao đổi khóa công khai trực tiếp. Hình~\ref{fig:mitm-vs-pki} tóm tắt cách CA đóng vai trò neo tín nhiệm, giúp client xác minh khóa thuộc về đúng chủ thể thay vì tin vào kênh truyền.
+
+\begin{figure}[htbp]
+    \centering
+    \reportfig{fig_mitm.png}
+    \caption{Tấn công trung gian khi phân phối khóa công khai không có bên tin cậy}
+    \label{fig:mitm-attack}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \reportfig[0.82]{fig_pki_ca.png}
+    \caption{Vai trò của CA trong việc ràng buộc danh tính máy chủ với khóa công khai}
+    \label{fig:mitm-vs-pki}
+\end{figure}
+
+% ----------------------------------------------------------
 \section{Phạm vi và bố cục báo cáo}
 \label{sec:1.2}
 

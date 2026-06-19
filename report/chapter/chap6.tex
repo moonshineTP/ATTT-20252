@@ -22,11 +22,20 @@ Dựa trên vai trò trong hệ thống, các công cụ PKI thường được 
 
 Một công cụ xuất sắc khi học tập chưa chắc đã đáp ứng được yêu cầu audit của một CA thực tế. Ngược lại, việc triển khai một nền tảng enterprise chỉ để cấp vài chứng chỉ nội bộ là sự lãng phí về tài nguyên và chi phí vận hành.
 
+Hình~\ref{fig:pki-ecosystem} phân lớp hệ sinh thái mã nguồn mở theo mục tiêu sử dụng.
+
+\begin{figure}[htbp]
+    \centering
+    \reportfig{fig_pki_ecosystem.png}
+    \caption{Phân lớp hệ sinh thái PKI mã nguồn mở theo quy mô và mục tiêu triển khai}
+    \label{fig:pki-ecosystem}
+\end{figure}
+
 % ----------------------------------------------------------
 \section{OpenSSL}
 \label{sec:6.2}
 
-OpenSSL đóng vai trò "con dao Thụy Sĩ" trong hệ sinh thái mật mã. Dù không phải là một nền tảng CA hoàn chỉnh, nó cung cấp các module nền tảng để tương tác trực tiếp với cấu trúc X.509. 
+OpenSSL đóng vai trò "con dao Thụy Sĩ" trong hệ sinh thái mật mã. Dù không phải là một nền tảng CA hoàn chỉnh, nó cung cấp các module nền tảng để tương tác trực tiếp với cấu trúc X.509.
 
 Lệnh \texttt{openssl x509} cho phép bóc tách và hiển thị từng trường dữ liệu của chứng chỉ, chuyển đổi định dạng (PEM/DER) hoặc ký trực tiếp một CSR~\cite{OpenSSLX509}. Trong khi đó, lệnh \texttt{openssl verify} là công cụ đắc lực để gỡ lỗi quá trình dựng chuỗi tín nhiệm, cho phép chỉ định rõ trust anchor, đối chiếu hostname, email hay mục đích sử dụng~\cite{OpenSSLVerify}.
 

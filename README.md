@@ -32,6 +32,12 @@ Check for missing LaTeX labels, citations, TODO markers, and figure/table covera
 .\.venv\Scripts\python.exe scripts\wordcount.py
 ```
 
+**2b. Fetch optional Wikimedia figures** (MITM, TLS, X.509, CT, logos):
+```powershell
+python scripts\fetch_figure_assets.py
+```
+See `report/assets/SOURCES.md` for attribution. Chapters use TikZ fallbacks when PNG files are absent.
+
 **3. Build the PDF Report**
 Navigate to the `report` directory and execute the standard `pdflatex` build sequence:
 ```powershell

@@ -51,23 +51,7 @@ Sau khi giới thiệu các chi tiết cấu trúc tĩnh của X.509, chương n
 
 \begin{figure}[ht]
     \centering
-    \begin{tikzpicture}[
-        node distance=1.1cm and 1.0cm,
-        box/.style={draw, rounded corners, align=center, minimum width=2.5cm,
-            minimum height=0.8cm, font=\small},
-        arrow/.style={-{Latex[length=2mm]}, thick}
-    ]
-        \node[box] (root) {Root CA\\trong trust store};
-        \node[box, below=of root] (inter) {Intermediate CA};
-        \node[box, below=of inter] (leaf) {Chứng chỉ leaf\\của dịch vụ};
-        \node[box, right=1.8cm of inter] (client) {Bên kiểm tra};
-
-        \draw[arrow] (root) -- node[right, font=\scriptsize] {ký} (inter);
-        \draw[arrow] (inter) -- node[right, font=\scriptsize] {ký} (leaf);
-        \draw[arrow] (client) -- node[above, font=\scriptsize] {dựng và kiểm tra chuỗi} (inter);
-        \draw[arrow] (client) |- node[pos=0.75, below, font=\scriptsize]
-            {kiểm tra tên, mục đích, thời hạn, thu hồi} (leaf);
-    \end{tikzpicture}
+    \reportfig[0.82]{fig_pki_validation.png}
     \caption{Mẫu kiểm tra PKI trong ứng dụng thực tế}
     \label{fig:pki-validation-flow}
 \end{figure}
@@ -81,6 +65,15 @@ Trong giao tiếp web, mã hóa kênh truyền là chưa đủ nếu client khô
 Khi bắt tay TLS 1.3, máy chủ gửi chứng chỉ leaf kèm theo các chứng chỉ intermediate (thông điệp \texttt{Certificate}) và dùng khóa bí mật để ký thông điệp \texttt{CertificateVerify}~\cite{RFC8446}. Trình duyệt nhận dữ liệu sẽ lần ngược chữ ký từ leaf qua các intermediate CA cho tới khi chạm đến một root CA có sẵn trong trust store của hệ điều hành. Xuyên suốt quá trình đó, client đối chiếu tên miền truy cập với trường SAN, kiểm tra ràng buộc mục đích sử dụng (EKU), và truy vấn trạng thái thu hồi qua OCSP hoặc CRL~\cite{RFC6960}. Nhờ tích hợp Certificate Transparency~\cite{RFC9162}, mọi chứng chỉ cấp ra đều được ghi nhận vào log công khai, giúp phát hiện sớm các phát hành trái phép.
 
 Điểm yếu thực tiễn thường không nằm ở thuật toán mật mã mà ở cấu hình. Việc máy chủ quên gửi kèm intermediate CA sẽ khiến client không thể dựng chuỗi niềm tin. Ngoài ra, việc quên gia hạn chứng chỉ thường xuyên làm gián đoạn dịch vụ, một vấn đề đã được cải thiện đáng kể nhờ các giao thức tự động hóa cấp phát như ACME~\cite{RFC8555}.
+
+Hình~\ref{fig:tls-handshake} mô tả các bước chính trong bắt tay TLS khi máy chủ gửi chứng chỉ và client xác minh chuỗi tin cậy.
+
+\begin{figure}[htbp]
+    \centering
+    \reportfig{fig_tls_handshake.png}
+    \caption{Tóm tắt vai trò chứng chỉ TLS trong bắt tay HTTPS}
+    \label{fig:tls-handshake}
+\end{figure}
 
 % ----------------------------------------------------------
 \section{Chữ ký số văn bản}

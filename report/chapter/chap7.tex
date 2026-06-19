@@ -26,6 +26,15 @@ Tuy nhiên, tự động hóa mù quáng là thảm họa. Nếu thiếu hệ th
 
 Trên Internet công cộng, Web PKI được gia cố thêm lớp phòng ngự Certificate Transparency (CT)~\cite{RFC9162}. Bằng cách yêu cầu mọi chứng chỉ phát hành phải được ghi vào các log công khai (append-only) dựa trên cấu trúc Merkle Tree, CT loại bỏ hoàn toàn khả năng CA âm thầm cấp phát chứng chỉ giả mạo cho các tên miền nhạy cảm mà chủ sở hữu không hay biết.
 
+Hình~\ref{fig:ct-overview} mô tả ý tưởng CT: CA ghi chứng chỉ vào log công khai; chủ tên miền và trình duyệt có thể giám sát các bản ghi bất thường.
+
+\begin{figure}[htbp]
+    \centering
+    \reportfig{fig_ct.png}
+    \caption{Tổng quan Certificate Transparency và vai trò log công khai}
+    \label{fig:ct-overview}
+\end{figure}
+
 % ----------------------------------------------------------
 \section{PKI trong hệ thống hiện đại}
 \label{sec:7.3}

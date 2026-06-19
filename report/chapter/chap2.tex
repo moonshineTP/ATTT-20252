@@ -74,11 +74,23 @@ Khác với hệ mật mã đối xứng chỉ sử dụng một khóa duy nhấ
 % --- KHU VỰC CHÈN 3 ẢNH SƠ ĐỒ ---
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.6\textwidth]{assets/EWPU.png}
-    \vspace{0.3cm}
-    \includegraphics[width=0.6\textwidth]{assets/EWPR.png}
-    \vspace{0.3cm}
-    \includegraphics[width=0.8\textwidth]{assets/EWB.png}
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \slidefig[0.88]{EWPU.png}
+        \caption{Mã hóa bằng khóa công khai của người nhận}
+    \end{subfigure}
+    \par\vspace{0.5cm}
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \slidefig[0.88]{EWPR.png}
+        \caption{Xác thực / chữ ký bằng khóa riêng người gửi}
+    \end{subfigure}
+    \par\vspace{0.5cm}
+    \begin{subfigure}[b]{\textwidth}
+        \centering
+        \slidefig[0.88]{EWB.png}
+        \caption{Bảo mật và xác thực kết hợp}
+    \end{subfigure}
     \caption{Ba kịch bản ứng dụng cốt lõi của hệ mật mã khóa bất đối xứng}
     \label{fig:asymmetric_scenarios}
 \end{figure}
@@ -162,8 +174,8 @@ Hệ thống RSA được vận hành qua 3 giai đoạn cốt lõi:
 % --- KHU VỰC CHÈN ẢNH SƠ ĐỒ RSA ---
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{assets/RSA.png}
-    \caption{Sơ đồ tạo khóa, mã hóa và giải mã của thuật toán RSA}
+    \slidefigtall{RSA.png}
+    \caption{Sơ đồ tạo khóa, mã hóa và giải mã của thuật toán RSA (Nguồn: Figure 9.5 \& 9.6)}
     \label{fig:rsa_algorithm}
 \end{figure}
 % ---------------------------------------
@@ -201,8 +213,8 @@ Về bản chất, OAEP sẽ trộn lẫn thông điệp $M$ ban đầu với c�
 % --- KHU VỰC CHÈN ẢNH SƠ ĐỒ OAEP ---
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{assets/OAEP.png}
-    \caption{Sơ đồ khối quá trình nhào nặn dữ liệu của chuẩn OAEP}
+    \slidefigtall{OAEP.png}
+    \caption{Sơ đồ khối quá trình nhào nặn dữ liệu của chuẩn OAEP (Nguồn: Figure 9.10)}
     \label{fig:rsa_oaep}
 \end{figure}
 % ---------------------------------------
@@ -251,8 +263,8 @@ Giả sử hai người dùng A (Alice) và B (Bob) muốn thiết lập một k
 % --- ĐOẠN CODE CHÈN ẢNH SƠ ĐỒ VÀO ĐÂY ---
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{assets/DH_protocol.png}
-    \caption{Sơ đồ luồng trao đổi khóa Diffie-Hellman}
+    \slidefig[0.92]{DH_protocol.png}
+    \caption{Sơ đồ luồng trao đổi khóa Diffie-Hellman (Nguồn: Figure 10.2)}
     \label{fig:dh_exchange}
 \end{figure}
 % -----------------------------------------
@@ -274,8 +286,8 @@ Alice gửi một yêu cầu đặt lệnh mua cổ phiếu cho Bob. Tuy nhiên,
 % --- KHU VỰC CHÈN ẢNH SƠ ĐỒ CÁC TÌNH HUỐNG TRANH CHẤP ---
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{assets/digitroll.png}
-    \caption{Mô hình tổng quát của quá trình ký số và các kịch bản tranh chấp phát sinh}
+    \slidefigtall{digitroll.png}
+    \caption{Mô hình tổng quát của quá trình ký số và các kịch bản tranh chấp phát sinh (Nguồn: Figure 13.1)}
     \label{fig:digital_signature_model}
 \end{figure}
 % ---------------------------------------
