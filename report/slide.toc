@@ -1,0 +1,6 @@
+\babel@toc {english}{}\relax 
+\beamer@sectionintoc {1}{Phần I: Kiến thức nền tảng của PKI}{3}{0}{1}
+\beamer@sectionintoc {2}{Các thực thể PKI: RootCA, SubCA, RA, VA}{10}{0}{2}
+\beamer@sectionintoc {3}{Giao thức mạng: TLS, OCSP, OCSP Stapling \& Trusted Path}{15}{0}{3}
+\beamer@sectionintoc {4}{Chứng chỉ số X.509 v3 \& Kịch bản áp dụng Extensions}{20}{0}{4}
+\beamer@sectionintoc {5}{Phần II: Thực nghiệm \& Hệ thống nguồn mở}{26}{0}{5}
