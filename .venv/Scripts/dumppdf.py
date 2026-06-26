@@ -1,4 +1,4 @@
-#!c:\Users\admin\Desktop\slide kỳ 6\ATTT\.venv\Scripts\python.exe
+#!D:\LapTrinh\System\ATTT-20252\.venv\Scripts\python.exe
 """Extract pdf structure in XML format"""
 
 import logging
