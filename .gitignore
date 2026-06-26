@@ -2,4 +2,4 @@ material
 report/main.*
 !report/main.tex
 !report/main.pdf
-.venv/Lib
+.venv

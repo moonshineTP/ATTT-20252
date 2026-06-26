@@ -1,4 +1,4 @@
-#!c:\Users\admin\Desktop\slide kỳ 6\ATTT\.venv\Scripts\python.exe
+#!D:\LapTrinh\System\ATTT-20252\.venv\Scripts\python.exe
 """A command line tool for extracting text and images from PDF and
 output it to plain text, html, xml or tags.
 """
